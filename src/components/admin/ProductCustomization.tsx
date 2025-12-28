@@ -233,15 +233,8 @@ export function ProductCustomization({ product, onFieldChange }: ProductCustomiz
   }, [product])
 
   const shouldShowPersonalization = () => {
-    return (
-      product?.id || 
-      massas.length > 0 || 
-      recheios.length > 0 || 
-      coberturas.length > 0 ||
-      productMassas.length > 0 || 
-      productRecheios.length > 0 || 
-      productCoberturas.length > 0
-    )
+    // Sempre mostrar a opção de personalização, mesmo que não tenha dados
+    return true
   }
 
   const toggleMassa = (massa: string) => {
