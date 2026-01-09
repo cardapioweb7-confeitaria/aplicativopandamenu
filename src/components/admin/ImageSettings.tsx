@@ -14,7 +14,7 @@ interface ImageSettingsProps {
   bannerUrl?: string
   onBannerUrlChange: (url: string) => void
   onSaveBanner: (url: string) => void
-  onRemoveBanner: () => void
+  onRemoveBanner?: () => void
 }
 
 export function ImageSettings({ 
@@ -115,8 +115,10 @@ export function ImageSettings({
 
   const handleRemoveBanner = async () => {
     try {
-      // Chama a função de remoção passada como prop
-      await onRemoveBanner();
+      // Verifica se a função onRemoveBanner existe antes de chamá-la
+      if (onRemoveBanner && typeof onRemoveBanner === 'function') {
+        await onRemoveBanner();
+      }
       
       // Atualiza o estado local também
       onBannerUrlChange('');
