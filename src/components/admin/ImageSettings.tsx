@@ -113,6 +113,21 @@ export function ImageSettings({
     setSelectedLogoFile(null)
   }
 
+  const handleRemoveBanner = async () => {
+    try {
+      // Chama a função de remoção passada como prop
+      await onRemoveBanner();
+      
+      // Atualiza o estado local também
+      onBannerUrlChange('');
+      
+      showSuccess('🖼️ Banner removido com sucesso!');
+    } catch (error: any) {
+      console.error('❌ Erro ao remover banner:', error);
+      showError(error.message || 'Erro ao remover banner');
+    }
+  };
+
   return (
     <div className="space-y-6">
       <Card className="border-0 shadow-lg">
@@ -197,7 +212,7 @@ export function ImageSettings({
                     variant="destructive"
                     size="sm"
                     className="absolute top-2 right-2 rounded-full w-6 h-6 p-0"
-                    onClick={onRemoveBanner}
+                    onClick={handleRemoveBanner}
                   >
                     <X className="w-3 h-3" />
                   </Button>
