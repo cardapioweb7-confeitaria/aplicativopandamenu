@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Image as ImageIcon } from 'lucide-react'
+import { Image as ImageIcon, X } from 'lucide-react'
 import { LogoCropper } from '@/components/LogoCropper'
 import { showSuccess, showError } from '@/utils/toast'
 import { supabaseService } from '@/services/supabase'
@@ -14,15 +14,17 @@ interface ImageSettingsProps {
   bannerUrl?: string
   onBannerUrlChange: (url: string) => void
   onSaveBanner: (url: string) => void
+  onRemoveBanner: () => void
 }
 
 export function ImageSettings({ 
   logoUrl, 
   onLogoUrlChange, 
-  onSaveLogo,
-  bannerUrl = '',
-  onBannerUrlChange,
-  onSaveBanner
+  onSaveLogo, 
+  bannerUrl = '', 
+  onBannerUrlChange, 
+  onSaveBanner,
+  onRemoveBanner
 }: ImageSettingsProps) {
   const { user } = useAuth()
   const [uploadingLogo, setUploadingLogo] = useState(false)
@@ -39,6 +41,7 @@ export function ImageSettings({
       showError('Arquivo não é uma imagem')
       return
     }
+
     if (file.size > 5 * 1024 * 1024) {
       showError('Arquivo muito grande (máximo 5MB)')
       return
@@ -56,20 +59,18 @@ export function ImageSettings({
       showError('Arquivo não é uma imagem')
       return
     }
+
     if (file.size > 5 * 1024 * 1024) {
       showError('Arquivo muito grande (máximo 5MB)')
       return
     }
 
     setUploadingBanner(true)
-
     try {
       const fileName = `banner-${user?.id}-${Date.now()}.${file.name.split('.').pop()}`
-      
       const url = await supabaseService.uploadImage(file, 'images', fileName)
-      
       if (!url) throw new Error('Falha no upload da imagem para o storage')
-
+      
       await onSaveBanner(url)
       onBannerUrlChange(url)
       showSuccess('🖼️ Banner atualizado com sucesso!')
@@ -89,15 +90,12 @@ export function ImageSettings({
 
     setUploadingLogo(true)
     setShowLogoCropper(false)
-
     try {
       const fileName = `logo-${user?.id}-${Date.now()}.jpg`
-      
       const file = new File([croppedBlob], fileName, { type: 'image/jpeg' })
       const url = await supabaseService.uploadImage(file, 'logos', fileName)
-
       if (!url) throw new Error('Falha no upload da imagem')
-
+      
       await onSaveLogo(url)
       onLogoUrlChange(url)
       showSuccess('🖼️ Logo atualizada com sucesso!')
@@ -117,12 +115,12 @@ export function ImageSettings({
 
   return (
     <div className="space-y-6">
-      
       <Card className="border-0 shadow-lg">
         <CardHeader className="text-center pb-4">
-          <CardTitle className="text-2xl font-bold" style={{ color: '#333333' }}>Logo da Loja</CardTitle>
+          <CardTitle className="text-2xl font-bold" style={{ color: '#333333' }}>
+            Logo da Loja
+          </CardTitle>
         </CardHeader>
-
         <CardContent className="space-y-6">
           <div className="flex justify-center">
             <div className="relative">
@@ -147,20 +145,18 @@ export function ImageSettings({
               )}
             </div>
           </div>
-
           <div className="flex justify-center">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleLogoFileSelect}
-              className="hidden"
-              id="logo-upload"
+            <input 
+              type="file" 
+              accept="image/*" 
+              onChange={handleLogoFileSelect} 
+              className="hidden" 
+              id="logo-upload" 
               disabled={uploadingLogo}
             />
-
-            <Button
-              asChild
-              size="lg"
+            <Button 
+              asChild 
+              size="lg" 
               className="px-8 py-2 font-[650] text-base transition-all duration-200 shadow-xl hover:shadow-2xl text-white"
               style={{ 
                 background: 'linear-gradient(135deg, #d11b70 0%, #ff6fae 50%, #ff9acb 100%)',
@@ -169,10 +165,7 @@ export function ImageSettings({
               }}
               disabled={uploadingLogo}
             >
-              <label 
-                htmlFor="logo-upload" 
-                className="cursor-pointer"
-              >
+              <label htmlFor="logo-upload" className="cursor-pointer">
                 {uploadingLogo ? 'Processando...' : 'Selecionar Logo'}
               </label>
             </Button>
@@ -182,9 +175,10 @@ export function ImageSettings({
 
       <Card className="border-0 shadow-lg">
         <CardHeader className="text-center pb-4">
-          <CardTitle className="text-2xl font-bold" style={{ color: '#333333' }}>Banner do Cardápio</CardTitle>
+          <CardTitle className="text-2xl font-bold" style={{ color: '#333333' }}>
+            Banner do Cardápio
+          </CardTitle>
         </CardHeader>
-
         <CardContent className="space-y-6">
           <div className="flex justify-center">
             <div className="relative w-full max-w-md">
@@ -198,6 +192,15 @@ export function ImageSettings({
                       e.currentTarget.style.display = 'none'
                     }}
                   />
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="sm"
+                    className="absolute top-2 right-2 rounded-full w-6 h-6 p-0"
+                    onClick={onRemoveBanner}
+                  >
+                    <X className="w-3 h-3" />
+                  </Button>
                 </div>
               ) : (
                 <div className="w-full h-32 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
@@ -209,20 +212,18 @@ export function ImageSettings({
               )}
             </div>
           </div>
-
           <div className="flex justify-center">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleBannerFileSelect}
-              className="hidden"
-              id="banner-upload"
+            <input 
+              type="file" 
+              accept="image/*" 
+              onChange={handleBannerFileSelect} 
+              className="hidden" 
+              id="banner-upload" 
               disabled={uploadingBanner}
             />
-
-            <Button
-              asChild
-              size="lg"
+            <Button 
+              asChild 
+              size="lg" 
               className="px-8 py-2 font-[650] text-base transition-all duration-200 shadow-xl hover:shadow-2xl text-white"
               style={{ 
                 background: 'linear-gradient(135deg, #d11b70 0%, #ff6fae 50%, #ff9acb 100%)',
@@ -231,10 +232,7 @@ export function ImageSettings({
               }}
               disabled={uploadingBanner}
             >
-              <label 
-                htmlFor="banner-upload" 
-                className="cursor-pointer"
-              >
+              <label htmlFor="banner-upload" className="cursor-pointer">
                 {uploadingBanner ? 'Processando...' : 'Selecionar Banner'}
               </label>
             </Button>
@@ -243,25 +241,19 @@ export function ImageSettings({
       </Card>
 
       {showLogoCropper && selectedLogoFile && (
-        <LogoCropper
-          imageFile={selectedLogoFile}
-          onCropComplete={handleLogoCropComplete}
-          onCancel={handleLogoCropCancel}
-          circularCrop={true}
+        <LogoCropper 
+          imageFile={selectedLogoFile} 
+          onCropComplete={handleLogoCropComplete} 
+          onCancel={handleLogoCropCancel} 
+          circularCrop={true} 
         />
       )}
 
       <style>{`
         @keyframes gradientShift {
-          0% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-          100% {
-            background-position: 0% 50%;
-          }
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
         }
       `}</style>
     </div>
