@@ -15,10 +15,8 @@ const gradientBackgrounds = [
 const formatWhatsApp = (value: string): string => {
   // Remove todos os caracteres não numéricos
   const numbers = value.replace(/\D/g, '')
-  
   // Se não tiver números, retorna vazio
   if (numbers.length === 0) return ''
-  
   // Aplica a máscara (XX) XXXXXXXXX
   if (numbers.length <= 2) {
     return `(${numbers}`
@@ -31,35 +29,32 @@ export default function DesignSettings() {
   const { designSettings, configuracoes, saveDesignSettings, saveConfiguracoes, loading } = useDatabase()
   const [activeTab, setActiveTab] = useState('cores')
   const [configSubTab, setConfigSubTab] = useState('geral') // Sub-abas dentro de Configuração
-  
+
   // Estados
   const [bannerGradient, setBannerGradient] = useState(gradientBackgrounds[0].gradient)
   const [corBorda, setCorBorda] = useState('#F5C542')
   const [corNome, setCorNome] = useState('#FCEBB3')
-  
   const [nomeLoja, setNomeLoja] = useState('')
   const [descricaoLoja, setDescricaoLoja] = useState('')
   const [logoUrl, setLogoUrl] = useState('')
   const [bannerUrl, setBannerUrl] = useState('')
   const [whatsapp, setWhatsapp] = useState('(11) 999999999')
   const [hideStars, setHideStars] = useState(false) // Novo estado para esconder estrelas
-  
   const [mainCategories, setMainCategories] = useState<string[]>([])
 
   useEffect(() => {
     console.log('🔍 [DesignSettings] useEffect - designSettings mudou:', designSettings)
-    
     if (designSettings) {
       console.log('🔍 [DesignSettings] Carregando valores do designSettings:')
-      console.log('  - banner_gradient:', designSettings.banner_gradient)
-      console.log('  - cor_borda:', designSettings.cor_borda)
-      console.log('  - cor_nome:', designSettings.cor_nome)
-      console.log('  - nome_loja:', designSettings.nome_loja)
-      console.log('  - descricao_loja:', designSettings.descricao_loja)
-      console.log('  - logo_url:', designSettings.logo_url)
-      console.log('  - banner1_url:', designSettings.banner1_url)
-      console.log('  - categorias:', designSettings.categorias)
-      console.log('  - hide_stars:', designSettings.hide_stars)
+      console.log(' - banner_gradient:', designSettings.banner_gradient)
+      console.log(' - cor_borda:', designSettings.cor_borda)
+      console.log(' - cor_nome:', designSettings.cor_nome)
+      console.log(' - nome_loja:', designSettings.nome_loja)
+      console.log(' - descricao_loja:', designSettings.descricao_loja)
+      console.log(' - logo_url:', designSettings.logo_url)
+      console.log(' - banner1_url:', designSettings.banner1_url)
+      console.log(' - categorias:', designSettings.categorias)
+      console.log(' - hide_stars:', designSettings.hide_stars)
       
       if (designSettings.banner_gradient) setBannerGradient(designSettings.banner_gradient)
       if (designSettings.cor_borda) setCorBorda(designSettings.cor_borda)
@@ -109,6 +104,22 @@ export default function DesignSettings() {
     success ? showSuccess('Atualizado com sucesso!') : showError('Erro ao salvar banner')
   }
 
+  const removeBanner = async () => {
+    try {
+      // Salva uma string vazia para remover o banner
+      const success = await saveDesignSettings({ banner1_url: '' })
+      if (success) {
+        setBannerUrl('') // Atualiza o estado local
+        showSuccess('Banner removido com sucesso!')
+      } else {
+        showError('Erro ao remover banner')
+      }
+    } catch (error) {
+      console.error('Erro ao remover banner:', error)
+      showError('Erro ao remover banner')
+    }
+  }
+
   const saveConfig = async () => {
     const settingsToUpdate: any = {}
     if (nomeLoja?.trim()) settingsToUpdate.nome_loja = nomeLoja.trim()
@@ -117,12 +128,12 @@ export default function DesignSettings() {
       console.log('🔍 [DesignSettings] Salvando hide_stars:', hideStars)
       settingsToUpdate.hide_stars = hideStars // Salvar estado das estrelas
     }
-
+    
     if (Object.keys(settingsToUpdate).length === 0) {
       showError('Por favor, preencha pelo menos um campo')
       return
     }
-
+    
     console.log('🔍 [DesignSettings] Enviando para salvar:', settingsToUpdate)
     const success = await saveDesignSettings(settingsToUpdate)
     if (success) {
@@ -136,12 +147,11 @@ export default function DesignSettings() {
 
   const saveWhatsApp = async () => {
     // Validar formato do telefone
-    const phoneRegex = /^\(\d{2}\)\s\d{8,9}$/ 
+    const phoneRegex = /^\(\d{2}\)\s\d{8,9}$/
     if (!phoneRegex.test(whatsapp)) {
       showError('Formato de telefone inválido. Use o formato: (11) 99999-9999')
       return
     }
-
     const success = await saveConfiguracoes({ telefone: whatsapp })
     if (success) {
       showSuccess('WhatsApp salvo com sucesso!')
@@ -174,58 +184,32 @@ export default function DesignSettings() {
   }
 
   return (
-    <div
-      className="space-y-6 px-4 sm:px-0 pt-12 min-h-screen pb-24"
-      style={{ backgroundColor: '#f5f5f5' }} 
-    >
+    <div className="space-y-6 px-4 sm:px-0 pt-12 min-h-screen pb-24" style={{ backgroundColor: '#f5f5f5' }}>
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6 relative z-10">
-
         {/* NAV BAR COM APENAS 3 ABAS */}
-        <TabsList
-          className="grid w-full grid-cols-3 h-auto p-1 rounded-xl shadow-md"
-          style={{
-            background: '#ec4899'
-          }}
-        >
-          <TabsTrigger
-            value="cores"
-            className="
-              rounded-lg font-[650] py-3 transition-all duration-200
-              text-white
-              hover:bg-[#1A1A1A] hover:text-white
-              data-[state=active]:bg-white data-[state=active]:text-pink-600 data-[state=active]:shadow-md
-            "
+        <TabsList className="grid w-full grid-cols-3 h-auto p-1 rounded-xl shadow-md" style={{ background: '#ec4899' }}>
+          <TabsTrigger 
+            value="cores" 
+            className=" rounded-lg font-[650] py-3 transition-all duration-200 text-white hover:bg-[#1A1A1A] hover:text-white data-[state=active]:bg-white data-[state=active]:text-pink-600 data-[state=active]:shadow-md "
           >
             Cores
           </TabsTrigger>
-
-          <TabsTrigger
-            value="imagens"
-            className="
-              rounded-lg font-[650] py-3 transition-all duration-200
-              text-white
-              hover:bg-[#1A1A1A] hover:text-white
-              data-[state=active]:bg-white data-[state=active]:text-pink-600 data-[state=active]:shadow-md
-            "
+          <TabsTrigger 
+            value="imagens" 
+            className=" rounded-lg font-[650] py-3 transition-all duration-200 text-white hover:bg-[#1A1A1A] hover:text-white data-[state=active]:bg-white data-[state=active]:text-pink-600 data-[state=active]:shadow-md "
           >
             Imagens
           </TabsTrigger>
-
-          <TabsTrigger
-            value="configuracao"
-            className="
-              rounded-lg font-[650] py-3 transition-all duration-200
-              text-white
-              hover:bg-[#1A1A1A] hover:text-white
-              data-[state=active]:bg-white data-[state=active]:text-pink-600 data-[state=active]:shadow-md
-            "
+          <TabsTrigger 
+            value="configuracao" 
+            className=" rounded-lg font-[650] py-3 transition-all duration-200 text-white hover:bg-[#1A1A1A] hover:text-white data-[state=active]:bg-white data-[state=active]:text-pink-600 data-[state=active]:shadow-md "
           >
             Configuração
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="cores">
-          <ColorSettings
+          <ColorSettings 
             bannerGradient={bannerGradient}
             corBorda={corBorda}
             corNome={corNome}
@@ -238,13 +222,14 @@ export default function DesignSettings() {
         </TabsContent>
 
         <TabsContent value="imagens">
-          <ImageSettings
+          <ImageSettings 
             logoUrl={logoUrl}
             onLogoUrlChange={setLogoUrl}
             onSaveLogo={saveLogoOnly}
             bannerUrl={bannerUrl}
             onBannerUrlChange={setBannerUrl}
             onSaveBanner={saveBannerOnly}
+            onRemoveBanner={removeBanner}
           />
         </TabsContent>
 
@@ -252,28 +237,25 @@ export default function DesignSettings() {
           <div className="space-y-6">
             {/* SUB-ABAS DENTRO DE CONFIGURAÇÃO */}
             <Tabs value={configSubTab} onValueChange={setConfigSubTab} className="space-y-6">
-              <TabsList 
-                className="grid w-full grid-cols-3 h-auto p-1 rounded-lg shadow-sm animate-pulse"
-                style={{
-                  background: 'linear-gradient(135deg, #ECC440 0%, #FFFA8A 25%, #DDAC17 50%, #FFFF95 75%, #ECC440 100%)',
-                  backgroundSize: '200% 200%',
-                  animation: 'goldGradient 8s ease infinite'
-                }}
-              >
+              <TabsList className="grid w-full grid-cols-3 h-auto p-1 rounded-lg shadow-sm animate-pulse" style={{ 
+                background: 'linear-gradient(135deg, #ECC440 0%, #FFFA8A 25%, #DDAC17 50%, #FFFF95 75%, #ECC440 100%)',
+                backgroundSize: '200% 200%',
+                animation: 'goldGradient 8s ease infinite'
+              }}>
                 <TabsTrigger 
-                  value="geral"
+                  value="geral" 
                   className="rounded-md font-[600] py-2 transition-all duration-200 text-black hover:bg-white hover:text-black data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-sm"
                 >
                   Geral
                 </TabsTrigger>
                 <TabsTrigger 
-                  value="funcionamento"
+                  value="funcionamento" 
                   className="rounded-md font-[600] py-2 transition-all duration-200 text-black hover:bg-white hover:text-black data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-sm"
                 >
                   Funcionamento
                 </TabsTrigger>
                 <TabsTrigger 
-                  value="categorias"
+                  value="categorias" 
                   className="rounded-md font-[600] py-2 transition-all duration-200 text-black hover:bg-white hover:text-black data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-sm"
                 >
                   Categorias
@@ -288,7 +270,7 @@ export default function DesignSettings() {
                     <div className="border-0 shadow-lg bg-white rounded-lg p-6">
                       <h3 className="text-2xl font-bold text-center mb-4" style={{ color: '#ec4899' }}>Nome da Loja</h3>
                       <div className="space-y-4">
-                        <input
+                        <input 
                           value={nomeLoja}
                           onChange={(e) => setNomeLoja(e.target.value)}
                           placeholder="Nome da sua confeitaria"
@@ -307,7 +289,7 @@ export default function DesignSettings() {
                     <div className="border-0 shadow-lg bg-white rounded-lg p-6">
                       <h3 className="text-2xl font-bold text-center mb-4" style={{ color: '#ec4899' }}>Descrição da Loja</h3>
                       <div className="space-y-4">
-                        <textarea
+                        <textarea 
                           value={descricaoLoja}
                           onChange={(e) => setDescricaoLoja(e.target.value)}
                           placeholder="Descreva sua confeitaria..."
@@ -332,7 +314,7 @@ export default function DesignSettings() {
                       <div className="space-y-4">
                         <div className="space-y-2">
                           <label className="block text-sm font-medium text-gray-700">Número do WhatsApp</label>
-                          <input
+                          <input 
                             value={whatsapp}
                             onChange={handleWhatsAppChange}
                             placeholder="(11) 99999-9999"
@@ -355,8 +337,7 @@ export default function DesignSettings() {
                     </div>
 
                     {/* Esconder Estrelas - SEÇÃO COMENTADA */}
-                    {/* 
-                    <div className="border-0 shadow-lg bg-white rounded-lg p-6">
+                    {/* <div className="border-0 shadow-lg bg-white rounded-lg p-6">
                       <h3 className="text-2xl font-bold text-center mb-4" style={{ color: '#ec4899' }}>
                         Esconder Estrelas
                       </h3>
@@ -366,7 +347,7 @@ export default function DesignSettings() {
                             Ocultar as estrelas de avaliação abaixo do nome da loja
                           </label>
                           <div className="flex items-center justify-center">
-                            <button
+                            <button 
                               onClick={() => {
                                 const newValue = !hideStars
                                 console.log('🔍 [DesignSettings] Toggle hideStars para:', newValue)
@@ -397,21 +378,20 @@ export default function DesignSettings() {
                           {hideStars ? 'Manter Estrelas Ocultas' : 'Ocultar Estrelas'}
                         </button>
                       </div>
-                    </div>
-                    */}
+                    </div> */}
                   </div>
                 </div>
               </TabsContent>
 
               <TabsContent value="funcionamento">
-                <WorkingHoursSettings
-                  configuracoes={configuracoes}
-                  onSaveConfiguracoes={saveConfiguracoes}
+                <WorkingHoursSettings 
+                  configuracoes={configuracoes} 
+                  onSaveConfiguracoes={saveConfiguracoes} 
                 />
               </TabsContent>
 
               <TabsContent value="categorias">
-                <CategorySettings
+                <CategorySettings 
                   mainCategories={mainCategories}
                   onMainCategoriesChange={setMainCategories}
                   onSaveCategories={saveCategories}
@@ -420,7 +400,6 @@ export default function DesignSettings() {
             </Tabs>
           </div>
         </TabsContent>
-
       </Tabs>
 
       <style>{`

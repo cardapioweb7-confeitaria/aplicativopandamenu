@@ -115,9 +115,9 @@ export function ImageSettings({
 
   const handleRemoveBanner = async () => {
     try {
-      // Verifica se a função onRemoveBanner existe antes de chamá-la
-      if (onRemoveBanner && typeof onRemoveBanner === 'function') {
-        await onRemoveBanner();
+      // Primeiro, salva uma string vazia no banco de dados
+      if (onSaveBanner) {
+        await onSaveBanner('');
       }
       
       // Atualiza o estado local também
