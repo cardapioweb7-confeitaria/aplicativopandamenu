@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { Settings, Palette, Eye } from 'lucide-react'
+import { ArrowLeft, Menu } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
@@ -9,13 +9,15 @@ interface MobileLayoutProps {
   onTabChange?: (tab: string) => void
 }
 
-const tabs = [
-  { id: 'preview', label: 'Prévia', icon: Eye },
-  { id: 'design', label: 'Design', icon: Palette },
-  { id: 'products', label: 'Produtos', icon: Settings },
+const cardapioTabs = [
+  { id: 'preview', label: 'Prévia' },
+  { id: 'design', label: 'Design' },
+  { id: 'products', label: 'Produtos' },
 ]
 
 export function MobileLayout({ children, activeTab = 'preview', onTabChange }: MobileLayoutProps) {
+  const [showCardapioMenu, setShowCardapioMenu] = useState(false)
+
   const logoUrl = import.meta.env.VITE_SYSTEM_LOGO_URL
 
   return (
@@ -32,37 +34,57 @@ export function MobileLayout({ children, activeTab = 'preview', onTabChange }: M
           backgroundSize: '200% 200%'
         }}
       >
-        <div className="grid grid-cols-3 gap-1 p-2">
-          {tabs.map((tab) => {
-            return (
+        <div className="grid grid-cols-1 gap-1 p-2">
+          {!showCardapioMenu ? (
+            // Menu principal - apenas Cardápio
+            <Button
+              onClick={() => setShowCardapioMenu(true)}
+              className="w-full h-14 rounded-xl font-[700] text-base bg-white text-pink-600 hover:bg-gray-50 transition-all"
+            >
+              <Menu className="w-5 h-5 mr-2" />
+              Cardápio
+            </Button>
+          ) : (
+            // Submenu do Cardápio com Voltar
+            <div className="space-y-2">
               <Button
-                key={tab.id}
-                variant={activeTab === tab.id ? 'default' : 'ghost'}
-                className={cn(
-                  "flex items-center justify-center h-12 rounded-lg font-[700] text-xs",
-
-                  // ABA ATIVA
-                  activeTab === tab.id 
-                    ? "bg-white text-[#ec4899] hover:bg-white hover:text-[#ec4899]"
-
-                    // ABA INATIVA
-                    : "text-[#fce7f3] hover:bg-[#f9a8d4]/20 hover:text-white"
-                )}
-                onClick={() => onTabChange?.(tab.id)}
+                onClick={() => setShowCardapioMenu(false)}
+                className="w-full h-12 rounded-lg font-[600] text-sm bg-white/20 text-white hover:bg-white/30 transition-all flex items-center justify-center gap-2"
               >
-                <span
-                  className={cn(
-                    "text-xs font-[700]",
-                    activeTab === tab.id
-                      ? "text-[#ec4899]"
-                      : "text-[#fce7f3]"
-                  )}
-                >
-                  {tab.label}
-                </span>
+                <ArrowLeft className="w-4 h-4" />
+                Voltar
               </Button>
-            )
-          })}
+              
+              <div className="grid grid-cols-3 gap-1">
+                {cardapioTabs.map((tab) => {
+                  return (
+                    <Button
+                      key={tab.id}
+                      variant={activeTab === tab.id ? 'default' : 'ghost'}
+                      className={cn(
+                        "flex items-center justify-center h-12 rounded-lg font-[700] text-xs",
+                        activeTab === tab.id 
+                          ? "bg-white text-[#ec4899] hover:bg-white hover:text-[#ec4899]"
+                          : "text-[#fce7f3] hover:bg-[#f9a8d4]/20 hover:text-white"
+                      )}
+                      onClick={() => onTabChange?.(tab.id)}
+                    >
+                      <span
+                        className={cn(
+                          "text-xs font-[700]",
+                          activeTab === tab.id
+                            ? "text-[#ec4899]"
+                            : "text-[#fce7f3]"
+                        )}
+                      >
+                        {tab.label}
+                      </span>
+                    </Button>
+                  )
+                })}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

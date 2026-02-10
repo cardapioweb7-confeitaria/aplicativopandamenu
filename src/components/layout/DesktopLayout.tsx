@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { Settings, Palette, ShoppingBag, Eye, LogOut } from 'lucide-react'
+import { ArrowLeft, Menu, LogOut } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useNavigate } from 'react-router-dom'
@@ -10,10 +10,10 @@ interface DesktopLayoutProps {
   onTabChange?: (tab: string) => void
 }
 
-const tabs = [
-  { id: 'preview', label: 'Prévia do Cardápio', icon: Eye },
-  { id: 'design', label: 'Design', icon: Palette },
-  { id: 'products', label: 'Produtos', icon: ShoppingBag },
+const cardapioTabs = [
+  { id: 'preview', label: 'Prévia do Cardápio' },
+  { id: 'design', label: 'Design' },
+  { id: 'products', label: 'Produtos' },
 ]
 
 export function DesktopLayout({
@@ -22,20 +22,18 @@ export function DesktopLayout({
   onTabChange,
 }: DesktopLayoutProps) {
   const navigate = useNavigate()
+  const [showCardapioMenu, setShowCardapioMenu] = useState(false)
   const systemName = import.meta.env.VITE_SYSTEM_NAME || 'Menu Bolo'
 
   const handleLogout = () => {
-    // Limpar dados de autenticação se existirem
     localStorage.removeItem('supabase.auth.token')
     localStorage.removeItem('user_session')
-    
-    // Forçar redirecionamento para login
     window.location.href = '/login'
   }
 
   return (
     <div className="min-h-screen bg-pink-50 flex">
-      {/* MENU LATERAL FIXO - NÃO SUME COM SCROLL */}
+      {/* MENU LATERAL FIXO */}
       <div
         className="w-64 flex flex-col fixed left-0 top-0 bottom-0 z-50"
         style={{
@@ -61,25 +59,45 @@ export function DesktopLayout({
 
         <div className="flex-1 p-6 pt-0">
           <div className="space-y-3">
-            {tabs.map((tab) => {
-              const Icon = tab.icon
-              return (
+            {!showCardapioMenu ? (
+              // Menu principal - apenas Cardápio
+              <Button
+                onClick={() => setShowCardapioMenu(true)}
+                className="w-full justify-start gap-3 h-12 text-white hover:bg-white/20 hover:text-white"
+              >
+                <Menu size={20} />
+                <span className="font-[650]">Cardápio</span>
+              </Button>
+            ) : (
+              // Submenu do Cardápio com Voltar
+              <div className="space-y-2">
                 <Button
-                  key={tab.id}
-                  variant={activeTab === tab.id ? 'default' : 'ghost'}
-                  className={cn(
-                    'w-full justify-start gap-3 h-12 text-white hover:bg-white/20 hover:text-white',
-                    activeTab === tab.id
-                      ? 'bg-white text-[#ec4899] hover:bg-white hover:text-[#ec4899]'
-                      : ''
-                  )}
-                  onClick={() => onTabChange?.(tab.id)}
+                  onClick={() => setShowCardapioMenu(false)}
+                  className="w-full justify-start gap-3 h-10 text-white/80 hover:bg-white/20 hover:text-white"
                 >
-                  <Icon size={20} />
-                  <span className="font-[650]">{tab.label}</span>
+                  <ArrowLeft size={18} />
+                  <span className="font-[600]">Voltar</span>
                 </Button>
-              )
-            })}
+                
+                {cardapioTabs.map((tab) => {
+                  return (
+                    <Button
+                      key={tab.id}
+                      variant={activeTab === tab.id ? 'default' : 'ghost'}
+                      className={cn(
+                        'w-full justify-start gap-3 h-12 text-white hover:bg-white/20 hover:text-white',
+                        activeTab === tab.id
+                          ? 'bg-white text-[#ec4899] hover:bg-white hover:text-[#ec4899]'
+                          : ''
+                      )}
+                      onClick={() => onTabChange?.(tab.id)}
+                    >
+                      <span className="font-[650]">{tab.label}</span>
+                    </Button>
+                  )
+                })}
+              </div>
+            )}
           </div>
         </div>
 
@@ -104,7 +122,7 @@ export function DesktopLayout({
         </div>
       </div>
 
-      {/* CONTEÚDO PRINCIPAL COM MARGEM PARA NÃO FICAR ABAIXO DO MENU */}
+      {/* CONTEÚDO PRINCIPAL */}
       <div className="flex-1 ml-64">
         {children}
       </div>
