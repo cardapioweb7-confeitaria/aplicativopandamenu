@@ -9,6 +9,8 @@ import { DesktopLayout } from '@/components/layout/DesktopLayout'
 import Inicio from './Inicio'
 import Receitas from './Receitas'
 import Arquivos from './Arquivos'
+import Toppers from './Toppers'
+import Comunidade from './Comunidade'
 import Preview from './Preview'
 import DesignSettings from './DesignSettings'
 import ProductManager from './ProductManager'
@@ -19,7 +21,7 @@ export default function AdminLayout() {
   const device = useDeviceDetection()
 
   // Tabs por modo
-  const mainTabs = ['inicio', 'receitas', 'arquivos', 'cardapio']
+  const mainTabs = ['inicio', 'receitas', 'arquivos', 'toppers', 'comunidade', 'cardapio']
   const cardapioTabs = ['previa', 'design', 'produtos', 'voltar']
   const currentTabs = isCardapioMode ? cardapioTabs : mainTabs
 
@@ -28,6 +30,8 @@ export default function AdminLayout() {
     inicio: 'Inicio',
     receitas: 'Receitas',
     arquivos: 'Arquivos',
+    toppers: 'Toppers',
+    comunidade: 'Comunidade',
     cardapio: 'Cardápio'
   }
   const cardapioLabels = {
@@ -43,6 +47,8 @@ export default function AdminLayout() {
     inicio: <Inicio />,
     receitas: <Receitas />,
     arquivos: <Arquivos />,
+    toppers: <Toppers />,
+    comunidade: <Comunidade />,
     previa: <Preview />,
     design: <DesignSettings />,
     produtos: <ProductManager />
