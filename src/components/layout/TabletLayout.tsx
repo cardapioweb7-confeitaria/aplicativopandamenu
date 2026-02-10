@@ -1,36 +1,21 @@
 "use client";
 
-import { ReactNode, useState, useEffect } from 'react'
+import { ReactNode } from 'react'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 interface TabletLayoutProps {
-  children: ReactNode
-  activeTab?: string
-  onTabChange?: (tab: string) => void
+  tabs: string[]
+  labels: Record<string, string>
+  activeTab: string
+  onTabChange: (tab: string) => void
+  showBack?: boolean
+  onBack?: () => void
+  content: ReactNode
 }
 
-const tabs = [
-  { id: 'inicio', label: 'Inicio' },
-  { id: 'receitas', label: 'Receitas' },
-  { id: 'arquivos', label: 'Arquivos' },
-  { id: 'cardapio', label: 'Cardápio' },
-]
-
-export function TabletLayout({ children, activeTab = 'inicio', onTabChange }: TabletLayoutProps) {
-  const [localActiveTab, setLocalActiveTab] = useState(activeTab)
-
-  useEffect(() => {
-    const saved = localStorage.getItem('admin-active-tab')
-    if (saved) setLocalActiveTab(saved)
-  }, [])
-
-  useEffect(() => {
-    localStorage.setItem('admin-active-tab', localActiveTab)
-    onTabChange?.(localActiveTab)
-  }, [localActiveTab])
-
+export function TabletLayout({ tabs, labels, activeTab, onTabChange, showBack = false, onBack, content }: TabletLayoutProps) {
   return (
     <div className="min-h-screen bg-pink-50 flex">
       <div 
@@ -51,17 +36,17 @@ export function TabletLayout({ children, activeTab = 'inicio', onTabChange }: Ta
         <div className="flex-1 p-6 space-y-2">
           {tabs.map((tab) => (
             <Button
-              key={tab.id}
-              variant={localActiveTab === tab.id ? "default" : "ghost"}
+              key={tab}
+              variant={activeTab === tab ? "default" : "ghost"}
               className={cn(
                 "w-full justify-start h-14 rounded-2xl font-bold text-sm transition-all duration-300 shadow-lg hover:shadow-xl active:scale-[0.98]",
-                localActiveTab === tab.id
+                activeTab === tab
                   ? "bg-white text-[#ec4899] shadow-pink-500/50"
                   : "text-white/90 hover:bg-white/20 hover:text-white bg-transparent"
               )}
-              onClick={() => setLocalActiveTab(tab.id)}
+              onClick={() => onTabChange(tab)}
             >
-              {tab.label}
+              {labels[tab]}
             </Button>
           ))}
         </div>
@@ -73,8 +58,21 @@ export function TabletLayout({ children, activeTab = 'inicio', onTabChange }: Ta
         </div>
       </div>
       
-      <div className="flex-1 p-8">
-        {children}
+      <div className="flex-1 p-8 relative">
+        {showBack && (
+          <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200 p-6 shadow-sm mb-8 rounded-b-2xl">
+            <Button 
+              variant="ghost" 
+              size="lg" 
+              onClick={onBack}
+              className="text-xl font-bold text-gray-800 hover:text-gray-900"
+            >
+              <ArrowLeft className="w-6 h-6 mr-3" />
+              Voltar ao Menu Principal
+            </Button>
+          </div>
+        )}
+        {content}
       </div>
     </div>
   )

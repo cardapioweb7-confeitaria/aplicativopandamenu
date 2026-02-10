@@ -9,38 +9,98 @@ import { DesktopLayout } from '@/components/layout/DesktopLayout'
 import Inicio from './Inicio'
 import Receitas from './Receitas'
 import Arquivos from './Arquivos'
-import Cardapio from './Cardapio'
+import Preview from './Preview'
+import DesignSettings from './DesignSettings'
+import ProductManager from './ProductManager'
 
 export default function AdminLayout() {
+  const [isCardapioMode, setIsCardapioMode] = useState(false)
   const [activeTab, setActiveTab] = useState('inicio')
   const device = useDeviceDetection()
 
-  const content = {
+  // Tabs por modo
+  const mainTabs = ['inicio', 'receitas', 'arquivos', 'cardapio']
+  const cardapioTabs = ['previa', 'design', 'produtos']
+  const currentTabs = isCardapioMode ? cardapioTabs : mainTabs
+
+  // Labels por modo
+  const mainLabels = {
+    inicio: 'Inicio',
+    receitas: 'Receitas',
+    arquivos: 'Arquivos',
+    cardapio: 'Cardápio'
+  }
+  const cardapioLabels = {
+    previa: 'Prévia',
+    design: 'Design',
+    produtos: 'Produtos'
+  }
+  const currentLabels = isCardapioMode ? cardapioLabels : mainLabels
+
+  // Conteúdo por aba
+  const contentMap: Record<string, JSX.Element> = {
     inicio: <Inicio />,
     receitas: <Receitas />,
     arquivos: <Arquivos />,
-    cardapio: <Cardapio />
+    previa: <Preview />,
+    design: <DesignSettings />,
+    produtos: <ProductManager />
   }
 
+  // Handlers
+  const handleTabChange = (tab: string) => {
+    if (!isCardapioMode && tab === 'cardapio') {
+      // Entrar no modo Cardápio (primeira aba: Prévia)
+      setIsCardapioMode(true)
+      setActiveTab('previa')
+    } else if (isCardapioMode) {
+      setActiveTab(tab)
+    } else {
+      setActiveTab(tab)
+    }
+  }
+
+  const handleBack = () => {
+    setIsCardapioMode(false)
+    setActiveTab('cardapio')
+  }
+
+  // Salvar estado no localStorage
+  useEffect(() => {
+    localStorage.setItem('admin-mode', isCardapioMode ? 'cardapio' : 'main')
+    localStorage.setItem('admin-active-tab', activeTab)
+  }, [isCardapioMode, activeTab])
+
+  useEffect(() => {
+    const savedMode = localStorage.getItem('admin-mode')
+    const savedTab = localStorage.getItem('admin-active-tab')
+    if (savedMode === 'cardapio') {
+      setIsCardapioMode(true)
+      setActiveTab(savedTab || 'previa')
+    } else {
+      setIsCardapioMode(false)
+      setActiveTab(savedTab || 'inicio')
+    }
+  }, [])
+
   const layoutProps = {
+    tabs: currentTabs,
+    labels: currentLabels,
     activeTab,
-    onTabChange: setActiveTab,
+    onTabChange: handleTabChange,
+    showBack: isCardapioMode,
+    onBack: handleBack,
+    content: contentMap[activeTab as keyof typeof contentMap]
   }
 
   return (
     <AuthGuard>
       {device === 'mobile' ? (
-        <MobileLayout {...layoutProps}>
-          {content[activeTab as keyof typeof content]}
-        </MobileLayout>
+        <MobileLayout {...layoutProps} />
       ) : device === 'tablet' ? (
-        <TabletLayout {...layoutProps}>
-          {content[activeTab as keyof typeof content]}
-        </TabletLayout>
+        <TabletLayout {...layoutProps} />
       ) : (
-        <DesktopLayout {...layoutProps}>
-          {content[activeTab as keyof typeof content]}
-        </DesktopLayout>
+        <DesktopLayout {...layoutProps} />
       )}
     </AuthGuard>
   )

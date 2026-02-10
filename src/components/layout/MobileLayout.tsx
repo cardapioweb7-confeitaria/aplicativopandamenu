@@ -1,40 +1,38 @@
 "use client";
 
-import { ReactNode, useState, useEffect } from 'react'
+import { ReactNode } from 'react'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 interface MobileLayoutProps {
-  children: ReactNode
-  activeTab?: string
-  onTabChange?: (tab: string) => void
+  tabs: string[]
+  labels: Record<string, string>
+  activeTab: string
+  onTabChange: (tab: string) => void
+  showBack?: boolean
+  onBack?: () => void
+  content: ReactNode
 }
 
-const tabs = [
-  { id: 'inicio', label: 'Inicio' },
-  { id: 'receitas', label: 'Receitas' },
-  { id: 'arquivos', label: 'Arquivos' },
-  { id: 'cardapio', label: 'Cardápio' },
-]
-
-export function MobileLayout({ children, activeTab = 'inicio', onTabChange }: MobileLayoutProps) {
-  const [localActiveTab, setLocalActiveTab] = useState(activeTab)
-
-  useEffect(() => {
-    const saved = localStorage.getItem('admin-active-tab')
-    if (saved) setLocalActiveTab(saved)
-  }, [])
-
-  useEffect(() => {
-    localStorage.setItem('admin-active-tab', localActiveTab)
-    onTabChange?.(localActiveTab)
-  }, [localActiveTab])
-
+export function MobileLayout({ tabs, labels, activeTab, onTabChange, showBack = false, onBack, content }: MobileLayoutProps) {
   return (
     <div className="min-h-screen bg-pink-50 flex flex-col">
       <div className="flex-1 pb-20">
-        {children}
+        {showBack && (
+          <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200 p-4 shadow-sm">
+            <Button 
+              variant="ghost" 
+              size="lg" 
+              onClick={onBack}
+              className="w-full text-lg font-bold text-gray-800 hover:text-gray-900 justify-start"
+            >
+              <ArrowLeft className="w-6 h-6 mr-3" />
+              Voltar ao Menu Principal
+            </Button>
+          </div>
+        )}
+        {content}
       </div>
       
       <div
@@ -45,20 +43,20 @@ export function MobileLayout({ children, activeTab = 'inicio', onTabChange }: Mo
           animation: 'gradient-x 3s ease infinite'
         }}
       >
-        <div className="grid grid-cols-4 gap-2 p-3 px-6">
+        <div className="grid grid-cols-3 gap-2 p-3 px-6">
           {tabs.map((tab) => (
             <Button
-              key={tab.id}
-              variant={localActiveTab === tab.id ? "default" : "ghost"}
+              key={tab}
+              variant={activeTab === tab ? "default" : "ghost"}
               className={cn(
                 "h-14 rounded-2xl font-bold text-sm transition-all duration-300 shadow-lg hover:shadow-xl active:scale-[0.98]",
-                localActiveTab === tab.id
+                activeTab === tab
                   ? "bg-white text-[#ec4899] shadow-pink-500/50"
                   : "text-white/90 hover:bg-white/20 hover:text-white bg-transparent"
               )}
-              onClick={() => setLocalActiveTab(tab.id)}
+              onClick={() => onTabChange(tab)}
             >
-              {tab.label}
+              {labels[tab]}
             </Button>
           ))}
         </div>
