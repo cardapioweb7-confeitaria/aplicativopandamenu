@@ -1,23 +1,25 @@
-import { useState } from 'react'
+"use client";
+
+import { useState, useEffect } from 'react'
 import { useDeviceDetection } from '@/hooks/useDeviceDetection'
 import { AuthGuard } from '@/components/layout/AuthGuard'
 import { MobileLayout } from '@/components/layout/MobileLayout'
 import { TabletLayout } from '@/components/layout/TabletLayout'
 import { DesktopLayout } from '@/components/layout/DesktopLayout'
-import Preview from './Preview'
-import DesignSettings from './DesignSettings'
-import ProductManager from './ProductManager'
-import Settings from './Settings'
+import Inicio from './Inicio'
+import Receitas from './Receitas'
+import Arquivos from './Arquivos'
+import Cardapio from './Cardapio'
 
 export default function AdminLayout() {
-  const [activeTab, setActiveTab] = useState('preview')
+  const [activeTab, setActiveTab] = useState('inicio')
   const device = useDeviceDetection()
 
   const content = {
-    preview: <Preview />,
-    design: <DesignSettings />,
-    products: <ProductManager />,
-    settings: <Settings />
+    inicio: <Inicio />,
+    receitas: <Receitas />,
+    arquivos: <Arquivos />,
+    cardapio: <Cardapio />
   }
 
   const layoutProps = {

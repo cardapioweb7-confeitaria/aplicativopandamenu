@@ -1,5 +1,7 @@
-import { ReactNode, useState } from 'react'
-import { ArrowLeft, Menu } from 'lucide-react'
+"use client";
+
+import { ReactNode, useState, useEffect } from 'react'
+import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
@@ -9,84 +11,69 @@ interface TabletLayoutProps {
   onTabChange?: (tab: string) => void
 }
 
-const cardapioTabs = [
-  { id: 'preview', label: 'Prévia' },
-  { id: 'design', label: 'Design' },
-  { id: 'products', label: 'Produtos' },
+const tabs = [
+  { id: 'inicio', label: 'Inicio' },
+  { id: 'receitas', label: 'Receitas' },
+  { id: 'arquivos', label: 'Arquivos' },
+  { id: 'cardapio', label: 'Cardápio' },
 ]
 
-export function TabletLayout({ children, activeTab = 'preview', onTabChange }: TabletLayoutProps) {
-  const [showCardapioMenu, setShowCardapioMenu] = useState(false)
-  const systemName = import.meta.env.VITE_SYSTEM_NAME || 'Menu Bolo'
-  const systemSubtitle = import.meta.env.VITE_SYSTEM_SUBTITLE || 'Sistema de Gestão'
+export function TabletLayout({ children, activeTab = 'inicio', onTabChange }: TabletLayoutProps) {
+  const [localActiveTab, setLocalActiveTab] = useState(activeTab)
+
+  useEffect(() => {
+    const saved = localStorage.getItem('admin-active-tab')
+    if (saved) setLocalActiveTab(saved)
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('admin-active-tab', localActiveTab)
+    onTabChange?.(localActiveTab)
+  }, [localActiveTab])
 
   return (
     <div className="min-h-screen bg-pink-50 flex">
-      <div className="w-64 border-r border-pink-200 p-4 flex flex-col" style={{
-        background: 'linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #f9a8d4 100%)',
-        animation: 'gradient-x 3s ease infinite',
-        backgroundSize: '200% 200%'
-      }}>
-        <div className="p-4 pb-4">
+      <div 
+        className="w-64 border-r border-pink-200 flex flex-col shadow-2xl"
+        style={{
+          background: 'linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #f9a8d4 100%)',
+          backgroundSize: '200% 200%',
+          animation: 'gradient-x 3s ease infinite'
+        }}
+      >
+        <div className="p-8 flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-white text-2xl font-bold mb-2">{systemName}</h1>
-            <p className="text-white/80 text-sm">{systemSubtitle}</p>
+            <h1 className="text-white text-xl font-bold mb-1">Panda Menu</h1>
+            <p className="text-white/80 text-sm">Cardápio Digital</p>
           </div>
         </div>
         
-        <div className="flex-1">
-          <div className="space-y-2">
-            {!showCardapioMenu ? (
-              // Menu principal - apenas Cardápio
-              <Button
-                onClick={() => setShowCardapioMenu(true)}
-                className="w-full justify-start gap-3 h-12 text-white hover:bg-white/20 hover:text-white"
-              >
-                <Menu size={20} />
-                <span className="font-[650]">Cardápio</span>
-              </Button>
-            ) : (
-              // Submenu do Cardápio com Voltar
-              <div className="space-y-2">
-                <Button
-                  onClick={() => setShowCardapioMenu(false)}
-                  className="w-full justify-start gap-3 h-10 text-white/80 hover:bg-white/20 hover:text-white"
-                >
-                  <ArrowLeft size={18} />
-                  <span className="font-[600]">Voltar</span>
-                </Button>
-                
-                {cardapioTabs.map((tab) => {
-                  return (
-                    <Button
-                      key={tab.id}
-                      variant={activeTab === tab.id ? 'default' : 'ghost'}
-                      className={cn(
-                        "w-full justify-start gap-3 h-12 text-white hover:bg-white/20 hover:text-white",
-                        activeTab === tab.id 
-                          ? "bg-white text-[#ec4899] hover:bg-white hover:text-[#ec4899]" 
-                          : ""
-                      )}
-                      onClick={() => onTabChange?.(tab.id)}
-                    >
-                      <span className="font-[650]">{tab.label}</span>
-                    </Button>
-                  )
-                })}
-              </div>
-            )}
-          </div>
+        <div className="flex-1 p-6 space-y-2">
+          {tabs.map((tab) => (
+            <Button
+              key={tab.id}
+              variant={localActiveTab === tab.id ? "default" : "ghost"}
+              className={cn(
+                "w-full justify-start h-14 rounded-2xl font-bold text-sm transition-all duration-300 shadow-lg hover:shadow-xl active:scale-[0.98]",
+                localActiveTab === tab.id
+                  ? "bg-white text-[#ec4899] shadow-pink-500/50"
+                  : "text-white/90 hover:bg-white/20 hover:text-white bg-transparent"
+              )}
+              onClick={() => setLocalActiveTab(tab.id)}
+            >
+              {tab.label}
+            </Button>
+          ))}
         </div>
         
-        <div className="p-4 pt-8 border-t border-pink-300">
+        <div className="p-6 pt-0 border-t border-pink-300">
           <div className="text-center">
-            <p className="text-white/70 text-xs">© 2025 {systemName}</p>
-            <p className="text-white/60 text-xs">Todos os direitos reservados</p>
+            <p className="text-white/70 text-xs">© 2025 Panda Menu</p>
           </div>
         </div>
       </div>
       
-      <div className="flex-1 p-6 bg-pink-50">
+      <div className="flex-1 p-8">
         {children}
       </div>
     </div>
