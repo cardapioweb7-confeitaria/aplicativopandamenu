@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from 'react'
-import { ArrowLeft, LogOut } from 'lucide-react'
+import { LogOut } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
@@ -10,8 +10,6 @@ interface DesktopLayoutProps {
   labels: Record<string, string>
   activeTab: string
   onTabChange: (tab: string) => void
-  showBack?: boolean
-  onBack?: () => void
   content: ReactNode
 }
 
@@ -20,8 +18,6 @@ export function DesktopLayout({
   labels,
   activeTab,
   onTabChange,
-  showBack = false,
-  onBack,
   content
 }: DesktopLayoutProps) {
   const handleLogout = () => {
@@ -87,21 +83,8 @@ export function DesktopLayout({
         </div>
       </div>
 
-      {/* Conteúdo principal com padding left + header back se necessário */}
+      {/* Conteúdo principal com padding left */}
       <div className="flex-1 ml-72">
-        {showBack && (
-          <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200 p-6 shadow-sm">
-            <Button 
-              variant="ghost" 
-              size="lg" 
-              onClick={onBack}
-              className="text-2xl font-bold text-gray-800 hover:text-gray-900"
-            >
-              <ArrowLeft className="w-7 h-7 mr-3" />
-              Voltar ao Menu Principal
-            </Button>
-          </div>
-        )}
         <div className="p-8">
           {content}
         </div>

@@ -20,7 +20,7 @@ export default function AdminLayout() {
 
   // Tabs por modo
   const mainTabs = ['inicio', 'receitas', 'arquivos', 'cardapio']
-  const cardapioTabs = ['previa', 'design', 'produtos']
+  const cardapioTabs = ['previa', 'design', 'produtos', 'voltar']
   const currentTabs = isCardapioMode ? cardapioTabs : mainTabs
 
   // Labels por modo
@@ -33,7 +33,8 @@ export default function AdminLayout() {
   const cardapioLabels = {
     previa: 'Prévia',
     design: 'Design',
-    produtos: 'Produtos'
+    produtos: 'Produtos',
+    voltar: 'Voltar'
   }
   const currentLabels = isCardapioMode ? cardapioLabels : mainLabels
 
@@ -53,16 +54,15 @@ export default function AdminLayout() {
       // Entrar no modo Cardápio (primeira aba: Prévia)
       setIsCardapioMode(true)
       setActiveTab('previa')
+    } else if (isCardapioMode && tab === 'voltar') {
+      // Voltar ao menu principal
+      setIsCardapioMode(false)
+      setActiveTab('cardapio')
     } else if (isCardapioMode) {
       setActiveTab(tab)
     } else {
       setActiveTab(tab)
     }
-  }
-
-  const handleBack = () => {
-    setIsCardapioMode(false)
-    setActiveTab('cardapio')
   }
 
   // Salvar estado no localStorage
@@ -88,8 +88,6 @@ export default function AdminLayout() {
     labels: currentLabels,
     activeTab,
     onTabChange: handleTabChange,
-    showBack: isCardapioMode,
-    onBack: handleBack,
     content: contentMap[activeTab as keyof typeof contentMap]
   }
 
