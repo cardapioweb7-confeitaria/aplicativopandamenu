@@ -1,7 +1,6 @@
 "use client";
 
 import { useDatabase } from '@/hooks/useDatabase'
-import { PreviewContent } from '@/components/admin/PreviewContent'
 
 export default function Inicio() {
   const { designSettings, configuracoes, produtos, loading } = useDatabase()
@@ -18,45 +17,25 @@ export default function Inicio() {
   }
 
   return (
-    <div className="min-h-screen">
-      {/* Stats rápidas */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white p-6 rounded-2xl shadow-lg text-center">
-          <h3 className="text-2xl font-bold text-pink-600">{produtos.length}</h3>
-          <p className="text-gray-600 text-sm">Produtos</p>
-        </div>
-        <div className="bg-white p-6 rounded-2xl shadow-lg text-center">
-          <h3 className="text-2xl font-bold text-green-600">{configuracoes?.total_pedidos || 0}</h3>
-          <p className="text-gray-600 text-sm">Pedidos</p>
-        </div>
-        <div className="bg-white p-6 rounded-2xl shadow-lg text-center">
-          <h3 className="text-2xl font-bold text-blue-600">{configuracoes?.avaliacao_media?.toFixed(1) || '4.9'}</h3>
-          <p className="text-gray-600 text-sm">Avaliação</p>
-        </div>
-        <div className="bg-white p-6 rounded-2xl shadow-lg text-center">
-          <h3 className="text-2xl font-bold text-purple-600">Online</h3>
-          <p className="text-gray-600 text-sm">Status</p>
-        </div>
-      </div>
-
-      {/* Prévia do cardápio */}
-      <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
-        <div className="p-6 border-b bg-gradient-to-r from-pink-500 to-purple-500">
-          <h2 className="text-2xl font-bold text-white">Prévia do Seu Cardápio</h2>
-          <p className="text-white/90">Como seus clientes verão</p>
-        </div>
-        <div className="p-6 max-h-[70vh] overflow-auto">
-          <PreviewContent
-            designSettings={designSettings}
-            configuracoes={configuracoes}
-            produtos={produtos}
-            searchTerm=""
-            selectedCategory={null}
-            favorites={[]}
-            onSearchChange={() => {}}
-            onCategorySelect={() => {}}
-            onToggleFavorite={() => {}}
-          />
+    <div className="min-h-screen flex items-center justify-center p-8 bg-gradient-to-br from-pink-50 to-purple-50">
+      <div className="max-w-md w-full text-center">
+        <div 
+          className="p-12 rounded-3xl shadow-2xl border-4 border-dashed"
+          style={{
+            background: 'linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #f9a8d4 100%)',
+            color: 'white'
+          }}
+        >
+          <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span className="text-3xl">🔧</span>
+          </div>
+          <h1 className="text-3xl font-bold mb-4">Em Manutenção</h1>
+          <p className="text-lg opacity-90 mb-8">
+            Esta seção está sendo preparada para você.
+          </p>
+          <p className="text-sm opacity-80">
+            Volte em breve para mais funcionalidades!
+          </p>
         </div>
       </div>
     </div>
