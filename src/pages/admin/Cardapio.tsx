@@ -1,7 +1,7 @@
 "use client";
 
-import DesignSettings from '../DesignSettings'
-import ProductManager from '../ProductManager'
+import DesignSettings from './DesignSettings'
+import ProductManager from './ProductManager'
 
 export default function Cardapio() {
   return (
