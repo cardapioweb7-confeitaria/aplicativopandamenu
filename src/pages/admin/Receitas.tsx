@@ -91,33 +91,33 @@ export default function Receitas() {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20 px-4 md:px-8 pb-12">
-      <div className="max-w-6xl mx-auto">
-        {/* HERO VIDEO BACKGROUND - ANTES DA BUSCA */}
-        <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] mb-16 md:mb-20 overflow-hidden rounded-3xl shadow-2xl">
-          {/* Vídeo de fundo */}
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover"
-            poster="/receitas-poster.jpg" // Fallback imagem se vídeo não carregar
-          >
-            <source src="/receitas-video.mp4" type="video/mp4" />
-            Seu navegador não suporta vídeo.
-          </video>
-          
-          {/* Overlay blur preto */}
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-xl" />
-          
-          {/* Texto centralizado */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black bg-gradient-to-r from-white via-pink-50 to-white bg-clip-text text-transparent drop-shadow-2xl text-center leading-tight px-4">
-              Receitas<br className="sm:hidden" /><span className="block sm:inline">Exclusivas</span>
-            </h1>
-          </div>
+      {/* HERO VIDEO BACKGROUND FULL-WIDTH MOBILE - ANTES DA BUSCA */}
+      <div className="relative w-full -mx-4 md:mx-0 h-[300px] sm:h-[400px] md:h-[500px] mb-16 md:mb-20 overflow-hidden rounded-3xl shadow-2xl">
+        {/* Vídeo de fundo */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+          poster="/receitas-poster.jpg" // Fallback imagem se vídeo não carregar
+        >
+          <source src="/receitas-video.mp4" type="video/mp4" />
+          Seu navegador não suporta vídeo.
+        </video>
+        
+        {/* Overlay blur preto */}
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-xl" />
+        
+        {/* Texto centralizado */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black bg-gradient-to-r from-white via-pink-50 to-white bg-clip-text text-transparent drop-shadow-2xl text-center leading-tight px-4">
+            Receitas<br className="sm:hidden" /><span className="block sm:inline">Exclusivas</span>
+          </h1>
         </div>
+      </div>
 
+      <div className="max-w-6xl mx-auto">
         {/* Barra de pesquisa ROSA SIMPLES sem sombra/gradient animado */}
         <div className="max-w-2xl mx-auto mb-16">
           <div className="relative">
