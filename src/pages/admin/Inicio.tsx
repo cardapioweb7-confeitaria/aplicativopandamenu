@@ -35,15 +35,32 @@ export default function Inicio() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50 p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto space-y-8">
-        {/* LOGO PROEMINENTE + CABEÇALHO */}
+        {/* LOGO PROEMINENTE + TIPO DE ACESSO EM DIV BRANCA COM SOMBRA */}
         <div className="text-center mb-12">
-          <div className="mx-auto w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 mb-6 shadow-2xl rounded-3xl overflow-hidden border-8 border-white bg-gradient-to-br from-pink-400 to-purple-500">
-            <img 
-              src="/logointernaadmin.png" 
-              alt="Panda Menu Logo" 
-              className="w-full h-full object-contain p-4"
-            />
-          </div>
+          {/* Card principal com logo e tipo de acesso */}
+          <Card className="max-w-md mx-auto shadow-2xl border-0 overflow-hidden bg-white">
+            <CardContent className="p-8 pt-12 pb-12">
+              {/* Logo em div branca com sombra */}
+              <div className="mx-auto w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 mb-8 shadow-2xl rounded-full overflow-hidden bg-white border-8 border-white">
+                <img 
+                  src="/logointernaadmin.png" 
+                  alt="Panda Menu Logo" 
+                  className="w-full h-full object-contain p-6"
+                />
+              </div>
+              
+              {/* Tipo de Acesso: Vitalício com ponto verde piscando */}
+              <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                <div className="flex items-center justify-center gap-3">
+                  <div className="w-4 h-4 bg-green-500 rounded-full animate-ping"></div>
+                  <span className="text-xl md:text-2xl font-black text-gray-900 tracking-wide">
+                    Tipo de Acesso: <span className="text-green-600">Vitalício</span>
+                  </span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-pink-600 via-pink-500 to-purple-500 bg-clip-text text-transparent mb-4 drop-shadow-lg">
             Dashboard
           </h1>
