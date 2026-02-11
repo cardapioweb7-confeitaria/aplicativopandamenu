@@ -1,12 +1,10 @@
 "use client";
 
-import { Download, Clock, Flame, Tag, Eye, Search, X, Play } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Clock, Flame, Tag, Eye, Search, X, Play } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
-// Interface
 interface Receita {
   id: string;
   titulo: string;
@@ -17,7 +15,6 @@ interface Receita {
   dataAdicionado: string;
 }
 
-// Mock
 const receitasMock: Receita[] = [
   {
     id: "1",
@@ -84,12 +81,13 @@ export default function Receitas() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white">
+      
       {/* HERO */}
       <div className="relative w-full h-screen flex flex-col items-center justify-center text-center px-6">
         <h1 className="text-5xl md:text-7xl font-black mb-6 leading-none">
           Receitas
           <br />
-          <span className="text-transparent bg-[conic-gradient(from_0deg,#ef4444,#ec4899,#fbbf24,#ef4444)] bg-clip-text animate-[spin_25s_linear_infinite]">
+          <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#ef4444,#ec4899,#fbbf24,#ef4444)] bg-[length:300%_300%] animate-[gradientMove_6s_linear_infinite]">
             Profissionais
           </span>
         </h1>
@@ -99,7 +97,7 @@ export default function Receitas() {
         </p>
       </div>
 
-      {/* Busca */}
+      {/* BUSCA */}
       <div className="px-6 md:px-12 pb-10">
         <div className="max-w-4xl mx-auto relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -120,11 +118,22 @@ export default function Receitas() {
         </div>
       </div>
 
-      {/* Listas */}
+      {/* LISTAS */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-16 pb-20">
         <Section titulo="Recém Adicionados" icon={<Clock />} data={recemAdicionados} />
         <Section titulo="Em Alta" icon={<Flame />} data={emAlta} />
       </div>
+
+      {/* KEYFRAMES DA ANIMAÇÃO */}
+      <style>
+        {`
+          @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+        `}
+      </style>
     </div>
   );
 }
