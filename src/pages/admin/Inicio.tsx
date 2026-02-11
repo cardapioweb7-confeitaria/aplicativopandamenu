@@ -36,15 +36,15 @@ export default function Inicio() {
             </button>
           </div>
 
-          {/* Tags de Status sem bolinhas */}
+          {/* Tags de Status com fundo creme/amarelo */}
           <div className="space-y-4">
             {/* Status do Sistema */}
-            <div className="flex items-center justify-center p-4 rounded-2xl shadow-lg border border-emerald-200 whitespace-nowrap">
+            <div className="w-full flex items-center justify-center p-4 bg-amber-50 rounded-2xl shadow-lg border border-amber-200 whitespace-nowrap">
               <span className="text-lg font-bold text-emerald-900 whitespace-nowrap">Status do Sistema: Online</span>
             </div>
 
             {/* Seu Acesso */}
-            <div className="flex items-center justify-center p-4 rounded-2xl shadow-lg border border-emerald-200 whitespace-nowrap">
+            <div className="w-full flex items-center justify-center p-4 bg-amber-50 rounded-2xl shadow-lg border border-amber-200 whitespace-nowrap">
               <span className="text-lg font-bold text-emerald-900 whitespace-nowrap">Seu acesso: Vitalício</span>
             </div>
           </div>
