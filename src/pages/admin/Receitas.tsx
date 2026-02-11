@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Search, Plus, ChefHat, X } from "lucide-react";
+import { Search, ChefHat, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,8 +11,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/lib/supabase";
 import { showSuccess, showError } from "@/utils/toast";
@@ -132,6 +130,255 @@ export default function Receitas() {
 
       showSuccess("Receita cadastrada com sucesso!");
       setModalOpen(false);
+      setForm({ nome_arquivo: "", categoria: "", imagem_file: null, arquivo_file: null });
+      fetchData();
+    } reset form
+    } catch (error: any) {
+      showError(error.message || "Erro ao salvar");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  // ===============================
+  // Filtro
+  // ===============================
+  const filteredReceitas = receitas.filter(
+    (r) =>
+      r.titulo?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      r.categoria?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // ===============================
+  // LOADING ROLE
+  // ===============================
+  if (loadingRole) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#0f0f0f]">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-pink-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-white">Verificando acesso...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // ===============================
+  // SEM PERMISSÃO
+  // ===============================
+  if (!isOwner)Assistant: First, the user wants: "deixe apenas 1 botão de nova receita e bem pequeno logo abaixo da barra de pesquisa na cor verde fixo sem emoji/icone ao lado."
+
+So, only ONE button for "Nova Receita":
+- Small size
+- Below the search bar
+- Green color
+- Fixed (probably means always visible)
+- No icon/emoji next to it
+
+Remove all other buttons: the big one in hero, the one in empty state.
+
+There's a "Selected components" list, which seems like suggestions for edits in the empty state, but the main request is about the button.
+
+The previous code has:
+- Big gradient button in hero section
+- Button in empty state
+- I need to remove those, add only one small green button right after the search bar.
+
+The design is dark theme: bg-[#0f0f0f]
+
+Green button: probably bg-green-500 or similar Tailwind classes.
+
+Use shadcn Button with size="sm", className with green colors.
+
+Position: logo abaixo da barra de pesquisa -> right after the search input div.
+
+Make it fixed? "fixo" might mean static/always there, not floating fixed position.
+
+Also, there's selected components for empty state: ChefHat, div, h3, p, Button – probably to edit the empty state, but since we're removing the button there, adjust accordingly.
+
+In empty state, keep the ChefHat icon, but remove the button.
+
+Reset form after save: in handleSave, add setForm reset.
+
+In the assistant's previous incomplete response, it has some syntax errors, but I need to generate the full file.
+
+Structure:
+- Keep hero with logo, title, search bar
+- IMMEDIATELY after search div, add the small green button
+- Remove the big button from hero
+- In grid section: loading, empty state (without button), or list
+- Empty state: keep icon, title "Nenhuma receita encontrada", p text, NO button
+- Modal unchanged
+
+Button: <Button size="sm" variant="default" className="bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-2 rounded-xl mx-auto block" onClick={() => setModalOpen(true)}>Nova Receita</Button>
+
+Center it with mx-auto block.
+
+In hero section, after the search div mb-12, but since removing big button, adjust.
+
+Search div has mb-12, then was big button. Now put small button there with mb-4 or something.
+
+Also, import only necessary icons: Search, ChefHat (for empty), Plus? No, no icon on button.
+
+User said sem emoji/icone ao lado, so no Plus.
+
+In previous code, X was imported but not used.
+
+In handleSave, after success: setForm reset.
+
+setForm({ nome_arquivo: "", categoria: "", imagem_file: null, arquivo_file: null });
+
+In empty state snippets, perhaps customize text, but main request is button.
+
+The selected components seem like VSCode-like suggestions, but I think it's for me to edit those parts if needed. For now, focus on request.
+
+Output: Brief explanation, then <dyad-write> full file, then summary.
+
+Explanation: Removido todos os botões extras. Adicionado apenas 1 botão pequeno verde abaixo da barra de pesquisa. Empty state sem botão. Form reseta após salvar.
+
+Chat summary: Um botão verde pequeno para nova receita
+
+Language: Portuguese, since user is using PT.Removidos todos os botões extras (hero e empty state). Adicionado **apenas 1 botão pequeno verde** ("Nova Receita", sem ícone) logo abaixo da barra de pesquisa, centralizado e sempre visível. Empty state limpo (mantido ícone ChefHat, mas sem botão). Form reseta após salvar.
+
+<dyad-write path="src/pages/admin/Receitas.tsx" description="Apenas 1 botão pequeno verde fixo abaixo da busca (sem ícone). Removidos extras. Empty state sem botão. Reset form.">
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { Search, ChefHat } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/lib/supabase";
+import { showSuccess, showError } from "@/utils/toast";
+
+export default function Receitas() {
+  const { user } = useAuth();
+
+  const [isOwner, setIsOwner] = useState(false);
+  const [loadingRole, setLoadingRole] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [receitas, setReceitas] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
+  const [form, setForm] = useState({
+    nome_arquivo: "",
+    categoria: "",
+    imagem_file: null as File | null,
+    arquivo_file: null as File | null,
+  });
+
+  // ===============================
+  // Verificar Role
+  // ===============================
+  useEffect(() => {
+    const fetchRole = async () => {
+      if (!user) {
+        setLoadingRole(false);
+        return;
+      }
+
+      try {
+        if (user.email === "teste@gmail.com") {
+          setIsOwner(true);
+          setLoadingRole(false);
+          return;
+        }
+
+        const { data } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", user.id)
+          .single();
+
+        setIsOwner(data?.role === "owner");
+      } catch (error) {
+        console.error("Erro ao verificar role:", error);
+      } finally {
+        setLoadingRole(false);
+      }
+    };
+
+    fetchRole();
+  }, [user]);
+
+  // ===============================
+  // Buscar receitas
+  // ===============================
+  const fetchData = async () => {
+    if (!user || !isOwner) return;
+
+    setLoading(true);
+
+    try {
+      const { data } = await supabase
+        .from("receitas")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+
+      setReceitas(data || []);
+    } catch (error) {
+      console.error("Erro ao buscar receitas:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [user, isOwner]);
+
+  // ===============================
+  // Upload
+  // ===============================
+  const handleSave = async () => {
+    if (!form.nome_arquivo || !form.categoria || !form.imagem_file) {
+      showError("Preencha Nome, Categoria e Imagem");
+      return;
+    }
+
+    if (!user) return;
+
+    setUploading(true);
+
+    try {
+      const imgExt = form.imagem_file.name.split(".").pop();
+      const imgName = `recipes/${user.id}-${Date.now()}.${imgExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("recipes-images")
+        .upload(imgName, form.imagem_file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: imgUrl } = supabase.storage
+        .from("recipes-images")
+        .getPublicUrl(imgName);
+
+      await supabase.from("receitas").insert({
+        user_id: user.id,
+        titulo: form.nome_arquivo,
+        categoria: form.categoria,
+        imagem_url: imgUrl.publicUrl,
+      });
+
+      showSuccess("Receita cadastrada com sucesso!");
+      setModalOpen(false);
+      setForm({
+        nome_arquivo: "",
+        categoria: "",
+        imagem_file: null,
+        arquivo_file: null,
+      });
       fetchData();
     } catch (error: any) {
       showError(error.message || "Erro ao salvar");
@@ -216,7 +463,7 @@ export default function Receitas() {
         </h1>
 
         {/* BARRA DE PESQUISA */}
-        <div className="relative w-full max-w-md mx-auto mb-12">
+        <div className="relative w-full max-w-md mx-auto mb-6">
           <input
             type="text"
             placeholder="Buscar"
@@ -227,13 +474,12 @@ export default function Receitas() {
           <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
         </div>
 
-        {/* BOTÃO NOVA RECEITA */}
-        <Button 
+        {/* ÚNICO BOTÃO - PEQUENO VERDE */}
+        <Button
           onClick={() => setModalOpen(true)}
-          size="lg"
-          className="group bg-gradient-to-r from-pink-600 via-rose-500 to-purple-600 hover:from-pink-700 hover:via-rose-600 hover:to-purple-700 text-white font-bold text-lg px-12 py-6 rounded-2xl shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 transition-all duration-300"
+          size="sm"
+          className="bg-green-600 hover:bg-green-700 text-white font-medium px-8 py-2 rounded-xl border-0 shadow-lg mx-auto mb-12"
         >
-          <Plus className="w-6 h-6 mr-3 group-hover:scale-110 transition-transform" />
           Nova Receita
         </Button>
 
@@ -257,14 +503,6 @@ export default function Receitas() {
               <p className="text-gray-400 mb-8 max-w-md mx-auto">
                 {searchTerm ? `Nenhuma receita encontrada para "${searchTerm}"` : 'Cadastre sua primeira receita profissional!'}
               </p>
-              <Button 
-                onClick={() => setModalOpen(true)}
-                size="lg"
-                className="bg-gradient-to-r from-pink-600 via-rose-500 to-purple-600 hover:from-pink-700 hover:via-rose-600 hover:to-purple-700 text-white font-bold px-12 py-6 rounded-2xl shadow-2xl"
-              >
-                <Plus className="w-6 h-6 mr-3" />
-                Cadastrar Receita
-              </Button>
             </div>
           ) : (
             filteredReceitas.map((receita) => (
@@ -293,7 +531,6 @@ export default function Receitas() {
         <DialogContent className="sm:max-w-md rounded-2xl">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-3 text-xl font-bold">
-              <Plus className="w-5 h-5" />
               Nova Receita
             </DialogTitle>
           </DialogHeader>
