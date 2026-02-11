@@ -75,7 +75,7 @@ export default function Inicio() {
                 </span>
               </div>
               <div className="text-lg font-bold text-gray-800 whitespace-nowrap">
-                Perfil de Habilidade: 
+                Habilidade: 
                 <span className="ml-2 inline-block bg-pink-500 text-white px-2 py-0.5 rounded-md text-sm font-bold">
                   Iniciante
                 </span>
