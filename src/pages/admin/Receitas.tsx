@@ -94,6 +94,28 @@ export default function Receitas() {
 
       {/* HERO */}
       <section className="relative w-full min-h-[40vh] flex flex-col items-center justify-start pt-12 text-center px-6">
+        {/* BOTÃO PEQUENO NO CANTO ESQUERDO SUPERIOR - APENAS PARA OWNERS */}
+        {!loadingRole && isOwner && (
+          <div className="absolute top-4 left-6 z-20">
+            <Button 
+              size="sm"
+              className="px-4 py-2 font-semibold text-sm shadow-md hover:shadow-lg transition-all duration-200 border border-green-300"
+              style={{
+                backgroundColor: '#D4EDDA',
+                color: '#155724',
+                borderColor: '#C3E6CB'
+              }}
+              onClick={() => {
+                console.log('🧁 [Receitas] Botão Cadastrar Receita clicado!')
+                showSuccess('Funcionalidade em desenvolvimento!')
+              }}
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Cadastrar Receita
+            </Button>
+          </div>
+        )}
+
         {/* LOGO */}
         <img 
           src="/101012.png" 
@@ -120,23 +142,6 @@ export default function Receitas() {
             className="w-full pl-12 pr-4 py-4 text-lg bg-white border border-gray-300 rounded-xl focus:outline-none shadow-none text-gray-900"
           />
         </div>
-
-        {/* BOTÃO "Cadastrar Receita" - APENAS PARA OWNERS */}
-        {!loadingRole && isOwner && (
-          <div className="w-full max-w-md mx-auto">
-            <Button 
-              className="w-full h-14 bg-gradient-to-r from-pink-600 via-purple-600 to-pink-500 hover:from-pink-700 hover:via-purple-700 hover:to-pink-600 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]"
-              onClick={() => {
-                console.log('🧁 [Receitas] Botão Cadastrar Receita clicado!')
-                // Aqui você pode abrir o modal ou navegar
-                showSuccess('Funcionalidade em desenvolvimento!')
-              }}
-            >
-              <Plus className="w-6 h-6 mr-3" />
-              Cadastrar Receita
-            </Button>
-          </div>
-        )}
 
         {/* MENSAGEM PARA USUÁRIOS NÃO-OWNER */}
         {!loadingRole && !isOwner && (
