@@ -60,16 +60,16 @@ export default function Inicio() {
               </button>
             </div>
 
-            {/* Tags de Status com fundo creme/amarelo */}
-            <div className="space-y-4">
-              {/* Status do Sistema */}
-              <div className="w-full flex items-center justify-center p-4 bg-amber-50 rounded-2xl shadow-lg border border-amber-200 whitespace-nowrap">
-                <span className="text-lg font-bold text-emerald-900 whitespace-nowrap">Status do Sistema: Online</span>
+            {/* Status simples - texto empilhado sem background */}
+            <div className="space-y-2 text-center">
+              <div className="text-lg font-bold text-emerald-900">
+                Status da conta: <span className="text-emerald-700">Ativa</span>
               </div>
-
-              {/* Seu Acesso */}
-              <div className="w-full flex items-center justify-center p-4 bg-amber-50 rounded-2xl shadow-lg border border-amber-200 whitespace-nowrap">
-                <span className="text-lg font-bold text-emerald-900 whitespace-nowrap">Seu acesso: Vitalício</span>
+              <div className="text-lg font-bold text-emerald-900">
+                Tipo de Acesso: <span className="text-emerald-700">Premium</span>
+              </div>
+              <div className="text-lg font-bold text-emerald-900">
+                Último acesso: <span className="text-emerald-700">15/10/2024 14:32</span>
               </div>
             </div>
           </CardContent>
