@@ -111,7 +111,7 @@ export default function Receitas() {
               placeholder="Buscar receitas ou categorias..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 text-lg rounded-2xl font-medium focus:outline-none focus:ring-0"
+              className="w-full pl-12 pr-4 py-4 text-base font-normal placeholder:text-sm placeholder:font-normal placeholder:text-white/80 focus:outline-none focus:ring-0"
               style={{
                 backgroundColor: '#ec4899',
                 color: 'white',
