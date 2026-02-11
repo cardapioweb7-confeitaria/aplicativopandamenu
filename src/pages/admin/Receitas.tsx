@@ -95,7 +95,7 @@ export default function Receitas() {
       <div className="relative w-full -mx-4 md:-mx-8 h-[300px] sm:h-[400px] md:h-[500px] mb-16 md:mb-20 overflow-hidden rounded-3xl shadow-2xl">
         {/* Imagem de fundo */}
         <img
-          src="/hero-receitas.jpg"
+          src="/hero"
           alt="Hero Receitas"
           className="w-full h-full object-cover"
           loading="eager"
