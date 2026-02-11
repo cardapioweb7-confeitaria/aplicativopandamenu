@@ -9,14 +9,14 @@ export default function Inicio() {
       <Card className="w-full max-w-md border-0 shadow-2xl rounded-3xl overflow-hidden bg-white">
         <CardContent className="pt-4 md:pt-12 p-8 md:p-12 pb-16 md:pb-20 text-center">
           {/* Logo com borda animada estilo Instagram Stories */}
-          <div className="relative mx-auto mb-8 w-72 h-72">
+          <div className="relative mx-auto mb-8 w-64 h-64">
             {/* Anel gradient FULL SIZE - SEM padding/sombra para máxima visibilidade */}
             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-400 via-purple-400 to-orange-400 animate-[spin_6s_linear_infinite]" />
             
-            {/* Círculo interno BRANCO - inset-20 cria anel de 80px de espessura */}
-            <div className="absolute inset-20 bg-gradient-to-br from-white to-slate-50 shadow-3xl rounded-full flex items-center justify-center z-10">
-              {/* Emoji do bolo - tamanho perfeito para inner 112px */}
-              <div className="text-6xl">🎂</div>
+            {/* Círculo interno BRANCO - inset-16 cria anel de 32px de espessura */}
+            <div className="absolute inset-16 bg-gradient-to-br from-white to-slate-50 shadow-3xl rounded-full flex items-center justify-center z-10">
+              {/* Emoji do bolo - tamanho otimizado para o inner */}
+              <div className="text-7xl">🎂</div>
             </div>
           </div>
 
