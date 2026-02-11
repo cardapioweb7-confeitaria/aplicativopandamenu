@@ -62,14 +62,17 @@ export default function Inicio() {
 
             {/* Status simples - texto empilhado sem background, centralizado no bloco mas alinhado à esquerda */}
             <div className="space-y-2 mx-auto text-left max-w-md">
-              <div className="text-lg font-bold text-emerald-900 whitespace-nowrap">
-                Status da conta: <span className="text-emerald-700">Ativa</span>
+              <div className="text-lg font-bold text-gray-600 whitespace-nowrap">
+                Status da Conta: 
+                <span className="ml-2 inline-block bg-pink-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                  Ativa
+                </span>
               </div>
-              <div className="text-lg font-bold text-emerald-900 whitespace-nowrap">
-                Tipo de Acesso: <span className="text-emerald-700">Premium</span>
-              </div>
-              <div className="text-lg font-bold text-emerald-900 whitespace-nowrap">
-                Último acesso: <span className="text-emerald-700">15/10/2024 14:32</span>
+              <div className="text-lg font-bold text-gray-600 whitespace-nowrap">
+                Seu acesso é: 
+                <span className="ml-2 inline-block bg-pink-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                  Vitalício
+                </span>
               </div>
             </div>
           </CardContent>
