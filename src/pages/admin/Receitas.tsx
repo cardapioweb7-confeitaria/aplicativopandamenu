@@ -4,10 +4,10 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#0f0f0f] text-white">
 
-      {/* ANIMAÇÃO DO GRADIENTE */}
+      {/* ANIMAÇÃO DO GRADIENTE DOURADO */}
       <style>
         {`
-          @keyframes gradientMove {
+          @keyframes goldGradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
@@ -21,7 +21,7 @@ export default function Home() {
         <h1 className="text-5xl md:text-7xl font-black mb-6 leading-none">
           Receitas
           <br />
-          <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#ef4444,#ec4899,#fbbf24,#ef4444)] bg-[length:300%_300%] animate-[gradientMove_6s_linear_infinite]">
+          <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#b88900,#fbbf24,#ffffff,#fbbf24,#b88900)] bg-[length:300%_300%] animate-[goldGradient_6s_linear_infinite]">
             Profissionais
           </span>
         </h1>
@@ -30,8 +30,8 @@ export default function Home() {
           Descubra receitas incríveis <br />
           para elevar sua confeitaria para <br />
           o{" "}
-          <span className="text-[#fbbf24] font-semibold">
-            próximo Nível
+          <span className="text-[#fbbf24] font-semibold underline underline-offset-4 decoration-2">
+            próximo Nível!
           </span>
         </p>
 
