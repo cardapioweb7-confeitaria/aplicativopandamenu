@@ -48,6 +48,166 @@ const receitasMock: Receita[] = [
     dataAdicionado: '2024-01-12'
   },
   {
+    id: 'import { Download, Clock, Flame, Tag, Eye, Search, X, Play } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/uiAssistant: First, the user wants to animate the gradient on "Profissionais" using the current palette: from-red-500 via-pink-500 to-yellow-400. Make it animated by changing colors, specifically rotating the gradient.
+
+The selected component is the span: <span className="text-transparent bg-gradient-to-r from-red-500 via-pink-500 to-yellow-400 bg-clip-text">Profissionais</span>
+
+To animate a gradient, a common Tailwind way is to use a conic-gradient that rotates infinitely.
+
+I need to change it to something like:
+
+background: conic-gradient(from 0deg, red-500, pink-500, yellow-400, red-500);
+
+And add animate-spin, but animate-spin is for full 360 rotation, which works great for conic gradients.
+
+Tailwind's animate-spin rotates the element, and with conic-gradient, it creates a nice shimmer/rotation effect.
+
+But animate-spin rotates the whole element, which might not be ideal for text. For text gradients, a better way is to use @keyframes for background position or a rotating conic gradient.
+
+Since it's Tailwind, I can add custom CSS with Tailwind's arbitrary values or define a keyframe.
+
+The guidelines say: Use Tailwind CSS extensively. But for animations like this, we might need custom styles.
+
+A popular technique is:
+
+className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-pink-500 to-yellow-400 animate-gradient-x" or something, but need to define the animation.
+
+Since it's a React app with Tailwind, I can add a style tag or use Tailwind config, but simplest is to use inline style or add a class with custom animation.
+
+To keep it simple and Tailwind-only, use:
+
+<span className="text-transparent bg-[conic-gradient(red,pink,yellow,red)] bg-clip-text animate-[spin_20s_linear_infinite]">
+
+Tailwind supports arbitrary values for bg-gradient and animate.
+
+Yes! Tailwind v3+ supports arbitrary animations like animate-[spin_20s_linear_infinite].
+
+Colors: from-red-500 is #ef4444, pink-500 is #ec4899, yellow-400 is #fbbf24.
+
+But for conic-gradient, use the hex or Tailwind color names in arbitrary.
+
+Tailwind arbitrary gradients support color names.
+
+So, bg-[conic-gradient(from_0deg,from-red-500,via-pink-500,to-yellow-400,from-red-500)]
+
+And animate-[spin_20s_linear_infinite] for slow rotation.
+
+To make it seamless, repeat the first color at the end.
+
+Perfect.
+
+Also, ensure it's slow, like 20s or 30s for subtle animation.
+
+The file is src/pages/admin/Receitas.tsx, and I need to output the entire file in <dyad-write>, as per rules: ALWAYS write the entire file.
+
+Check imports: no new imports needed.
+
+Before changes: explain briefly: "Vou animar o gradiente do texto 'Profissionais' criando uma rotação suave com conic-gradient e animação spin customizada."
+
+Then, after changes: "Adicionou animação rotativa suave ao gradiente do título 'Profissionais'."
+
+Chat summary: "Animando gradiente do texto Profissionais"
+
+The previous response had a truncated dyad-write, but I need to output the full correct file.
+
+In my previous simulation, it was cut off, but now output properly.
+
+The file has a small error in the provided code? No, from the initial file.
+
+In ReceitaPoster, img src has replace('h=300', 'h=600'), but unsplash urls have h=600 already? Anyway, keep as is.
+
+In the h1, it's already leading-none from previous change.
+
+Now, update only the span class.
+
+Change to:
+
+<span className="text-transparent bg-[conic-gradient(from_0deg,_red,_orange,_yellow,_red)] bg-clip-text animate-[spin_25s_linear_infinite]">Profissionais</span>
+
+Use Tailwind colors: bg-[conic-gradient(from_0deg,#ef4444,#f472b6,#fbbf24,#ef4444)] bg-clip-text animate-[spin_25s_linear_infinite]
+
+To match exactly: red-500 #ef4444, pink-500 #ec4899, yellow-400 #fbbf24.
+
+Yes.
+
+For smoother, add more stops or via.
+
+But conic-gradient(from_0deg, #ef4444 0deg, #ec4899 120deg, #fbbf24 240deg, #ef4444 360deg)
+
+Tailwind arbitrary supports that.
+
+Simple: bg-[conic-gradient(red-500,pink-500,yellow-400,red-500)]
+
+Tailwind color names work in arbitrary values.
+
+Yes.
+
+And animate-spin but slower: Tailwind has animate-spin which is 1.6s, too fast. So custom: animate-[spin_20s_linear_infinite]
+
+Perfect.
+
+Also, to prevent text rotation, since spin rotates the element, but for gradient animation on text with bg-clip-text, it works because the background rotates relative to the text.
+
+Yes, it creates a nice color shift effect without rotating the text shape.
+
+Great.
+
+Now, output the full file.Vou animar o gradiente do texto "Profissionais" usando `conic-gradient` com as cores atuais (vermelho, rosa, amarelo) e uma rotação suave infinita de 25 segundos para um efeito dinâmico e sutil.
+
+<dyad-write path="src/pages/admin/Receitas.tsx" description="Adicionando animação rotativa conic-gradient ao texto 'Profissionais' com spin customizado lento.">
+"use client";
+
+import { Download, Clock, Flame, Tag, Eye, Search, X, Play } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { useState } from 'react'
+
+// Interface para receitas mockadas
+interface Receita {
+  id: string
+  titulo: string
+  categoria: string
+  imagemUrl: string
+  pdfUrl: string
+  views: number
+  dataAdicionado: string
+}
+
+// Dados mockados (sem banco)
+const receitasMock: Receita[] = [
+  {
+    id: '1',
+    titulo: 'Bolo de Chocolate Perfeito',
+    categoria: 'Bolos',
+    imagemUrl: 'https://images.unsplash.com/photo-1562440499-64b4f3163e9a?w=400&h=600&fit=crop',
+    pdfUrl: 'https://example.com/bolo-chocolate.pdf',
+    views: 1245,
+    dataAdicionado: '2024-01-15'
+  },
+  {
+    id: '2',
+    titulo: 'Brigadeiro Gourmet',
+    categoria: 'Doces',
+    imagemUrl: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=600&fit=crop',
+    pdfUrl: 'https://example.com/brigadeiro-gourmet.pdf',
+    views: 987,
+    dataAdicionado: '2024-01-14'
+  },
+  {
+    id: '3',
+    titulo: 'Torta de Limão Clássica',
+    categoria: 'Tortas',
+    imagemUrl: 'https://images.unsplash.com/photo-1603048297194-9e04b8a61a17?w=400&h=600&fit=crop',
+    pdfUrl: 'https://example.com/torta-limao.pdf',
+    views: 1567,
+    dataAdicionado: '2024-01-12'
+  },
+  {
     id: '4',
     titulo: 'Cupcakes de Baunilha',
     categoria: 'Cupcakes',
@@ -110,7 +270,7 @@ export default function Receitas() {
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 drop-shadow-2xl leading-none tracking-tight">
             Receitas
             <br />
-            <span className="text-transparent bg-gradient-to-r from-red-500 via-pink-500 to-yellow-400 bg-clip-text">Profissionais</span>
+            <span className="text-transparent bg-[conic-gradient(from_0deg,red-500,pink-500,yellow-400,red-500)] bg-clip-text animate-[spin_25s_linear_infinite]">Profissionais</span>
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 font-light mb-12 max-w-2xl mx-auto leading-relaxed">
             Descubra receitas incríveis para elevar sua confeitaria
