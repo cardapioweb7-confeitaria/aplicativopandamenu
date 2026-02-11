@@ -8,7 +8,7 @@ export default function Inicio() {
     <>
       <div className="min-h-screen flex flex-col items-center justify-start md:justify-center pt-2 px-4 pb-8 md:p-6 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200">
         <Card className="w-full max-w-md border-0 rounded-3xl overflow-hidden bg-white">
-          <CardContent className="pt-4 md:pt-12 p-8 md:p-12 pb-8 md:pb-12 text-center">
+          <CardContent className="pt-12 md:pt-20 p-8 md:p-12 pb-8 md:pb-12 text-center">
             {/* Logo EXATA do cardapio público + borda rosa ANIMADA */}
             <div className="relative mx-auto mb-2 w-48 h-48">
               {/* Anel gradient FULL SIZE - borda colorida externa girando SOZINHA */}
