@@ -25,14 +25,14 @@ export default function Inicio() {
           </div>
 
           {/* Nome do Cliente com ícone de lápis (visual apenas) */}
-          <div className="relative mb-10">
+          <div className="relative mb-10 p-6 rounded-2xl border border-dotted border-gray-200/50 bg-gradient-to-b from-gray-50/80 to-transparent shadow-sm">
             <h1 className="text-4xl font-black text-gray-900 mb-2 tracking-tight">Bruno</h1>
             <button 
-              className="absolute -top-2 -right-2 p-1 bg-white rounded-full shadow-md hover:bg-gray-100 transition-all cursor-pointer group"
+              className="absolute -top-3 -right-3 p-1.5 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-all cursor-pointer group border border-gray-100"
               title="Alterar nome (em breve)"
               type="button"
             >
-              <Edit className="w-5 h-5 text-gray-500 group-hover:text-pink-500 transition-colors" />
+              <Edit className="w-4 h-4 text-gray-500 group-hover:text-pink-500 transition-colors" />
             </button>
           </div>
 
