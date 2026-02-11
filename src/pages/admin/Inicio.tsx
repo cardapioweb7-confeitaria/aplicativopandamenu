@@ -22,7 +22,7 @@ export default function Inicio() {
               
               {/* Container ESTÁTICO da imagem + bordas internas (z-10 > girando) */}
               <div 
-                className="relative z-10 w-full h-full flex items-center justify-center rounded-full shadow-lg"
+                className="relative z-10 w-full h-full flex items-center justify-center rounded-full"
                 style={{
                   padding: '6px',
                   backgroundClip: 'content-box',
@@ -32,18 +32,17 @@ export default function Inicio() {
               >
                 {/* Borda branca interna + padding - EXATO do Logo.tsx */}
                 <div 
-                  className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-white shadow-inner"
+                  className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-white"
                   style={{
                     border: '3px solid white',
-                    padding: '2px',
-                    boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.8)'
+                    padding: '2px'
                   }}
                 >
                   {/* Imagem PREENCHE perfeitamente - object-cover para foto ESTÁTICA */}
                   <img 
                     src="/1012.jpeg" 
                     alt="Foto" 
-                    className="w-full h-full object-cover rounded-full block shadow-lg" 
+                    className="w-full h-full object-cover rounded-full block" 
                   />
                 </div>
               </div>
