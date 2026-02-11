@@ -13,13 +13,13 @@ export default function Inicio() {
             {/* Anel gradient FULL SIZE - borda colorida externa */}
             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-400 via-purple-400 to-orange-400 animate-[spin_6s_linear_infinite]" />
             
-            {/* Container BRANCO com overflow-hidden - cria borda branca interna */}
+            {/* Container BRANCO com overflow-hidden - cria borda branca interna PERFEITA */}
             <div className="absolute inset-[12px] bg-gradient-to-br from-white to-slate-50 shadow-3xl rounded-full overflow-hidden relative z-10">
-              {/* Foto perfeitamente centralizada com borda branca 3px ao redor */}
+              {/* Foto PREENCHE perfeitamente o white ring - SEM borda interna extra */}
               <img 
                 src="/1012.jpeg" 
                 alt="Foto" 
-                className="absolute inset-[3px] w-full h-full object-cover rounded-full block shadow-lg" 
+                className="w-full h-full object-cover rounded-full block shadow-lg" 
               />
             </div>
           </div>
