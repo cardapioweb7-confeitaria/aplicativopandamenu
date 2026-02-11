@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,33 @@ import { supabase } from '@/lib/supabase';
 
 export default function Inicio() {
   const navigate = useNavigate();
+  const [nivel, setNivel] = useState('cliente');
+  const [loadingNivel, setLoadingNivel] = useState(true);
+
+  useEffect(() => {
+    const fetchNivel = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          const { data } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single();
+          
+          const userRole = data?.role || 'user';
+          setNivel(userRole === 'admin' || userRole === 'owner' ? 'Administrador' : 'cliente');
+        }
+      } catch (error) {
+        console.error('Erro ao buscar nível:', error);
+        setNivel('cliente');
+      } finally {
+        setLoadingNivel(false);
+      }
+    };
+
+    fetchNivel();
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -36,7 +63,7 @@ export default function Inicio() {
               </Button>
             </div>
 
-            {/* Status ultra-compact 60px - APENAS ISSO AGORA */}
+            {/* Status ultra-compact 60px */}
             <div className="space-y-1 mx-auto w-44 p-3 rounded-xl border border-dashed border-pink-200 bg-white/70 shadow-md backdrop-blur-sm text-xs" style={{ fontFamily: "'Poppins', sans-serif" }}>
               <div className="grid grid-cols-[1fr_auto] items-center gap-0.5">
                 <span className="font-semibold text-gray-700 text-[11px]">Seu acesso é</span>
@@ -53,7 +80,7 @@ export default function Inicio() {
               <div className="grid grid-cols-[1fr_auto] items-center gap-0.5">
                 <span className="font-semibold text-gray-700 text-[11px]">Nível Atual</span>
                 <span className="bg-[#660033]/70 text-white px-1.5 py-px rounded text-[10px] font-bold">
-                  Iniciante
+                  {loadingNivel ? 'Carregando...' : nivel}
                 </span>
               </div>
             </div>
