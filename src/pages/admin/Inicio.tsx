@@ -62,21 +62,21 @@ export default function Inicio() {
 
             {/* Status simples - texto empilhado sem background, centralizado no bloco mas alinhado à esquerda */}
             <div className="space-y-2 mx-auto text-left max-w-md" style={{ fontFamily: "'Poppins', sans-serif" }}>
-              <div className="text-lg font-bold text-gray-800 whitespace-nowrap">
-                Sua conta é 
-                <span className="ml-2 inline-block bg-[#660033] text-white px-2 py-0.5 rounded-md text-sm font-bold">
+              <div className="flex justify-between items-baseline">
+                <span className="text-lg font-bold text-gray-800">Sua conta é</span>
+                <span className="inline-block bg-[#660033] text-white px-2 py-0.5 rounded-md text-sm font-bold">
                   Premium
                 </span>
               </div>
-              <div className="text-lg font-bold text-gray-800 whitespace-nowrap">
-                Seu acesso é 
-                <span className="ml-2 inline-block bg-[#660033] text-white px-2 py-0.5 rounded-md text-sm font-bold">
+              <div className="flex justify-between items-baseline">
+                <span className="text-lg font-bold text-gray-800">Seu acesso é</span>
+                <span className="inline-block bg-[#660033] text-white px-2 py-0.5 rounded-md text-sm font-bold">
                   Vitalício
                 </span>
               </div>
-              <div className="text-lg font-bold text-gray-800 whitespace-nowrap">
-                Meu Nível é 
-                <span className="ml-2 inline-block bg-[#660033] text-white px-2 py-0.5 rounded-md text-sm font-bold">
+              <div className="flex justify-between items-baseline">
+                <span className="text-lg font-bold text-gray-800">Meu Nível é</span>
+                <span className="inline-block bg-[#660033] text-white px-2 py-0.5 rounded-md text-sm font-bold">
                   Iniciante
                 </span>
               </div>
