@@ -157,50 +157,47 @@ export default function Inicio() {
   return (
     <>
       <div className="min-h-screen flex flex-col items-center justify-start md:justify-center pt-2 px-4 pb-8 md:p-6 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200">
-        <Card className="w-full max-w-md border-0 rounded-3xl overflow-hidden bg-white mt-8 md:mt-12">
-          <CardContent className="relative pt-12 md:pt-20 p-8 md:p-12 pb-8 md:pb-12 text-center">
+        <Card className="w-full max-w-xs border-0 rounded-2xl overflow-hidden bg-white mt-6 md:mt-8">
+          <CardContent className="relative pt-6 p-4 pb-6 text-center">
             {/* BOTÃO SAIR VERMELHO - APENAS MOBILE - TOP-LEFT ACIMA DA LOGO */}
-            <div className="md:hidden absolute top-4 left-4 z-30">
+            <div className="md:hidden absolute top-2 left-2 z-30">
               <Button
                 variant="destructive"
                 size="sm"
-                className="px-3 py-1 text-xs font-semibold h-auto"
+                className="px-2 py-1 text-xs font-semibold h-auto"
                 onClick={handleLogout}
               >
                 SAIR
               </Button>
             </div>
 
-            {/* Logo EXATA do cardapio público + borda rosa ANIMADA */}
-            <div className="relative mx-auto mb-2 w-48 h-48">
-              {/* Anel gradient FULL SIZE - borda colorida externa girando SOZINHA */}
+            {/* Logo compacta 64px */}
+            <div className="relative mx-auto mb-2 w-16 h-16">
+              {/* Anel gradient */}
               <div 
                 className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-400 via-purple-400 to-orange-400 animate-[spin_6s_linear_infinite]"
-                style={{
-                  zIndex: 1,
-                  filter: 'blur(0px)'
-                }}
+                style={{ zIndex: 1 }}
               />
               
-              {/* Container ESTÁTICO da imagem + bordas internas (z-10 > girando) */}
+              {/* Container da imagem */}
               <div 
                 className="relative z-10 w-full h-full flex items-center justify-center rounded-full"
                 style={{
-                  padding: '6px',
+                  padding: '3px',
                   backgroundClip: 'content-box',
                   WebkitBackgroundClip: 'content-box',
                   boxSizing: 'border-box'
                 }}
               >
-                {/* Borda branca interna + padding - EXATO do Logo.tsx */}
+                {/* Borda branca */}
                 <div 
                   className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-white"
                   style={{
-                    border: '3px solid white',
-                    padding: '2px'
+                    border: '2px solid white',
+                    padding: '1px'
                   }}
                 >
-                  {/* Imagem ou Placeholder dinâmico */}
+                  {/* Imagem ou Placeholder */}
                   {imageSrc ? (
                     <img 
                       src={imageSrc} 
@@ -209,42 +206,42 @@ export default function Inicio() {
                       onError={() => setImageSrc(null)}
                     />
                   ) : (
-                    <User className="w-full h-full text-gray-300 p-4 flex-shrink-0" />
+                    <User className="w-full h-full text-gray-300 p-1 flex-shrink-0" />
                   )}
                 </div>
               </div>
             </div>
 
-            {/* Nome do Cliente com ícone de lápis inline na mesma linha */}
-            <div className="flex items-center justify-center gap-2 mb-6 p-4 rounded-2xl bg-white">
-              <h1 className="text-3xl font-black text-gray-900 tracking-tight">{nameDisplay}</h1>
+            {/* Nome compacto */}
+            <div className="flex items-center justify-center gap-1 mb-3 p-2 rounded-xl bg-white/80">
+              <h1 className="text-lg font-black text-gray-900 tracking-tight">{nameDisplay}</h1>
               <button 
-                className="p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-all cursor-pointer group border border-gray-100 flex-shrink-0"
+                className="p-1.5 bg-white rounded-full shadow-md hover:bg-gray-100 transition-all cursor-pointer group border border-gray-200 flex-shrink-0"
                 title="Editar perfil"
                 type="button"
                 onClick={handleEditClick}
               >
-                <Edit className="w-5 h-5 text-gray-500 group-hover:text-pink-500 transition-colors" />
+                <Edit className="w-4 h-4 text-gray-500 group-hover:text-pink-500 transition-colors" />
               </button>
             </div>
 
-            {/* Status simples - texto empilhado sem background, centralizado no bloco mas alinhado à esquerda */}
-            <div className="space-y-2 mx-auto w-64 p-6 rounded-2xl border-2 border-dashed border-pink-300 bg-white/50 shadow-lg backdrop-blur-sm" style={{ fontFamily: "'Poppins', sans-serif" }}>
-              <div className="grid grid-cols-[1fr_auto] items-center gap-1">
-                <span className="text-lg font-medium text-gray-800">Seu acesso é</span>
-                <span className="inline-block bg-[#660033]/70 text-white px-2 py-0.5 rounded-md text-sm font-bold">
+            {/* Status ultra-compact 60px */}
+            <div className="space-y-1 mx-auto w-44 p-3 rounded-xl border border-dashed border-pink-200 bg-white/70 shadow-md backdrop-blur-sm text-xs" style={{ fontFamily: "'Poppins', sans-serif" }}>
+              <div className="grid grid-cols-[1fr_auto] items-center gap-0.5">
+                <span className="font-semibold text-gray-700 text-[11px]">Seu acesso é</span>
+                <span className="bg-[#660033]/70 text-white px-1.5 py-px rounded text-[10px] font-bold">
                   Vitalício
                 </span>
               </div>
-              <div className="grid grid-cols-[1fr_auto] items-center gap-1">
-                <span className="text-lg font-medium text-gray-800">Você agora é</span>
-                <span className="inline-block bg-[#660033]/70 text-white px-2 py-0.5 rounded-md text-sm font-bold">
+              <div className="grid grid-cols-[1fr_auto] items-center gap-0.5">
+                <span className="font-semibold text-gray-700 text-[11px]">Você agora é</span>
+                <span className="bg-[#660033]/70 text-white px-1.5 py-px rounded text-[10px] font-bold">
                   Premium
                 </span>
               </div>
-              <div className="grid grid-cols-[1fr_auto] items-center gap-1">
-                <span className="text-lg font-medium text-gray-800">Nível Atual é</span>
-                <span className="inline-block bg-[#660033]/70 text-white px-2 py-0.5 rounded-md text-sm font-bold">
+              <div className="grid grid-cols-[1fr_auto] items-center gap-0.5">
+                <span className="font-semibold text-gray-700 text-[11px]">Nível Atual</span>
+                <span className="bg-[#660033]/70 text-white px-1.5 py-px rounded text-[10px] font-bold">
                   Iniciante
                 </span>
               </div>
@@ -252,9 +249,9 @@ export default function Inicio() {
           </CardContent>
         </Card>
 
-        {/* CARD REFAZIDO: Instale o App - AZUL ESCURO #010135 + faviconapp.png + selo Recomendado + stats abaixo */}
+        {/* CARD Instale o App - mantido */}
         <Card className="w-full max-w-md border-0 rounded-3xl overflow-hidden bg-[#010135] mt-6 relative">
-          {/* Faixa "Recomendado" estilo ribbon igual promoções */}
+          {/* Faixa "Recomendado" */}
           <div 
             className="absolute top-4 -right-12 bg-gradient-to-r from-pink-400 via-rose-400 to-pink-500 text-white font-bold px-6 py-2 transform rotate-45 shadow-lg z-10"
             style={{ 
@@ -268,7 +265,6 @@ export default function Inicio() {
           
           <CardContent className="p-8 text-center pt-16 md:pt-20">
             <div className="flex flex-col items-center space-y-6 w-full max-w-xs">
-              {/* ÍCONE à ESQUERDA + TÍTULO lado a lado, centralizado - QUEBRA EXATA APÓS 'INSTALE' */}
               <div className="flex items-center gap-4 justify-center">
                 <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center p-3 shrink-0 shadow-2xl">
                   <img 
@@ -282,13 +278,11 @@ export default function Inicio() {
                 </h2>
               </div>
               
-              {/* Textos centralizados - SUBTEXTO EM 2 LINHAS COM ESPAÇAMENTO MÍNIMO */}
               <div className="text-white text-base max-w-sm mx-auto leading-5 text-center space-y-0.5">
                 <span className="block">Todas as funcionalidades na</span>
                 <span className="block">palma da sua mão agora!</span>
               </div>
               
-              {/* Botão NEON DOURADO abaixo, centralizado full-width responsivo */}
               <Button 
                 className="w-full h-14 bg-gradient-to-r from-yellow-400 via-amber-400 to-yellow-500 hover:from-yellow-500 hover:via-amber-500 hover:to-yellow-600 text-gray-900 font-bold text-lg rounded-2xl px-8 shadow-lg shadow-yellow-500/50 hover:shadow-xl hover:shadow-yellow-500/70 transition-all duration-300 glow-neon"
               >
@@ -299,7 +293,7 @@ export default function Inicio() {
         </Card>
       </div>
 
-      {/* Modal de Edição de Perfil - AGORA COM UPLOAD DE ARQUIVO */}
+      {/* Modal de Edição de Perfil */}
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
