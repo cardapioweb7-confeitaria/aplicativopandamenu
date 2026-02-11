@@ -1,9 +1,10 @@
 "use client";
 
-import { ReactNode } from 'react'
-import { ArrowLeft } from 'lucide-react'
+import { ReactNode, useState } from 'react'
+import { ArrowLeft, ChevronDown, ChevronUp } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface MobileLayoutProps {
   tabs: string[]
@@ -16,6 +17,12 @@ interface MobileLayoutProps {
 }
 
 export function MobileLayout({ tabs, labels, activeTab, onTabChange, showBack = false, onBack, content }: MobileLayoutProps) {
+  const [showNav, setShowNav] = useState(true)
+
+  const toggleNav = () => {
+    setShowNav(!showNav)
+  }
+
   return (
     <div className="min-h-screen bg-pink-50 flex flex-col">
       <div className="flex-1 pb-28"> {/* pb-28 = 112px → cobre nav + margem segura */}
@@ -37,32 +44,73 @@ export function MobileLayout({ tabs, labels, activeTab, onTabChange, showBack = 
         </div>
       </div>
       
-      <div
-        className="fixed bottom-0 left-0 right-0 border-t border-pink-200 rounded-t-3xl z-[9999] shadow-2xl"
-        style={{
-          background: 'linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #f9a8d4 100%)',
-          backgroundSize: '200% 200%',
-          animation: 'gradient-x 3s ease infinite'
-        }}
-      >
-        <div className="grid grid-cols-3 gap-2 p-3 px-6">
-          {tabs.map((tab) => (
+      {/* Nav colapsível com animação */}
+      <AnimatePresence mode="wait">
+        {showNav ? (
+          <motion.div
+            initial={{ y: 0 }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="fixed bottom-0 left-0 right-0 border-t border-pink-200 rounded-t-3xl z-[9999] shadow-2xl"
+            style={{
+              background: 'linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #f9a8d4 100%)',
+              backgroundSize: '200% 200%',
+              animation: 'gradient-x 3s ease infinite'
+            }}
+          >
+            <div className="relative">
+              {/* Botão central para ocultar */}
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                <Button
+                  onClick={toggleNav}
+                  variant="ghost"
+                  size="icon"
+                  className="h-12 w-12 rounded-full bg-white/90 backdrop-blur-sm shadow-xl border-2 border-white hover:bg-white hover:scale-110 transition-all duration-200"
+                >
+                  <ChevronDown className="w-5 h-5 text-pink-600" />
+                </Button>
+              </div>
+              
+              {/* Tabs ao redor do botão central */}
+              <div className="grid grid-cols-3 gap-2 p-3 px-6 pt-16 pb-4 opacity-90">
+                {tabs.map((tab) => (
+                  <Button
+                    key={tab}
+                    variant={activeTab === tab ? "default" : "ghost"}
+                    className={cn(
+                      "h-14 rounded-2xl font-bold text-sm transition-all duration-300 shadow-lg hover:shadow-xl active:scale-[0.98]",
+                      activeTab === tab
+                        ? "bg-white text-[#ec4899] shadow-pink-500/50"
+                        : "text-white/90 hover:bg-white/20 hover:text-white bg-transparent"
+                    )}
+                    onClick={() => onTabChange(tab)}
+                  >
+                    {labels[tab]}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div
+            initial={{ y: '100%' }}
+            animate={{ y: '100%' }}
+            exit={{ y: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999]"
+          >
             <Button
-              key={tab}
-              variant={activeTab === tab ? "default" : "ghost"}
-              className={cn(
-                "h-14 rounded-2xl font-bold text-sm transition-all duration-300 shadow-lg hover:shadow-xl active:scale-[0.98]",
-                activeTab === tab
-                  ? "bg-white text-[#ec4899] shadow-pink-500/50"
-                  : "text-white/90 hover:bg-white/20 hover:text-white bg-transparent"
-              )}
-              onClick={() => onTabChange(tab)}
+              onClick={toggleNav}
+              variant="ghost"
+              size="icon"
+              className="h-14 w-14 rounded-full bg-white/90 backdrop-blur-sm shadow-2xl border-4 border-white hover:bg-white hover:scale-110 transition-all duration-200"
             >
-              {labels[tab]}
+              <ChevronUp className="w-6 h-6 text-pink-600" />
             </Button>
-          ))}
-        </div>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
