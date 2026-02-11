@@ -141,14 +141,6 @@ export default function Receitas() {
             className="w-full pl-12 pr-4 py-4 text-lg bg-white border border-gray-300 rounded-xl focus:outline-none shadow-none text-gray-900"
           />
         </div>
-
-        {/* MENSAGEM PARA USUÁRIOS NÃO-OWNER */}
-        {!loadingRole && !isOwner && (
-          <div className="w-full max-w-md mx-auto mt-8 p-6 bg-gradient-to-r from-gray-800 to-gray-900 rounded-2xl border border-gray-700">
-            <p className="text-gray-300 text-lg mb-4">🔒 Acesso Restrito</p>
-            <p className="text-gray-400 text-sm">Apenas administradores podem cadastrar receitas.</p>
-          </div>
-        )}
       </section>
 
       {/* CONTEÚDO ABAIXO - Grid de Cards */}
