@@ -14,6 +14,8 @@ import Comunidade from './Comunidade'
 import Preview from './Preview'
 import DesignSettings from './DesignSettings'
 import ProductManager from './ProductManager'
+import Clientes from './Clientes'
+import Precificacao from './Precificacao'
 
 export default function AdminLayout() {
   const [isCardapioMode, setIsCardapioMode] = useState(false)
@@ -22,7 +24,7 @@ export default function AdminLayout() {
 
   // Tabs por modo
   const mainTabs = ['inicio', 'receitas', 'arquivos', 'toppers', 'comunidade', 'cardapio']
-  const cardapioTabs = ['previa', 'design', 'produtos', 'voltar']
+  const cardapioTabs = ['previa', 'design', 'produtos', 'clientes', 'precificacao', 'voltar']
   const currentTabs = isCardapioMode ? cardapioTabs : mainTabs
 
   // Labels por modo
@@ -38,6 +40,8 @@ export default function AdminLayout() {
     previa: 'Prévia',
     design: 'Design',
     produtos: 'Produtos',
+    clientes: 'Clientes',
+    precificacao: 'Precificação',
     voltar: 'Voltar'
   }
   const currentLabels = isCardapioMode ? cardapioLabels : mainLabels
@@ -51,7 +55,9 @@ export default function AdminLayout() {
     comunidade: <Comunidade />,
     previa: <Preview />,
     design: <DesignSettings />,
-    produtos: <ProductManager />
+    produtos: <ProductManager />,
+    clientes: <Clientes />,
+    precificacao: <Precificacao />
   }
 
   // Handlers
