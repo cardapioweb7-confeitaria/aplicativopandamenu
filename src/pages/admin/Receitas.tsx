@@ -91,20 +91,15 @@ export default function Receitas() {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20 px-4 md:px-8 pb-12">
-      {/* HERO VIDEO BACKGROUND FULL-WIDTH MOBILE - ANTES DA BUSCA */}
+      {/* HERO IMAGEM FULL-WIDTH MOBILE - ANTES DO CONTAINER */}
       <div className="relative w-full -mx-4 md:mx-0 h-[300px] sm:h-[400px] md:h-[500px] mb-16 md:mb-20 overflow-hidden rounded-3xl shadow-2xl">
-        {/* Vídeo de fundo */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
+        {/* Imagem de fundo */}
+        <img
+          src="/hero-receitas.jpg"
+          alt="Hero Receitas"
           className="w-full h-full object-cover"
-          poster="/receitas-poster.jpg" // Fallback imagem se vídeo não carregar
-        >
-          <source src="/receitas-video.mp4" type="video/mp4" />
-          Seu navegador não suporta vídeo.
-        </video>
+          loading="eager"
+        />
         
         {/* Overlay blur preto */}
         <div className="absolute inset-0 bg-black/60 backdrop-blur-xl" />
