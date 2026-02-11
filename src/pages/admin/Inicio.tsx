@@ -89,14 +89,14 @@ export default function Inicio() {
         <Card className="w-full max-w-md border-0 rounded-3xl overflow-hidden bg-[#010135] mt-6 relative">
           {/* Faixa "Recomendado" estilo ribbon igual promoções */}
           <div 
-            className="absolute top-4 -right-12 bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-500 text-black font-bold px-6 py-2 transform rotate-45 shadow-lg z-10"
+            className="absolute top-4 -right-12 bg-gradient-to-r from-pink-400 via-rose-400 to-pink-500 text-white font-bold px-6 py-2 transform rotate-45 shadow-lg z-10"
             style={{ 
               width: '180px',
               textAlign: 'center',
               fontSize: '0.8rem'
             }}
           >
-            ⭐ Recomendado
+            Recomendado
           </div>
           
           <CardContent className="p-8 text-center pt-16 md:pt-20">
@@ -121,9 +121,9 @@ export default function Inicio() {
                 <span className="block whitespace-nowrap">de forma rápida</span>
               </div>
               
-              {/* Botão NEON ROSA abaixo, centralizado full-width responsivo */}
+              {/* Botão NEON DOURADO abaixo, centralizado full-width responsivo */}
               <Button 
-                className="w-full h-14 bg-gradient-to-r from-pink-400 via-rose-400 to-fuchsia-500 hover:from-pink-500 hover:via-rose-500 hover:to-fuchsia-600 text-white font-bold text-lg rounded-2xl px-8 shadow-lg shadow-pink-500/50 hover:shadow-xl hover:shadow-pink-500/70 transition-all duration-300 glow-neon"
+                className="w-full h-14 bg-gradient-to-r from-yellow-400 via-amber-400 to-yellow-500 hover:from-yellow-500 hover:via-amber-500 hover:to-yellow-600 text-gray-900 font-bold text-lg rounded-2xl px-8 shadow-lg shadow-yellow-500/50 hover:shadow-xl hover:shadow-yellow-500/70 transition-all duration-300 glow-neon"
               >
                 Instalar
               </Button>
@@ -152,11 +152,11 @@ export default function Inicio() {
           animation: spin-border 3s linear infinite;
         }
         .glow-neon {
-          box-shadow: 0 0 20px rgba(236, 72, 153, 0.6);
+          box-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
         }
         @media (hover: hover) {
           .glow-neon:hover {
-            box-shadow: 0 0 30px rgba(236, 72, 153, 0.8);
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.8);
           }
         }
       `}</style>
