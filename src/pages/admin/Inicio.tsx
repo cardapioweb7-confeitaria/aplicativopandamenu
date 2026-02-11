@@ -13,13 +13,13 @@ export default function Inicio() {
             {/* Anel gradient FULL SIZE - SEM padding/sombra para máxima visibilidade */}
             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-400 via-purple-400 to-orange-400 animate-[spin_6s_linear_infinite]" />
             
-            {/* Círculo interno BRANCO - inset-[10px] cria anel colorido de 10px */}
-            <div className="absolute inset-[10px] bg-gradient-to-br from-white to-slate-50 shadow-3xl rounded-full flex items-center justify-center z-10">
-              {/* Foto com borda branca interna de 3px - inset-[13px] no outer cria 3px white space */}
+            {/* Container branco com overflow-hidden - inset-[10px] cria anel colorido 10px */}
+            <div className="absolute inset-[10px] bg-gradient-to-br from-white to-slate-50 shadow-3xl rounded-full overflow-hidden z-10 relative">
+              {/* Foto perfeitamente centralizada e preenchendo o container branco */}
               <img 
                 src="/1012.jpeg" 
                 alt="Foto" 
-                className="absolute inset-[13px] w-full h-full object-cover rounded-full shadow-lg" 
+                className="w-full h-full object-cover rounded-full block" 
               />
             </div>
           </div>
