@@ -98,7 +98,7 @@ export function MobileLayout({ tabs, labels, activeTab, onTabChange, showBack = 
             animate={{ y: '100%' }}
             exit={{ y: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999]"
+            className="fixed bottom-20 left-1/2 -translate-x-1/2 z-[9999]"
           >
             <Button
               onClick={toggleNav}
