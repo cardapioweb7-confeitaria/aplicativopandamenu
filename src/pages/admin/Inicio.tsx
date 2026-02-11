@@ -61,7 +61,7 @@ export default function Inicio() {
             </div>
 
             {/* Status simples - texto empilhado sem background, centralizado no bloco mas alinhado à esquerda */}
-            <div className="space-y-2 mx-auto text-left max-w-md" style={{ fontFamily: "'Poppins', sans-serif" }}>
+            <div className="space-y-2 mx-auto w-80 text-left" style={{ fontFamily: "'Poppins', sans-serif" }}>
               <div className="flex justify-between items-baseline">
                 <span className="text-lg font-bold text-gray-800">Sua conta é</span>
                 <span className="inline-block bg-[#660033] text-white px-2 py-0.5 rounded-md text-sm font-bold">
