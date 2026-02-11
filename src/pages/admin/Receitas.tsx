@@ -242,11 +242,6 @@ export default function Receitas() {
           ) : Object.keys(grouped).length === 0 ? (
             <div className="text-center py-20">
               <p className="text-xl text-gray-400 mb-4">Nenhuma receita encontrada</p>
-              {isOwner && (
-                <Button onClick={openModal} className="bg-green-500 hover:bg-green-600">
-                  Cadastre a primeira!
-                </Button>
-              )}
             </div>
           ) : (
             Object.entries(grouped).map(([categoria, items]) => (
