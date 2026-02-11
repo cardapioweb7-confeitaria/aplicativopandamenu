@@ -118,14 +118,14 @@ export default function Inicio() {
                 Instalar
               </Button>
 
-              {/* Infos de versão e usuários - layout flex responsivo abaixo do botão */}
-              <div className="flex flex-col sm:flex-row justify-between items-center w-full max-w-xs gap-4 pt-6 mt-4 border-t border-gray-800/50 text-xs text-gray-400 font-medium">
-                <span className="flex items-center gap-1">
-                  📱 Versão do App
-                  <span className="text-gray-200 font-bold">3.9.0</span>
+              {/* Infos de versão e usuários - SEM ÍCONES e SEMPRE LADO A LADO */}
+              <div className="flex flex-row justify-between items-center w-full max-w-xs gap-4 pt-6 mt-4 border-t border-gray-800/50 text-xs text-gray-400 font-medium">
+                <span>
+                  Versão do App
+                  <span className="text-gray-200 font-bold ml-1">3.9.0</span>
                 </span>
-                <span className="flex items-center gap-1">
-                  👥 14.220 usuários
+                <span>
+                  14.220 usuários
                 </span>
               </div>
             </div>
