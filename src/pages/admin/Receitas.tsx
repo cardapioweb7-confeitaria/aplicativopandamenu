@@ -99,7 +99,7 @@ export default function Receitas() {
             <Clock className="w-7 h-7 text-pink-500" />
             <h2 className="text-2xl font-bold text-gray-900">Recém Adicionados</h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-4 sm:gap-6">
             {recemAdicionados.map((receita) => (
               <ReceitaCard key={receita.id} receita={receita} />
             ))}
@@ -112,7 +112,7 @@ export default function Receitas() {
             <Flame className="w-7 h-7 text-orange-500" />
             <h2 className="text-2xl font-bold text-gray-900">Em Alta</h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-4 sm:gap-6">
             {emAlta.map((receita) => (
               <ReceitaCard key={receita.id} receita={receita} />
             ))}
@@ -125,7 +125,7 @@ export default function Receitas() {
             <Tag className="w-7 h-7 text-purple-500" />
             <h2 className="text-2xl font-bold text-gray-900">Todas as Receitas</h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-4 sm:gap-6">
             {demais.map((receita) => (
               <ReceitaCard key={receita.id} receita={receita} />
             ))}
