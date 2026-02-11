@@ -60,15 +60,15 @@ export default function Inicio() {
               </button>
             </div>
 
-            {/* Status simples - texto empilhado sem background */}
-            <div className="space-y-2 text-center">
-              <div className="text-lg font-bold text-emerald-900">
+            {/* Status simples - texto empilhado sem background, centralizado no bloco mas alinhado à esquerda */}
+            <div className="space-y-2 mx-auto text-left max-w-md">
+              <div className="text-lg font-bold text-emerald-900 whitespace-nowrap">
                 Status da conta: <span className="text-emerald-700">Ativa</span>
               </div>
-              <div className="text-lg font-bold text-emerald-900">
+              <div className="text-lg font-bold text-emerald-900 whitespace-nowrap">
                 Tipo de Acesso: <span className="text-emerald-700">Premium</span>
               </div>
-              <div className="text-lg font-bold text-emerald-900">
+              <div className="text-lg font-bold text-emerald-900 whitespace-nowrap">
                 Último acesso: <span className="text-emerald-700">15/10/2024 14:32</span>
               </div>
             </div>
