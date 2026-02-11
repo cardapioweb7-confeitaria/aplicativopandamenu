@@ -110,7 +110,7 @@ export default function Receitas() {
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 drop-shadow-2xl leading-tight tracking-tight">
             Receitas
             <br />
-            <span className="text-transparent bg-gradient-to-r from-red-500 via-pink-500 to-yellow-400 bg-clip-text">Exclusivas</span>
+            <span className="text-transparent bg-gradient-to-r from-red-500 via-pink-500 to-yellow-400 bg-clip-text">Profissionais</span>
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 font-light mb-12 max-w-2xl mx-auto leading-relaxed">
             Descubra receitas incríveis para elevar sua confeitaria
