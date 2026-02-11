@@ -106,7 +106,7 @@ export default function Receitas() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
         
         {/* Conteúdo hero centralizado */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 md:px-12 max-w-4xl mx-auto">
+        <div className="absolute inset-0 flex flex-col items-center justify-start pt-16 md:pt-24 lg:pt-32 text-center px-6 md:px-12 max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 drop-shadow-2xl leading-tight tracking-tight">
             Receitas
             <br />
