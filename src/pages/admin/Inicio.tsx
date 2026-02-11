@@ -19,7 +19,7 @@ export default function Inicio() {
             <div className="relative z-10 w-full h-full bg-gradient-to-br from-white to-slate-50 shadow-3xl rounded-full border-12 border-white p-6 flex items-center justify-center">
               {/* Placeholder do logo - emoji de bolo */}
               <div className="w-full h-full flex items-center justify-center rounded-full bg-gradient-to-br from-pink-50 to-white shadow-inner p-8">
-                <div className="text-7xl animate-bounce [animation-duration:3s]">🎂</div>
+                <div className="text-7xl">🎂</div>
               </div>
             </div>
           </div>
