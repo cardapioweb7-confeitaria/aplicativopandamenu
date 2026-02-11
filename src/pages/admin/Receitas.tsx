@@ -28,18 +28,17 @@ export default function Home() {
         />
 
         {/* TÍTULO */}
-        <h1 className="text-4xl md:text-6xl font-black mb-6 leading-tight">
-          Receitas
-          <br />
-          <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#b88900,#fbbf24,#ffffff,#fbbf24,#b88900)] bg-[length:300%_300%] animate-[goldGradient_6s_linear_infinite]">
+        <h1 className="text-4xl md:text-6xl font-black mb-6 leading-[0.95]">
+          <span className="block">Receitas</span>
+          <span className="block text-transparent bg-clip-text bg-[linear-gradient(90deg,#b88900,#fbbf24,#ffffff,#fbbf24,#b88900)] bg-[length:300%_300%] animate-[goldGradient_6s_linear_infinite]">
             Profissionais
           </span>
         </h1>
 
         {/* SUBTÍTULO */}
         <p className="text-lg md:text-xl max-w-2xl leading-relaxed text-gray-200">
-          Para adoçar momentos, <br className="hidden sm:block" />
-          gerar renda ou realizar sonhos.
+          Para adoçar momentos, gerar renda <br />
+          ou realizar sonhos.
         </p>
 
       </section>
