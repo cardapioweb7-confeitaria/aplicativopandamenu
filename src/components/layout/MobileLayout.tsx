@@ -18,7 +18,7 @@ interface MobileLayoutProps {
 export function MobileLayout({ tabs, labels, activeTab, onTabChange, showBack = false, onBack, content }: MobileLayoutProps) {
   return (
     <div className="min-h-screen bg-pink-50 flex flex-col">
-      <div className="flex-1 pb-20">
+      <div className="flex-1 pb-28"> {/* pb-28 = 112px → cobre nav + margem segura */}
         {showBack && (
           <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200 p-4 shadow-sm">
             <Button 
@@ -32,7 +32,9 @@ export function MobileLayout({ tabs, labels, activeTab, onTabChange, showBack = 
             </Button>
           </div>
         )}
-        {content}
+        <div className="h-full overflow-y-auto"> {/* Scroll seguro no conteúdo */}
+          {content}
+        </div>
       </div>
       
       <div
