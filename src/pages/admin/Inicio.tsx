@@ -1,148 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Edit, User, Upload, Image as ImageIcon, X } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
-import { supabaseService } from '@/services/supabase';
-import { showSuccess, showError } from '@/utils/toast';
 
 export default function Inicio() {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  const [profile, setProfile] = useState(null);
-  const [imageSrc, setImageSrc] = useState(null);
-  const [editOpen, setEditOpen] = useState(false);
-  const [newName, setNewName] = useState('');
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [uploading, setUploading] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) {
-        setUser(user);
-        fetchProfile(user.id);
-      }
-    });
-  }, []);
-
-  const fetchProfile = async (id) => {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', id)
-      .single();
-
-    if (error && error.code !== 'PGRST116') {
-      console.error('Erro ao buscar perfil:', error);
-    } else {
-      setProfile(data);
-      setNewName(data?.nome || '');
-      setImageSrc(data?.avatar_url || null);
-    }
-  };
-
-  const handleEditClick = () => {
-    setNewName(profile?.nome || '');
-    setPreviewImage(profile?.avatar_url || null);
-    setSelectedFile(null);
-    setEditOpen(true);
-  };
-
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    if (!file.type.startsWith('image/')) {
-      showError('Apenas imagens são permitidas');
-      return;
-    }
-
-    if (file.size > 5 * 1024 * 1024) {
-      showError('Arquivo muito grande (máximo 5MB)');
-      return;
-    }
-
-    setSelectedFile(file);
-    const previewUrl = URL.createObjectURL(file);
-    setPreviewImage(previewUrl);
-  };
-
-  const handleUploadAvatar = async () => {
-    if (!user || !selectedFile) {
-      showError('Arquivo não selecionado');
-      return;
-    }
-
-    setUploading(true);
-    try {
-      const fileName = `avatars/${user.id}-${Date.now()}.jpg`;
-      const url = await supabaseService.uploadImage(selectedFile, 'avatars', fileName);
-      
-      if (!url) {
-        throw new Error('Falha no upload da imagem');
-      }
-
-      const { error } = await supabase.from('profiles').upsert({
-        id: user.id,
-        nome: newName.trim() || null,
-        avatar_url: url,
-      });
-
-      if (error) throw error;
-
-      await fetchProfile(user.id);
-      setEditOpen(false);
-      showSuccess('Perfil atualizado com sucesso!');
-    } catch (error: any) {
-      console.error('Erro ao salvar perfil:', error);
-      showError(error.message || 'Erro ao atualizar perfil');
-    } finally {
-      setUploading(false);
-      setSelectedFile(null);
-      if (previewImage) {
-        URL.revokeObjectURL(previewImage);
-        setPreviewImage(null);
-      }
-    }
-  };
-
-  const handleSaveNameOnly = async () => {
-    if (!user) return;
-
-    setLoading(true);
-    try {
-      const { error } = await supabase.from('profiles').upsert({
-        id: user.id,
-        nome: newName.trim() || null,
-      });
-      if (error) throw error;
-      await fetchProfile(user.id);
-      setEditOpen(false);
-      showSuccess('Nome atualizado com sucesso!');
-    } catch (error) {
-      console.error('Erro ao salvar nome:', error);
-      showError('Erro ao atualizar nome');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const nameDisplay = profile?.nome ? `Olá ${profile.nome}` : 'Olá';
 
   const handleLogout = async () => {
     try {
@@ -158,8 +23,8 @@ export default function Inicio() {
     <>
       <div className="min-h-screen flex flex-col items-center justify-start md:justify-center pt-2 px-4 pb-8 md:p-6 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200">
         <Card className="w-full max-w-xs border-0 rounded-2xl overflow-hidden bg-white mt-6 md:mt-8">
-          <CardContent className="relative pt-6 p-4 pb-6 text-center">
-            {/* BOTÃO SAIR VERMELHO - APENAS MOBILE - TOP-LEFT ACIMA DA LOGO */}
+          <CardContent className="relative pt-8 p-4 pb-6 text-center">
+            {/* BOTÃO SAIR VERMELHO - APENAS MOBILE - TOP-LEFT */}
             <div className="md:hidden absolute top-2 left-2 z-30">
               <Button
                 variant="destructive"
@@ -171,61 +36,7 @@ export default function Inicio() {
               </Button>
             </div>
 
-            {/* Logo compacta 64px */}
-            <div className="relative mx-auto mb-2 w-16 h-16">
-              {/* Anel gradient */}
-              <div 
-                className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-400 via-purple-400 to-orange-400 animate-[spin_6s_linear_infinite]"
-                style={{ zIndex: 1 }}
-              />
-              
-              {/* Container da imagem */}
-              <div 
-                className="relative z-10 w-full h-full flex items-center justify-center rounded-full"
-                style={{
-                  padding: '3px',
-                  backgroundClip: 'content-box',
-                  WebkitBackgroundClip: 'content-box',
-                  boxSizing: 'border-box'
-                }}
-              >
-                {/* Borda branca */}
-                <div 
-                  className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-white"
-                  style={{
-                    border: '2px solid white',
-                    padding: '1px'
-                  }}
-                >
-                  {/* Imagem ou Placeholder */}
-                  {imageSrc ? (
-                    <img 
-                      src={imageSrc} 
-                      alt="Foto do perfil" 
-                      className="w-full h-full object-cover rounded-full block"
-                      onError={() => setImageSrc(null)}
-                    />
-                  ) : (
-                    <User className="w-full h-full text-gray-300 p-1 flex-shrink-0" />
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Nome compacto */}
-            <div className="flex items-center justify-center gap-1 mb-3 p-2 rounded-xl bg-white/80">
-              <h1 className="text-lg font-black text-gray-900 tracking-tight">{nameDisplay}</h1>
-              <button 
-                className="p-1.5 bg-white rounded-full shadow-md hover:bg-gray-100 transition-all cursor-pointer group border border-gray-200 flex-shrink-0"
-                title="Editar perfil"
-                type="button"
-                onClick={handleEditClick}
-              >
-                <Edit className="w-4 h-4 text-gray-500 group-hover:text-pink-500 transition-colors" />
-              </button>
-            </div>
-
-            {/* Status ultra-compact 60px */}
+            {/* Status ultra-compact 60px - APENAS ISSO AGORA */}
             <div className="space-y-1 mx-auto w-44 p-3 rounded-xl border border-dashed border-pink-200 bg-white/70 shadow-md backdrop-blur-sm text-xs" style={{ fontFamily: "'Poppins', sans-serif" }}>
               <div className="grid grid-cols-[1fr_auto] items-center gap-0.5">
                 <span className="font-semibold text-gray-700 text-[11px]">Seu acesso é</span>
@@ -293,80 +104,7 @@ export default function Inicio() {
         </Card>
       </div>
 
-      {/* Modal de Edição de Perfil */}
-      <Dialog open={editOpen} onOpenChange={setEditOpen}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>Editar Perfil</DialogTitle>
-            <DialogDescription>
-              Altere seu nome e foto de perfil.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid gap-2">
-              <Label htmlFor="name">Nome</Label>
-              <Input
-                id="name"
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-                placeholder="Seu nome"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="avatar">Foto de Perfil</Label>
-              <div className="space-y-2">
-                <input
-                  id="avatar-file"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileSelect}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                />
-                {previewImage && (
-                  <div className="relative w-24 h-24 mx-auto rounded-full overflow-hidden border-2 border-gray-200">
-                    <img
-                      src={previewImage}
-                      alt="Preview"
-                      className="w-full h-full object-cover"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSelectedFile(null);
-                        setPreviewImage(null);
-                      }}
-                      className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => setEditOpen(false)}>
-              Cancelar
-            </Button>
-            <Button 
-              type="button" 
-              onClick={selectedFile ? handleUploadAvatar : handleSaveNameOnly} 
-              disabled={uploading || loading}
-            >
-              {uploading ? 'Enviando...' : loading ? 'Salvando...' : 'Salvar alterações'}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
       <style>{`
-        @keyframes spin-border {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        .animate-spin-border {
-          animation: spin-border 3s linear infinite;
-        }
         .glow-neon {
           box-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
         }
