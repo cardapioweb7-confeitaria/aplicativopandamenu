@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent } from '@/components/ui/card'
-import { Edit, Circle } from 'lucide-react'
+import { Edit } from 'lucide-react'
 
 export default function Inicio() {
   return (
@@ -36,23 +36,15 @@ export default function Inicio() {
             </button>
           </div>
 
-          {/* Tags de Status com bolinha verde pulsante */}
+          {/* Tags de Status sem bolinhas */}
           <div className="space-y-4">
             {/* Status do Sistema */}
-            <div className="flex items-center justify-center gap-3 p-4 rounded-2xl shadow-lg border border-emerald-200 whitespace-nowrap">
-              <div className="relative flex-shrink-0">
-                <Circle className="w-6 h-6 text-emerald-500 animate-ping [animation-duration:2s] [animation-delay:0s]" />
-                <Circle className="w-6 h-6 text-emerald-400 absolute inset-0 m-auto animate-pulse [animation-duration:3s] [animation-delay:0.5s]" />
-              </div>
+            <div className="flex items-center justify-center p-4 rounded-2xl shadow-lg border border-emerald-200 whitespace-nowrap">
               <span className="text-lg font-bold text-emerald-900 whitespace-nowrap">Status do Sistema: Online</span>
             </div>
 
             {/* Seu Acesso */}
-            <div className="flex items-center justify-center gap-3 p-4 rounded-2xl shadow-lg border border-emerald-200 whitespace-nowrap">
-              <div className="relative flex-shrink-0">
-                <Circle className="w-6 h-6 text-emerald-500 animate-ping [animation-duration:2s] [animation-delay:0.25s]" />
-                <Circle className="w-6 h-6 text-emerald-400 absolute inset-0 m-auto animate-pulse [animation-duration:3s]" />
-              </div>
+            <div className="flex items-center justify-center p-4 rounded-2xl shadow-lg border border-emerald-200 whitespace-nowrap">
               <span className="text-lg font-bold text-emerald-900 whitespace-nowrap">Seu acesso: Vitalício</span>
             </div>
           </div>
