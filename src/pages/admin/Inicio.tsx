@@ -1,13 +1,84 @@
 "use client";
 
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Edit } from 'lucide-react'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Edit, User } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 
 export default function Inicio() {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [imageSrc, setImageSrc] = useState(null);
+  const [editOpen, setEditOpen] = useState(false);
+  const [newName, setNewName] = useState('');
+  const [newAvatarUrl, setNewAvatarUrl] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) {
+        setUser(user);
+        fetchProfile(user.id);
+      }
+    });
+  }, []);
+
+  const fetchProfile = async (id) => {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error && error.code !== 'PGRST116') {
+      console.error('Erro ao buscar perfil:', error);
+    } else {
+      setProfile(data);
+      setNewName(data?.nome || '');
+      setNewAvatarUrl(data?.avatar_url || '');
+      setImageSrc(data?.avatar_url || null);
+    }
+  };
+
+  const handleEditClick = () => {
+    setNewName(profile?.nome || '');
+    setNewAvatarUrl(profile?.avatar_url || '');
+    setEditOpen(true);
+  };
+
+  const handleSave = async () => {
+    if (!user) return;
+    setLoading(true);
+    try {
+      const { error } = await supabase.from('profiles').upsert({
+        id: user.id,
+        nome: newName.trim() || null,
+        avatar_url: newAvatarUrl.trim() || null,
+      });
+      if (error) throw error;
+      await fetchProfile(user.id);
+      setEditOpen(false);
+    } catch (error) {
+      console.error('Erro ao salvar perfil:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const nameDisplay = profile?.nome ? `Olá ${profile.nome}` : 'Olá';
 
   const handleLogout = async () => {
     try {
@@ -65,23 +136,29 @@ export default function Inicio() {
                     padding: '2px'
                   }}
                 >
-                  {/* Imagem PREENCHE perfeitamente - object-cover para foto ESTÁTICA */}
-                  <img 
-                    src="/1012.jpeg" 
-                    alt="Foto" 
-                    className="w-full h-full object-cover rounded-full block" 
-                  />
+                  {/* Imagem ou Placeholder dinâmico */}
+                  {imageSrc ? (
+                    <img 
+                      src={imageSrc} 
+                      alt="Foto do perfil" 
+                      className="w-full h-full object-cover rounded-full block"
+                      onError={() => setImageSrc(null)}
+                    />
+                  ) : (
+                    <User className="w-full h-full text-gray-300 p-4 flex-shrink-0" />
+                  )}
                 </div>
               </div>
             </div>
 
             {/* Nome do Cliente com ícone de lápis inline na mesma linha */}
             <div className="flex items-center justify-center gap-2 mb-6 p-4 rounded-2xl bg-white">
-              <h1 className="text-3xl font-black text-gray-900 tracking-tight">Olá Bruno</h1>
+              <h1 className="text-3xl font-black text-gray-900 tracking-tight">{nameDisplay}</h1>
               <button 
                 className="p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-all cursor-pointer group border border-gray-100 flex-shrink-0"
-                title="Alterar nome (em breve)"
+                title="Editar perfil"
                 type="button"
+                onClick={handleEditClick}
               >
                 <Edit className="w-5 h-5 text-gray-500 group-hover:text-pink-500 transition-colors" />
               </button>
@@ -136,7 +213,7 @@ export default function Inicio() {
                     className="w-10 h-10 object-contain"
                   />
                 </div>
-                <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight text-left leading-tight">
+                <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight text-left leading-tight">
                   INSTALE<br />NOSSO APP
                 </h2>
               </div>
@@ -157,6 +234,46 @@ export default function Inicio() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Modal de Edição de Perfil */}
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Editar Perfil</DialogTitle>
+            <DialogDescription>
+              Altere seu nome e adicione uma URL de imagem de perfil (ex: Imgur).
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="name">Nome</Label>
+              <Input
+                id="name"
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                placeholder="Seu nome"
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="avatar">URL da Imagem (opcional)</Label>
+              <Input
+                id="avatar"
+                value={newAvatarUrl}
+                onChange={(e) => setNewAvatarUrl(e.target.value)}
+                placeholder="https://exemplo.com/sua-imagem.jpg"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={() => setEditOpen(false)}>
+              Cancelar
+            </Button>
+            <Button type="button" onClick={handleSave} disabled={loading}>
+              {loading ? 'Salvando...' : 'Salvar alterações'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <style>{`
         @keyframes spin-border {
