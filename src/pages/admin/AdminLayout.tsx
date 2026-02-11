@@ -16,6 +16,7 @@ import DesignSettings from './DesignSettings'
 import ProductManager from './ProductManager'
 import Clientes from './Clientes'
 import Precificacao from './Precificacao'
+import Exclusivo from './Exclusivo'
 
 export default function AdminLayout() {
   const [isCardapioMode, setIsCardapioMode] = useState(false)
@@ -57,7 +58,8 @@ export default function AdminLayout() {
     design: <DesignSettings />,
     produtos: <ProductManager />,
     clientes: <Clientes />,
-    precificacao: <Precificacao />
+    precificacao: <Precificacao />,
+    exclusivo: <Exclusivo />
   }
 
   // Handlers

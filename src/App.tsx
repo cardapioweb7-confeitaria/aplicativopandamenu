@@ -59,16 +59,8 @@ const App = () => {
         backgroundColor: '#fef2f2'
       }}>
         <div style={{ textAlign: 'center' }}>
-          <div style={{ 
-            width: '40px', 
-            height: '40px', 
-            border: '4px solid #f3f4f6', 
-            borderTop: '4px solid #ec4899', 
-            borderRadius: '50%', 
-            animation: 'spin 1s linear infinite',
-            margin: '0 auto 20px'
-          }}></div>
-          <p style={{ color: '#6b7280' }}>Carregando...</p>
+          <div className="w-16 h-16 border-4 border-pink-200 border-t-pink-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Carregando...</p>
         </div>
       </div>
     );
@@ -88,6 +80,7 @@ const App = () => {
                   <Route path="/login" element={<Login />} />
                   <Route path="/cardapio/cadastro" element={<Cadastro />} />
                   <Route path="/admin" element={<AdminLayout />} />
+                  <Route path="/admin/exclusivo" element={<AdminLayout />} />
                   {/* ROTA DO CARDÁPIO PÚBLICO */}
                   <Route path="/cardapio/:slug" element={<CardapioPublico />} />
                   <Route path="*" element={<NotFound />} />
