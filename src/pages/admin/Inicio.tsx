@@ -7,7 +7,7 @@ export default function Inicio() {
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200">
       <Card className="w-full max-w-md border-0 shadow-2xl rounded-3xl overflow-hidden bg-white">
-        <CardContent className="p-12 pt-20 pb-20 text-center">
+        <CardContent className="p-12 pt-12 pb-20 text-center">
           {/* Logo com bordas duplas: externa rosa e interna branca */}
           <div className="relative mx-auto mb-8 w-48 h-48 group">
             {/* Borda externa ROSA (dupla para profundidade) */}
