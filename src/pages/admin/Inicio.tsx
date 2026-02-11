@@ -22,8 +22,6 @@ export default function Inicio() {
                   backgroundImage: 'conic-gradient(#ec4899 0deg, #f472b6 90deg, #ec4899 180deg, #f472b6 270deg, #ec4899 360deg)',
                   backgroundClip: 'content-box',
                   WebkitBackgroundClip: 'content-box',
-                  maskImage: 'radial-gradient(circle at center, transparent 97%, black 98%)',
-                  WebkitMaskImage: 'radial-gradient(circle at center, transparent 97%, black 98%)',
                   boxSizing: 'border-box' as const
                 }}
               >
