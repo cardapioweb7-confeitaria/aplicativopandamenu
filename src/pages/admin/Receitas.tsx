@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/lib/supabase";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { showSuccess } from "@/utils/toast";
 
 export default function Receitas() {
   const { user } = useAuth();
@@ -13,31 +14,72 @@ export default function Receitas() {
   const [loadingRole, setLoadingRole] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Verificar role do usuário
+  // Verificar role do usuário com fallback hardcoded
   useEffect(() => {
     const fetchRole = async () => {
-      if (user?.id) {
-        try {
-          const { data, error } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', user.id)
-            .single();
-
-          if (error && error.code !== 'PGRST116') {
-            console.error('Erro ao buscar role:', error);
-          }
-
-          setIsOwner(data?.role === 'owner');
-        } catch (error) {
-          console.error('Erro ao verificar role:', error);
-        }
+      console.log('🔍 [Receitas] Verificando role - user:', user?.email, 'user.id:', user?.id);
+      
+      if (!user) {
+        console.log('❌ [Receitas] User não carregado');
+        setLoadingRole(false);
+        return;
       }
-      setLoadingRole(false);
+
+      try {
+        // 1. Fallback hardcoded para teste@gmail.com
+        if (user.email === 'teste@gmail.com') {
+          console.log('✅ [Receitas] Fallback hardcoded: teste@gmail.com detectado');
+          setIsOwner(true);
+          setLoadingRole(false);
+          return;
+        }
+
+        // 2. Fetch role do profiles
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .single();
+
+        console.log('🔍 [Receitas] Fetch profiles result:', { data, error });
+
+        if (error && error.code !== 'PGRST116') {
+          console.error('❌ [Receitas] Erro ao buscar role:', error);
+        }
+
+        const role = data?.role;
+        console.log('🔍 [Receitas] Role do DB:', role);
+
+        if (role === 'owner') {
+          console.log('✅ [Receitas] Role owner confirmada via DB');
+          setIsOwner(true);
+        } else {
+          console.log('❌ [Receitas] Role não é owner:', role);
+          setIsOwner(false);
+        }
+      } catch (error) {
+        console.error('❌ [Receitas] Erro ao verificar role:', error);
+        setIsOwner(false);
+      } finally {
+        setLoadingRole(false);
+      }
     };
 
     fetchRole();
   }, [user]);
+
+  console.log('🔍 [Receitas] Render - isOwner:', isOwner, 'loadingRole:', loadingRole);
+
+  if (loadingRole) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#0f0f0f]">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-pink-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-white">Verificando acesso...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#0f0f0f] text-white">
@@ -84,10 +126,23 @@ export default function Receitas() {
           <div className="w-full max-w-md mx-auto">
             <Button 
               className="w-full h-14 bg-gradient-to-r from-pink-600 via-purple-600 to-pink-500 hover:from-pink-700 hover:via-purple-700 hover:to-pink-600 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]"
+              onClick={() => {
+                console.log('🧁 [Receitas] Botão Cadastrar Receita clicado!')
+                // Aqui você pode abrir o modal ou navegar
+                showSuccess('Funcionalidade em desenvolvimento!')
+              }}
             >
               <Plus className="w-6 h-6 mr-3" />
               Cadastrar Receita
             </Button>
+          </div>
+        )}
+
+        {/* MENSAGEM PARA USUÁRIOS NÃO-OWNER */}
+        {!loadingRole && !isOwner && (
+          <div className="w-full max-w-md mx-auto mt-8 p-6 bg-gradient-to-r from-gray-800 to-gray-900 rounded-2xl border border-gray-700">
+            <p className="text-gray-300 text-lg mb-4">🔒 Acesso Restrito</p>
+            <p className="text-gray-400 text-sm">Apenas administradores podem cadastrar receitas.</p>
           </div>
         )}
       </section>
