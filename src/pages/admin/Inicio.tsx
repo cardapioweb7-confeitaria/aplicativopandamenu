@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Edit, Download } from 'lucide-react'
+import { Edit } from 'lucide-react'
 
 export default function Inicio() {
   return (
@@ -85,26 +85,32 @@ export default function Inicio() {
           </CardContent>
         </Card>
 
-        {/* NOVO CARD: Instale o App */}
-        <Card className="w-full max-w-md border-0 rounded-3xl overflow-hidden bg-white mt-6 shadow-2xl">
+        {/* NOVO CARD: Instale o App - AZUL ESCURO #010135 + faviconapp.png + linha única SEM SOMBRAS */}
+        <Card className="w-full max-w-md border-0 rounded-3xl overflow-hidden bg-white mt-6">
           <CardContent className="p-8 text-center">
-            <div className="flex items-center justify-center gap-4 mb-6">
-              {/* Ícone Download com fundo branco */}
-              <div className="w-16 h-16 bg-white rounded-2xl shadow-lg flex items-center justify-center p-3">
-                <Download className="w-8 h-8 text-blue-600" />
+            <div className="flex items-center justify-between mb-6">
+              {/* Ícone faviconapp.png com fundo BRANCO */}
+              <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center p-3">
+                <img 
+                  src="/faviconapp.png" 
+                  alt="App" 
+                  className="w-10 h-10 object-contain"
+                />
               </div>
-              {/* Texto */}
-              <div className="text-left">
-                <h2 className="text-xl font-bold text-gray-900 mb-1">Instale o nosso aplicativo</h2>
-                <p className="text-gray-600 text-sm">Acesse todas as funcionalidades de forma rápida</p>
+              
+              {/* Texto + Botão NA MESMA LINHA */}
+              <div className="flex-1 flex items-center gap-4 ml-4">
+                <div className="text-left">
+                  <h2 className="text-xl font-bold text-gray-900 mb-1">Instale nosso aplicativo</h2>
+                  <p className="text-gray-600 text-sm">Acesse todas as funcionalidades de forma rápida</p>
+                </div>
+                <Button 
+                  className="h-14 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg rounded-2xl px-6 transition-all duration-300"
+                >
+                  Instalar
+                </Button>
               </div>
             </div>
-            {/* Botão Instalar */}
-            <Button 
-              className="w-full h-14 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300"
-            >
-              Instalar
-            </Button>
           </CardContent>
         </Card>
       </div>
