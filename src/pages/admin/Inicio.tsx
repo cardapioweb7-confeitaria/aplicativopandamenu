@@ -63,20 +63,20 @@ export default function Inicio() {
             {/* Status simples - texto empilhado sem background, centralizado no bloco mas alinhado à esquerda */}
             <div className="space-y-2 mx-auto text-left max-w-md" style={{ fontFamily: "'Poppins', sans-serif" }}>
               <div className="text-lg font-bold text-gray-800 whitespace-nowrap">
-                Tipo de Conta: 
-                <span className="ml-2 inline-block bg-pink-500 text-white px-2 py-0.5 rounded-md text-sm font-bold">
-                  Ativa
+                Sua conta é 
+                <span className="ml-2 inline-block bg-[#660033] text-white px-2 py-0.5 rounded-md text-sm font-bold">
+                  Premium
                 </span>
               </div>
               <div className="text-lg font-bold text-gray-800 whitespace-nowrap">
-                Seu acesso é: 
-                <span className="ml-2 inline-block bg-pink-500 text-white px-2 py-0.5 rounded-md text-sm font-bold">
+                Seu acesso é 
+                <span className="ml-2 inline-block bg-[#660033] text-white px-2 py-0.5 rounded-md text-sm font-bold">
                   Vitalício
                 </span>
               </div>
               <div className="text-lg font-bold text-gray-800 whitespace-nowrap">
-                Habilidade: 
-                <span className="ml-2 inline-block bg-pink-500 text-white px-2 py-0.5 rounded-md text-sm font-bold">
+                Meu Nível é 
+                <span className="ml-2 inline-block bg-[#660033] text-white px-2 py-0.5 rounded-md text-sm font-bold">
                   Iniciante
                 </span>
               </div>
