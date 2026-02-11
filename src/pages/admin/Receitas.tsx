@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 export default function Home() {
@@ -17,6 +19,13 @@ export default function Home() {
 
       {/* HERO */}
       <section className="relative w-full min-h-[70vh] flex flex-col items-center justify-start pt-24 text-center px-6">
+
+        {/* Imagem centralizada acima do título */}
+        <img 
+          src="/101012.png" 
+          alt="Logo Receitas" 
+          className="mx-auto mb-8 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 object-contain drop-shadow-2xl"
+        />
 
         <h1 className="text-5xl md:text-7xl font-black mb-6 leading-none">
           Receitas
