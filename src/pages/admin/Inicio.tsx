@@ -60,13 +60,6 @@ export default function Inicio() {
               </div>
             </CardContent>
           </Card>
-
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-pink-600 via-pink-500 to-purple-500 bg-clip-text text-transparent mb-4 drop-shadow-lg">
-            Dashboard
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-700 font-semibold max-w-2xl mx-auto leading-relaxed">
-            Bem-vindo ao painel administrativo do <span className="text-pink-600 font-black">Panda Menu</span>
-          </p>
         </div>
 
         {/* CARDS DE INFORMAÇÕES - GRID RESPONSIVO */}
