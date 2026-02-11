@@ -100,7 +100,7 @@ export default function Inicio() {
               
               {/* Textos centralizados */}
               <div className="space-y-2">
-                <h2 className="text-xl font-bold text-white">Instale nosso aplicativo</h2>
+                <h2 className="text-xl font-bold text-white uppercase tracking-wider">INSTALE NOSSO APP</h2>
                 <p className="text-gray-200 text-sm max-w-sm mx-auto leading-relaxed">Acesse todas as funcionalidades de forma rápida</p>
               </div>
               
