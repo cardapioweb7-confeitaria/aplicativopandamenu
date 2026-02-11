@@ -90,10 +90,10 @@ export default function Receitas() {
   const demais = filteredReceitas.slice(4)
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20 px-4 md:px-8 pb-12"> {/* Fundo cinza clarinho + pt-20 topo */}
+    <div className="min-h-screen bg-gray-50 pt-20 px-4 md:px-8 pb-12">
       <div className="max-w-6xl mx-auto">
         {/* Header com mais espaçamento */}
-        <div className="text-center mb-20"> {/* mb-20 ao invés de mb-12 */}
+        <div className="text-center mb-20">
           <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-pink-600 via-rose-600 to-purple-600 bg-clip-text text-transparent mb-4">
             Receitas Exclusivas
           </h1>
@@ -102,21 +102,20 @@ export default function Receitas() {
           </p>
         </div>
 
-        {/* Barra de pesquisa ROSA com sombra CONCENTRADA inferior-direita + SEM BORDA */}
+        {/* Barra de pesquisa ROSA SIMPLES sem sombra/gradient animado */}
         <div className="max-w-2xl mx-auto mb-16">
-          <div className="relative group">
+          <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 w-5 h-5 z-10 pointer-events-none" />
             <Input
               type="text"
               placeholder="Buscar receitas ou categorias..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 text-lg rounded-2xl font-medium shadow-[0_10px_30px_rgba(236,72,153,0.6),0_5px_15px_rgba(236,72,153,0.3)] focus:outline-none focus:ring-0 transition-all duration-300 group-hover:shadow-[0_12px_35px_rgba(236,72,153,0.7),0_6px_18px_rgba(236,72,153,0.4)]"
+              className="w-full pl-12 pr-4 py-4 text-lg rounded-2xl font-medium focus:outline-none focus:ring-0"
               style={{
-                background: 'linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #f9a8d4 100%)',
-                backgroundSize: '200% 200%',
+                backgroundColor: '#ec4899',
                 color: 'white',
-                border: 'none' // SEM BORDA
+                border: 'none'
               }}
             />
             {searchTerm && (
