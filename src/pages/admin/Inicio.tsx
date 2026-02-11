@@ -98,10 +98,10 @@ export default function Inicio() {
                 />
               </div>
               
-              {/* Textos centralizados */}
-              <div className="space-y-2">
-                <h2 className="text-xl font-bold text-white uppercase tracking-wider">INSTALE NOSSO APP</h2>
-                <p className="text-gray-200 text-sm max-w-sm mx-auto leading-relaxed">Acesse todas as funcionalidades de forma rápida</p>
+              {/* Textos centralizados - SUBTEXTO EM DUAS LINHAS EXATAS */}
+              <div className="text-gray-200 text-sm max-w-sm mx-auto leading-6 text-center space-y-1">
+                <span>Acesse todas as funcionalidades</span>
+                <span>de forma rápida</span>
               </div>
               
               {/* Botão NEON ROSA abaixo, centralizado full-width responsivo */}
