@@ -85,12 +85,12 @@ export default function Inicio() {
           </CardContent>
         </Card>
 
-        {/* NOVO CARD: Instale o App - AZUL ESCURO #010135 + faviconapp.png + linha única SEM SOMBRAS */}
+        {/* NOVO CARD: Instale o App - AZUL ESCURO #010135 + faviconapp.png + layout empilhado centralizado responsivo */}
         <Card className="w-full max-w-md border-0 rounded-3xl overflow-hidden bg-[#010135] mt-6">
           <CardContent className="p-8 text-center">
-            <div className="flex items-center justify-between mb-6">
-              {/* Ícone faviconapp.png com fundo BRANCO */}
-              <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center p-3">
+            <div className="flex flex-col items-center space-y-6">
+              {/* Ícone faviconapp.png com fundo BRANCO - centralizado e responsivo */}
+              <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center p-3 shrink-0">
                 <img 
                   src="/faviconapp.png" 
                   alt="App" 
@@ -98,18 +98,18 @@ export default function Inicio() {
                 />
               </div>
               
-              {/* Texto + Botão NA MESMA LINHA - TEXTOS BRANCOS */}
-              <div className="flex-1 flex items-center gap-4 ml-4">
-                <div className="text-left">
-                  <h2 className="text-xl font-bold text-white mb-1">Instale nosso aplicativo</h2>
-                  <p className="text-gray-200 text-sm">Acesse todas as funcionalidades de forma rápida</p>
-                </div>
-                <Button 
-                  className="h-14 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg rounded-2xl px-6 transition-all duration-300"
-                >
-                  Instalar
-                </Button>
+              {/* Textos centralizados */}
+              <div className="space-y-2">
+                <h2 className="text-xl font-bold text-white">Instale nosso aplicativo</h2>
+                <p className="text-gray-200 text-sm max-w-sm mx-auto leading-relaxed">Acesse todas as funcionalidades de forma rápida</p>
               </div>
+              
+              {/* Botão NEON ROSA abaixo, centralizado full-width responsivo */}
+              <Button 
+                className="w-full max-w-xs h-14 bg-gradient-to-r from-pink-400 via-rose-400 to-fuchsia-500 hover:from-pink-500 hover:via-rose-500 hover:to-fuchsia-600 text-white font-bold text-lg rounded-2xl px-8 shadow-lg shadow-pink-500/50 hover:shadow-xl hover:shadow-pink-500/70 transition-all duration-300 glow-neon"
+              >
+                Instalar
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -122,6 +122,14 @@ export default function Inicio() {
         }
         .animate-spin-border {
           animation: spin-border 3s linear infinite;
+        }
+        .glow-neon {
+          box-shadow: 0 0 20px rgba(236, 72, 153, 0.6);
+        }
+        @media (hover: hover) {
+          .glow-neon:hover {
+            box-shadow: 0 0 30px rgba(236, 72, 153, 0.8);
+          }
         }
       `}</style>
     </>
