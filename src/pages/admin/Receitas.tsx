@@ -1,6 +1,6 @@
 "use client";
 
-import { Download, Clock, Flame, Tag, Eye, Search, X } from 'lucide-react'
+import { Download, Clock, Flame, Tag, Eye, Search, X, Play } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -24,7 +24,7 @@ const receitasMock: Receita[] = [
     id: '1',
     titulo: 'Bolo de Chocolate Perfeito',
     categoria: 'Bolos',
-    imagemUrl: 'https://images.unsplash.com/photo-1562440499-64b4f3163e9a?w=400&h=300&fit=crop',
+    imagemUrl: 'https://images.unsplash.com/photo-1562440499-64b4f3163e9a?w=400&h=600&fit=crop',
     pdfUrl: 'https://example.com/bolo-chocolate.pdf',
     views: 1245,
     dataAdicionado: '2024-01-15'
@@ -33,7 +33,7 @@ const receitasMock: Receita[] = [
     id: '2',
     titulo: 'Brigadeiro Gourmet',
     categoria: 'Doces',
-    imagemUrl: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop',
+    imagemUrl: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=600&fit=crop',
     pdfUrl: 'https://example.com/brigadeiro-gourmet.pdf',
     views: 987,
     dataAdicionado: '2024-01-14'
@@ -42,7 +42,7 @@ const receitasMock: Receita[] = [
     id: '3',
     titulo: 'Torta de Limão Clássica',
     categoria: 'Tortas',
-    imagemUrl: 'https://images.unsplash.com/photo-1603048297194-9e04b8a61a17?w=400&h=300&fit=crop',
+    imagemUrl: 'https://images.unsplash.com/photo-1603048297194-9e04b8a61a17?w=400&h=600&fit=crop',
     pdfUrl: 'https://example.com/torta-limao.pdf',
     views: 1567,
     dataAdicionado: '2024-01-12'
@@ -51,7 +51,7 @@ const receitasMock: Receita[] = [
     id: '4',
     titulo: 'Cupcakes de Baunilha',
     categoria: 'Cupcakes',
-    imagemUrl: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=300&fit=crop',
+    imagemUrl: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=600&fit=crop',
     pdfUrl: 'https://example.com/cupcakes-baunilha.pdf',
     views: 2034,
     dataAdicionado: '2024-01-10'
@@ -60,7 +60,7 @@ const receitasMock: Receita[] = [
     id: '5',
     titulo: 'Pão de Mel Recheado',
     categoria: 'Doces',
-    imagemUrl: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop',
+    imagemUrl: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=600&fit=crop',
     pdfUrl: 'https://example.com/pao-mel.pdf',
     views: 890,
     dataAdicionado: '2024-01-08'
@@ -79,123 +79,120 @@ export default function Receitas() {
   // Recém adicionados filtrados
   const recemAdicionados = filteredReceitas
     .sort((a, b) => new Date(b.dataAdicionado).getTime() - new Date(a.dataAdicionado).getTime())
-    .slice(0, 4)
+    .slice(0, 6)
 
   // Em alta filtrados
   const emAlta = filteredReceitas
     .sort((a, b) => b.views - a.views)
-    .slice(0, 4)
+    .slice(0, 6)
 
   // Demais filtrados
-  const demais = filteredReceitas.slice(4)
+  const demais = filteredReceitas.slice(6)
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-0 px-4 md:px-8 pb-12">
-      {/* HERO IMAGEM FULL-WIDTH MOBILE/DESKTOP GRUDADO NO TOPO + FALLBACK GRADIENTE */}
-      <div className="relative w-full -mx-4 md:-mx-8 h-[300px] sm:h-[400px] md:h-[500px] mb-16 md:mb-20 overflow-hidden rounded-3xl shadow-2xl bg-gradient-to-br from-pink-800 via-rose-900 to-pink-900">
-        {/* Imagem de fundo (cobre gradiente se carregar) */}
-        <img
-          src="/hero"
-          alt="Hero Receitas"
-          className="w-full h-full object-cover"
-          loading="eager"
-        />
+    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white overflow-x-hidden">
+      {/* HERO NETFLIX: FULL-VIEWPORT + OVERLAY + TEXTO CENTRALIZADO */}
+      <div 
+        className="relative w-full h-screen overflow-hidden"
+        style={{
+          backgroundImage: `url(/hero)`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
+      >
+        {/* Overlay gradiente escuro */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black/100" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
         
-        {/* Overlay blur preto */}
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-xl" />
-        
-        {/* Texto centralizado */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black bg-gradient-to-r from-white via-pink-50 to-white bg-clip-text text-transparent drop-shadow-2xl text-center leading-tight px-4">
-            Receitas<br className="sm:hidden" /><span className="block sm:inline">Exclusivas</span>
+        {/* Conteúdo hero centralizado */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 md:px-12 max-w-4xl mx-auto">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 drop-shadow-2xl leading-tight tracking-tight">
+            Receitas
+            <br />
+            <span className="text-transparent bg-gradient-to-r from-red-500 via-pink-500 to-yellow-400 bg-clip-text">Exclusivas</span>
           </h1>
+          <p className="text-xl md:text-2xl text-gray-300 font-light mb-12 max-w-2xl mx-auto leading-relaxed">
+            Descubra receitas incríveis para elevar sua confeitaria
+          </p>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto">
-        {/* Barra de pesquisa ROSA SIMPLES sem sombra/gradient animado */}
-        <div className="max-w-2xl mx-auto mb-16">
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 w-5 h-5 z-10 pointer-events-none" />
-            <Input
-              type="text"
-              placeholder="Buscar receitas ou categorias..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 text-base font-normal placeholder:text-sm placeholder:font-normal placeholder:text-white/80 focus:outline-none focus:ring-0"
-              style={{
-                backgroundColor: '#ec4899',
-                color: 'white',
-                border: 'none'
-              }}
-            />
-            {searchTerm && (
-              <button
-                type="button"
-                onClick={() => setSearchTerm('')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors z-10"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            )}
-          </div>
+      {/* BARRA DE PESQUISA NETFLIX (MANCHAS PRETA + ÍCONE BRANCO + INPUT REDONDO) */}
+      <div className="relative bg-black/80 backdrop-blur-md border-b border-gray-800 py-4 px-6 md:px-12 z-10">
+        <div className="max-w-4xl mx-auto relative">
+          <Search className="absolute left-0 top-1/2 -translate-y-1/2 w-6 h-6 text-gray-400 z-10 pointer-events-none" />
+          <Input
+            type="text"
+            placeholder="Buscar receitas..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-12 pr-12 py-4 text-lg bg-gray-900/50 border-2 border-gray-700 rounded-full text-white placeholder-gray-400 focus:border-red-600 focus:outline-none focus:ring-0 transition-all duration-300"
+          />
           {searchTerm && (
-            <p className="text-center text-sm text-gray-500 mt-3">
-              Mostrando resultados para "{searchTerm}"
-            </p>
+            <button
+              type="button"
+              onClick={() => setSearchTerm('')}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
           )}
         </div>
+      </div>
 
-        {/* Seção Recém Adicionados */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 py-12 space-y-16">
+        {/* ROW RECÉM ADICIONADOS - SCROLL HORIZONTAL NETFLIX */}
         {recemAdicionados.length > 0 && (
-          <section className="mb-16">
-            <div className="flex items-center gap-3 mb-8">
-              <Clock className="w-7 h-7 text-pink-500" />
-              <h2 className="text-2xl font-bold text-gray-900">Recém Adicionados</h2>
-            </div>
-            <div className="grid grid-cols-2 gap-4 sm:gap-6">
+          <section>
+            <h2 className="text-3xl font-black mb-8 flex items-center gap-4">
+              <Clock className="w-10 h-10 text-red-500 shrink-0" />
+              Recém Adicionados
+            </h2>
+            <div className="flex gap-4 overflow-x-auto pb-8 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900 snap-x snap-mandatory">
               {recemAdicionados.map((receita) => (
-                <ReceitaCard key={receita.id} receita={receita} />
+                <ReceitaPoster key={receita.id} receita={receita} />
               ))}
             </div>
           </section>
         )}
 
-        {/* Seção Em Alta */}
+        {/* ROW EM ALTA */}
         {emAlta.length > 0 && (
-          <section className="mb-16">
-            <div className="flex items-center gap-3 mb-8">
-              <Flame className="w-7 h-7 text-orange-500" />
-              <h2 className="text-2xl font-bold text-gray-900">Em Alta</h2>
-            </div>
-            <div className="grid grid-cols-2 gap-4 sm:gap-6">
+          <section>
+            <h2 className="text-3xl font-black mb-8 flex items-center gap-4">
+              <Flame className="w-10 h-10 text-orange-500 shrink-0" />
+              Em Alta
+            </h2>
+            <div className="flex gap-4 overflow-x-auto pb-8 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900 snap-x snap-mandatory">
               {emAlta.map((receita) => (
-                <ReceitaCard key={receita.id} receita={receita} />
+                <ReceitaPoster key={receita.id} receita={receita} />
               ))}
             </div>
           </section>
         )}
 
-        {/* Todas as Receitas */}
+        {/* ROW TODAS AS RECEITAS */}
         {demais.length > 0 && (
           <section>
-            <div className="flex items-center gap-3 mb-8">
-              <Tag className="w-7 h-7 text-purple-500" />
-              <h2 className="text-2xl font-bold text-gray-900">Todas as Receitas</h2>
-            </div>
-            <div className="grid grid-cols-2 gap-4 sm:gap-6">
+            <h2 className="text-3xl font-black mb-8 flex items-center gap-4">
+              <Tag className="w-10 h-10 text-purple-500 shrink-0" />
+              Todas as Receitas
+            </h2>
+            <div className="flex gap-4 overflow-x-auto pb-8 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900 snap-x snap-mandatory">
               {demais.map((receita) => (
-                <ReceitaCard key={receita.id} receita={receita} />
+                <ReceitaPoster key={receita.id} receita={receita} />
               ))}
             </div>
           </section>
         )}
 
+        {/* VAZIO */}
         {filteredReceitas.length === 0 && searchTerm && (
-          <div className="text-center py-20">
-            <Search className="w-16 h-16 text-gray-400 mx-auto mb-6" />
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">Nenhuma receita encontrada</h3>
-            <p className="text-gray-600">Tente buscar por outro termo</p>
+          <div className="text-center py-32">
+            <Search className="w-24 h-24 text-gray-600 mx-auto mb-8 opacity-50" />
+            <h3 className="text-4xl font-black text-gray-400 mb-4">Nenhuma receita encontrada</h3>
+            <p className="text-xl text-gray-500">Tente buscar por outro termo</p>
           </div>
         )}
       </div>
@@ -203,43 +200,44 @@ export default function Receitas() {
   )
 }
 
-function ReceitaCard({ receita }: { receita: Receita }) {
+function ReceitaPoster({ receita }: { receita: Receita }) {
   return (
-    <Card className="group hover:shadow-2xl transition-all duration-300 overflow-hidden border-0 bg-white/80 backdrop-blur-sm hover:bg-white shadow-lg">
-      <div className="relative overflow-hidden aspect-video bg-gradient-to-br from-gray-100 to-gray-200 group-hover:from-pink-50 group-hover:to-rose-50">
+    <div className="group relative w-44 flex-shrink-0 snap-center hover:scale-110 transition-all duration-300 cursor-pointer">
+      {/* Poster vertical Netflix */}
+      <div className="w-full aspect-[2/3] rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-b from-gray-800 to-black group-hover:shadow-red-500/25">
         <img 
-          src={receita.imagemUrl} 
+          src={receita.imagemUrl.replace('h=300', 'h=600')} 
           alt={receita.titulo}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        <div className="absolute bottom-4 left-4 right-4">
-          <Badge variant="secondary" className="mb-2 inline-block bg-white/90 text-gray-800 font-bold px-3 py-1">
+        {/* Overlay hover */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4" />
+        
+        {/* Badge categoria */}
+        <div className="absolute top-4 left-4 z-10">
+          <Badge className="bg-red-600/90 text-white font-bold px-3 py-1 backdrop-blur-sm">
             {receita.categoria}
           </Badge>
-          <div className="flex items-center gap-2 text-white text-sm mb-3 opacity-0 group-hover:opacity-100 transition-opacity">
-            <Eye className="w-4 h-4" />
-            <span>{receita.views.toLocaleString()} visualizações</span>
+        </div>
+        
+        {/* Play button hover */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="w-20 h-20 bg-red-600/90 backdrop-blur-xl rounded-2xl flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-200">
+            <Play className="w-8 h-8 text-white ml-1" />
           </div>
         </div>
       </div>
-      <CardHeader className="p-6 pb-4">
-        <CardTitle className="text-xl font-bold text-gray-900 leading-tight line-clamp-2 group-hover:line-clamp-none">
-          {receita.titulo}
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="p-6 pt-0">
-        <Button 
-          asChild
-          size="lg" 
-          className="w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-300"
-        >
-          <a href={receita.pdfUrl} download target="_blank" rel="noopener noreferrer">
-            <Download className="w-5 h-5 mr-2" />
-            Baixar PDF
-          </a>
-        </Button>
-      </CardContent>
-    </Card>
+      
+      {/* Título abaixo */}
+      <h3 className="mt-3 text-sm font-bold text-white line-clamp-2 px-1 leading-tight">
+        {receita.titulo}
+      </h3>
+      
+      {/* Views */}
+      <div className="flex items-center gap-2 mt-1 text-xs text-gray-400">
+        <Eye className="w-3 h-3" />
+        <span>{receita.views.toLocaleString()} views</span>
+      </div>
+    </div>
   )
 }
