@@ -85,12 +85,19 @@ export default function Inicio() {
           </CardContent>
         </Card>
 
-        {/* NOVO CARD: Instale o App - AZUL ESCURO #010135 + faviconapp.png + layout empilhado centralizado responsivo */}
-        <Card className="w-full max-w-md border-0 rounded-3xl overflow-hidden bg-[#010135] mt-6">
-          <CardContent className="p-8 text-center">
+        {/* CARD REFAZIDO: Instale o App - AZUL ESCURO #010135 + faviconapp.png + selo Recomendado + stats abaixo */}
+        <Card className="w-full max-w-md border-0 rounded-3xl overflow-hidden bg-[#010135] mt-6 relative">
+          {/* Selo Recomendado no canto superior direito */}
+          <div className="absolute top-4 right-4 z-10">
+            <div className="bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-500 text-black px-4 py-2 rounded-full text-xs font-bold shadow-2xl shadow-yellow-500/50 rotate-[-10deg] transform -translate-x-2 -translate-y-2 border-2 border-white/50">
+              ⭐ Recomendado
+            </div>
+          </div>
+          
+          <CardContent className="p-8 text-center pt-16 md:pt-20">
             <div className="flex flex-col items-center space-y-6">
               {/* Ícone faviconapp.png com fundo BRANCO - centralizado e responsivo */}
-              <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center p-3 shrink-0">
+              <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center p-3 shrink-0 shadow-2xl">
                 <img 
                   src="/faviconapp.png" 
                   alt="App" 
@@ -100,8 +107,8 @@ export default function Inicio() {
               
               {/* Textos centralizados - SUBTEXTO EM DUAS LINHAS EXATAS */}
               <div className="text-gray-200 text-sm max-w-sm mx-auto leading-6 text-center space-y-1">
-                <span>Acesse todas as funcionalidades</span>
-                <span>de forma rápida</span>
+                <span className="block whitespace-nowrap">Acesse todas as funcionalidades</span>
+                <span className="block whitespace-nowrap">de forma rápida</span>
               </div>
               
               {/* Botão NEON ROSA abaixo, centralizado full-width responsivo */}
@@ -110,6 +117,17 @@ export default function Inicio() {
               >
                 Instalar
               </Button>
+
+              {/* Infos de versão e usuários - layout flex responsivo abaixo do botão */}
+              <div className="flex flex-col sm:flex-row justify-between items-center w-full max-w-xs gap-4 pt-6 mt-4 border-t border-gray-800/50 text-xs text-gray-400 font-medium">
+                <span className="flex items-center gap-1">
+                  📱 Versão do App
+                  <span className="text-gray-200 font-bold">3.9.0</span>
+                </span>
+                <span className="flex items-center gap-1">
+                  👥 14.220 usuários
+                </span>
+              </div>
             </div>
           </CardContent>
         </Card>
