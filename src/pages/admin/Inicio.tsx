@@ -5,9 +5,9 @@ import { Edit } from 'lucide-react'
 
 export default function Inicio() {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200">
+    <div className="min-h-screen flex flex-col items-center justify-start md:justify-center pt-2 px-4 pb-8 md:p-6 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200">
       <Card className="w-full max-w-md border-0 shadow-2xl rounded-3xl overflow-hidden bg-white">
-        <CardContent className="p-12 pt-12 pb-20 text-center">
+        <CardContent className="pt-4 md:pt-12 p-8 md:p-12 pb-16 md:pb-20 text-center">
           {/* Logo com bordas duplas: externa rosa e interna branca */}
           <div className="relative mx-auto mb-8 w-48 h-48 group">
             {/* Borda externa ROSA (dupla para profundidade) */}
