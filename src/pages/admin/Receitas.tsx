@@ -26,13 +26,18 @@ export default function Home() {
           </span>
         </h1>
 
-        <p className="text-xl text-gray-300 max-w-xl">
-          Descubra receitas incríveis para elevar sua confeitaria
+        <p className="text-xl md:text-2xl max-w-2xl leading-relaxed">
+          Descubra receitas incríveis <br />
+          para elevar sua confeitaria para <br />
+          o{" "}
+          <span className="text-[#fbbf24] font-semibold">
+            próximo Nível
+          </span>
         </p>
 
       </section>
 
-      {/* CONTEÚDO ABAIXO (exemplo) */}
+      {/* CONTEÚDO ABAIXO (exemplo visual) */}
       <section className="px-6 pb-20">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
