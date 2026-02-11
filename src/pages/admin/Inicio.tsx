@@ -10,7 +10,7 @@ export default function Inicio() {
         <Card className="w-full max-w-md border-0 shadow-2xl rounded-3xl overflow-hidden bg-white">
           <CardContent className="pt-4 md:pt-12 p-8 md:p-12 pb-16 md:pb-20 text-center">
             {/* Logo EXATA do cardapio público + borda rosa ANIMADA */}
-            <div className="relative mx-auto mb-8 w-48 h-48">
+            <div className="relative mx-auto mb-4 w-48 h-48"> {/* Reduzido de mb-8 para mb-4 */}
               {/* Anel gradient FULL SIZE - borda colorida externa girando SOZINHA */}
               <div 
                 className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-400 via-purple-400 to-orange-400 animate-[spin_6s_linear_infinite]"
@@ -49,15 +49,15 @@ export default function Inicio() {
               </div>
             </div>
 
-            {/* Nome do Cliente com ícone de lápis (visual apenas) */}
-            <div className="relative mb-10 p-6 rounded-2xl bg-white">
-              <h1 className="text-4xl font-black text-gray-900 mb-2 tracking-tight">Bruno</h1>
+            {/* Nome do Cliente com ícone de lápis inline na mesma linha */}
+            <div className="flex items-center justify-center gap-3 mb-10 p-6 rounded-2xl bg-white"> {/* Mudado para flex inline */}
+              <h1 className="text-4xl font-black text-gray-900 tracking-tight">Bruno</h1>
               <button 
-                className="absolute -top-3 -right-3 p-1.5 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-all cursor-pointer group border border-gray-100"
+                className="p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-all cursor-pointer group border border-gray-100 flex-shrink-0" {/* Inline sem absolute */}
                 title="Alterar nome (em breve)"
                 type="button"
               >
-                <Edit className="w-4 h-4 text-gray-500 group-hover:text-pink-500 transition-colors" />
+                <Edit className="w-5 h-5 text-gray-500 group-hover:text-pink-500 transition-colors" />
               </button>
             </div>
 
