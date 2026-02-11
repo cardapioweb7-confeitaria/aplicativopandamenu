@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Users, Package, Calendar, Clock, DownloadCloud } from 'lucide-react'
+import { Users, Package, Calendar, Clock, DownloadCloud, Star, TrendingUp, ShoppingBag } from 'lucide-react'
 
 export default function Inicio() {
   const [countdown, setCountdown] = useState({
@@ -33,139 +33,165 @@ export default function Inicio() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6 sm:p-8">
-      <div className="max-w-6xl mx-auto space-y-8">
-        {/* Header */}
-        <div className="text-center">
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-pink-600 via-pink-500 to-pink-400 bg-clip-text text-transparent mb-4">
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50 p-4 sm:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto space-y-8">
+        {/* LOGO PROEMINENTE + CABEÇALHO */}
+        <div className="text-center mb-12">
+          <div className="mx-auto w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 mb-6 shadow-2xl rounded-3xl overflow-hidden border-8 border-white bg-gradient-to-br from-pink-400 to-purple-500">
+            <img 
+              src="/logointernaadmin.png" 
+              alt="Panda Menu Logo" 
+              className="w-full h-full object-contain p-4"
+            />
+          </div>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-pink-600 via-pink-500 to-purple-500 bg-clip-text text-transparent mb-4 drop-shadow-lg">
             Dashboard
           </h1>
-          <p className="text-xl text-gray-600">Bem-vindo ao painel administrativo do Panda Menu</p>
+          <p className="text-xl md:text-2xl text-gray-700 font-semibold max-w-2xl mx-auto leading-relaxed">
+            Bem-vindo ao painel administrativo do <span className="text-pink-600 font-black">Panda Menu</span>
+          </p>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Usuários */}
-          <Card className="group hover:shadow-xl transition-all duration-300 border-0 bg-white/80 backdrop-blur-sm">
-            <CardHeader className="pb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                  <Users className="w-6 h-6 text-white" />
+        {/* CARDS DE INFORMAÇÕES - GRID RESPONSIVO */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {/* Card 1: Usuários */}
+          <Card className="group hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 border-0 overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100 shadow-xl">
+            <CardHeader className="pb-4 bg-gradient-to-r from-blue-500/10">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300">
+                  <Users className="w-8 h-8 text-white" />
                 </div>
                 <div>
-                  <CardTitle className="text-2xl font-bold text-gray-900">7.690</CardTitle>
-                  <CardDescription>Usuários Ativos</CardDescription>
+                  <CardTitle className="text-3xl font-black text-blue-900">7.690</CardTitle>
+                  <CardDescription className="text-blue-700 font-semibold">Usuários Ativos</CardDescription>
                 </div>
               </div>
             </CardHeader>
+            <CardContent className="pt-0">
+              <Badge className="bg-blue-500 hover:bg-blue-600 text-white font-bold">+12% este mês</Badge>
+            </CardContent>
           </Card>
 
-          {/* Versão */}
-          <Card className="group hover:shadow-xl transition-all duration-300 border-0 bg-white/80 backdrop-blur-sm">
-            <CardHeader className="pb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                  <Package className="w-6 h-6 text-white" />
+          {/* Card 2: Versão */}
+          <Card className="group hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 border-0 overflow-hidden bg-gradient-to-br from-green-50 to-green-100 shadow-xl">
+            <CardHeader className="pb-4 bg-gradient-to-r from-green-500/10">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300">
+                  <Package className="w-8 h-8 text-white" />
                 </div>
                 <div>
-                  <CardTitle className="text-2xl font-bold text-gray-900">2.1.9</CardTitle>
-                  <CardDescription>Versão Atual</CardDescription>
+                  <CardTitle className="text-3xl font-black text-green-900">2.1.9</CardTitle>
+                  <CardDescription className="text-green-700 font-semibold">Versão Atual</CardDescription>
                 </div>
               </div>
             </CardHeader>
+            <CardContent className="pt-0">
+              <Badge className="bg-green-500 hover:bg-green-600 text-white font-bold">Atualizado hoje</Badge>
+            </CardContent>
           </Card>
 
-          {/* Última Atualização */}
-          <Card className="group hover:shadow-xl transition-all duration-300 border-0 bg-white/80 backdrop-blur-sm">
-            <CardHeader className="pb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                  <Calendar className="w-6 h-6 text-white" />
+          {/* Card 3: Última Atualização */}
+          <Card className="group hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 border-0 overflow-hidden bg-gradient-to-br from-purple-50 to-purple-100 shadow-xl">
+            <CardHeader className="pb-4 bg-gradient-to-r from-purple-500/10">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300">
+                  <Calendar className="w-8 h-8 text-white" />
                 </div>
                 <div>
-                  <CardTitle className="text-2xl font-bold text-gray-900">15/12/2025</CardTitle>
-                  <CardDescription>Última Atualização</CardDescription>
+                  <CardTitle className="text-3xl font-black text-purple-900">15/12/2025</CardTitle>
+                  <CardDescription className="text-purple-700 font-semibold">Última Atualização</CardDescription>
                 </div>
               </div>
             </CardHeader>
+            <CardContent className="pt-0">
+              <Badge className="bg-purple-500 hover:bg-purple-600 text-white font-bold">Estável</Badge>
+            </CardContent>
           </Card>
 
-          {/* Próxima Atualização */}
-          <Card className="group hover:shadow-xl transition-all duration-300 border-0 bg-white/80 backdrop-blur-sm">
-            <CardHeader className="pb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                  <Clock className="w-6 h-6 text-white animate-spin-slow" />
+          {/* Card 4: Próxima Atualização */}
+          <Card className="group hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 border-0 overflow-hidden bg-gradient-to-br from-orange-50 to-orange-100 shadow-xl">
+            <CardHeader className="pb-4 bg-gradient-to-r from-orange-500/10">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300 animate-pulse">
+                  <Clock className="w-8 h-8 text-white" />
                 </div>
                 <div>
-                  <CardTitle className="text-2xl font-bold text-gray-900">20/02/2026</CardTitle>
-                  <CardDescription>Próxima Atualização</CardDescription>
+                  <CardTitle className="text-3xl font-black text-orange-900">{countdown.days}d {countdown.hours}h</CardTitle>
+                  <CardDescription className="text-orange-700 font-semibold">Próxima Atualização</CardDescription>
                 </div>
               </div>
             </CardHeader>
+            <CardContent className="pt-0">
+              <Badge className="bg-orange-500 hover:bg-orange-600 text-white font-bold animate-pulse">Em Breve</Badge>
+            </CardContent>
           </Card>
         </div>
 
-        {/* Countdown Timer */}
-        <Card className="border-0 shadow-2xl bg-gradient-to-r from-orange-500 via-orange-600 to-orange-400 text-white overflow-hidden">
-          <CardHeader className="text-center pb-0">
-            <CardTitle className="text-3xl font-bold mb-2">⏰ Contagem Regressiva</CardTitle>
-            <CardDescription className="text-orange-100">Próxima grande atualização</CardDescription>
-          </CardHeader>
-          <CardContent className="p-8 pt-0">
-            <div className="grid grid-cols-4 gap-4 text-center">
-              <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4">
-                <div className="text-3xl lg:text-4xl font-black">{countdown.days.toString().padStart(2, '0')}</div>
-                <div className="text-sm uppercase tracking-wide font-bold">Dias</div>
+        {/* CARDS DE INFORMAÇÕES ADICIONAIS */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Contagem Regressiva */}
+          <Card className="border-0 shadow-2xl bg-gradient-to-r from-orange-500 via-orange-600 to-orange-400 text-white overflow-hidden group hover:scale-[1.02] transition-all duration-500">
+            <CardHeader className="text-center pb-6">
+              <CardTitle className="text-3xl font-black mb-2 flex items-center justify-center gap-3">
+                ⏰ <span>Contagem Regressiva</span>
+              </CardTitle>
+              <CardDescription className="opacity-90">Próxima grande atualização</CardDescription>
+            </CardHeader>
+            <CardContent className="p-8">
+              <div className="grid grid-cols-4 gap-4 text-center">
+                <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 group-hover:scale-110 transition-all duration-300">
+                  <div className="text-4xl lg:text-5xl font-black mb-1">{countdown.days.toString().padStart(2, '0')}</div>
+                  <div className="text-sm uppercase tracking-wide font-bold opacity-90">Dias</div>
+                </div>
+                <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 group-hover:scale-110 transition-all duration-300">
+                  <div className="text-4xl lg:text-5xl font-black mb-1">{countdown.hours.toString().padStart(2, '0')}</div>
+                  <div className="text-sm uppercase tracking-wide font-bold opacity-90">Horas</div>
+                </div>
+                <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 group-hover:scale-110 transition-all duration-300">
+                  <div className="text-4xl lg:text-5xl font-black mb-1">{countdown.minutes.toString().padStart(2, '0')}</div>
+                  <div className="text-sm uppercase tracking-wide font-bold opacity-90">Minutos</div>
+                </div>
+                <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 group-hover:scale-110 transition-all duration-300">
+                  <div className="text-4xl lg:text-5xl font-black mb-1">{countdown.seconds.toString().padStart(2, '0')}</div>
+                  <div className="text-sm uppercase tracking-wide font-bold opacity-90">Segundos</div>
+                </div>
               </div>
-              <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4">
-                <div className="text-3xl lg:text-4xl font-black">{countdown.hours.toString().padStart(2, '0')}</div>
-                <div className="text-sm uppercase tracking-wide font-bold">Horas</div>
-              </div>
-              <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4">
-                <div className="text-3xl lg:text-4xl font-black">{countdown.minutes.toString().padStart(2, '0')}</div>
-                <div className="text-sm uppercase tracking-wide font-bold">Minutos</div>
-              </div>
-              <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4">
-                <div className="text-3xl lg:text-4xl font-black">{countdown.seconds.toString().padStart(2, '0')}</div>
-                <div className="text-sm uppercase tracking-wide font-bold">Segundos</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
 
-        {/* Changelog Preview */}
-        <Card className="border-0 shadow-xl bg-white">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-3">
-              <DownloadCloud className="w-6 h-6 text-blue-600" />
-              O que vem na próxima atualização
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3 text-sm">
-            <div className="flex items-start gap-3 p-4 bg-blue-50 rounded-xl">
-              <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-              <div>
-                <h4 className="font-semibold text-blue-900">Sistema de Pedidos Avançado</h4>
-                <p className="text-blue-700">Gerencie pedidos em tempo real com notificações push</p>
+          {/* Changelog Preview */}
+          <Card className="border-0 shadow-2xl bg-white overflow-hidden group hover:shadow-3xl hover:scale-[1.02] transition-all duration-500">
+            <CardHeader className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6">
+              <CardTitle className="flex items-center gap-3 text-2xl font-black">
+                <DownloadCloud className="w-8 h-8" />
+                Próximas Atualizações
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 space-y-4">
+              <div className="flex items-start gap-3 p-4 bg-blue-50 rounded-2xl group-hover:bg-blue-100 transition-all">
+                <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <h4 className="font-bold text-lg text-blue-900 mb-1">Sistema de Pedidos Avançado</h4>
+                  <p className="text-blue-700 text-sm">Gerencie pedidos em tempo real com notificações push</p>
+                </div>
               </div>
-            </div>
-            <div className="flex items-start gap-3 p-4 bg-green-50 rounded-xl">
-              <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-              <div>
-                <h4 className="font-semibold text-green-900">Analytics Completo</h4>
-                <p className="text-green-700">Veja quais produtos vendem mais e otimize seu cardápio</p>
+              <div className="flex items-start gap-3 p-4 bg-green-50 rounded-2xl group-hover:bg-green-100 transition-all">
+                <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <h4 className="font-bold text-lg text-green-900 mb-1">Analytics Completo</h4>
+                  <p className="text-green-700 text-sm">Veja quais produtos vendem mais e otimize seu cardápio</p>
+                </div>
               </div>
-            </div>
-            <div className="flex items-start gap-3 p-4 bg-purple-50 rounded-xl">
-              <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
-              <div>
-                <h4 className="font-semibold text-purple-900">Integração WhatsApp Business</h4>
-                <p className="text-purple-700">Responda pedidos diretamente do WhatsApp Business</p>
+              <div className="flex items-start gap-3 p-4 bg-purple-50 rounded-2xl group-hover:bg-purple-100 transition-all">
+                <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <h4 className="font-bold text-lg text-purple-900 mb-1">Integração WhatsApp Business</h4>
+                  <p className="text-purple-700 text-sm">Responda pedidos diretamente do WhatsApp Business</p>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   )
