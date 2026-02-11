@@ -1,9 +1,10 @@
 "use client";
 
-import { Download, Clock, Flame, Tag, Eye } from 'lucide-react'
+import { Download, Clock, Flame, Tag, Eye, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
 import { useState } from 'react'
 
 // Interface para receitas mockadas
@@ -66,25 +67,33 @@ const receitasMock: Receita[] = [
   }
 ]
 
-// Ordenar por data recente
-const recemAdicionados = receitasMock
-  .sort((a, b) => new Date(b.dataAdicionado).getTime() - new Date(a.dataAdicionado).getTime())
-  .slice(0, 4)
-
-// Em alta (mais views)
-const emAlta = receitasMock
-  .sort((a, b) => b.views - a.views)
-  .slice(0, 4)
-
-// Demais receitas
-const demais = receitasMock.slice(4)
-
 export default function Receitas() {
+  const [searchTerm, setSearchTerm] = useState('')
+
+  // Filtrar receitas baseado no termo de busca
+  const filteredReceitas = receitasMock.filter(receita =>
+    receita.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    receita.categoria.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
+  // Recém adicionados filtrados
+  const recemAdicionados = filteredReceitas
+    .sort((a, b) => new Date(b.dataAdicionado).getTime() - new Date(a.dataAdicionado).getTime())
+    .slice(0, 4)
+
+  // Em alta filtrados
+  const emAlta = filteredReceitas
+    .sort((a, b) => b.views - a.views)
+    .slice(0, 4)
+
+  // Demais filtrados
+  const demais = filteredReceitas.slice(4)
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50 p-4 md:p-8">
+    <div className="min-h-screen bg-gray-50 pt-20 px-4 md:px-8 pb-12"> {/* Fundo cinza clarinho + pt-20 topo */}
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
+        {/* Header com mais espaçamento */}
+        <div className="text-center mb-20"> {/* mb-20 ao invés de mb-12 */}
           <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-pink-600 via-rose-600 to-purple-600 bg-clip-text text-transparent mb-4">
             Receitas Exclusivas
           </h1>
@@ -93,44 +102,92 @@ export default function Receitas() {
           </p>
         </div>
 
+        {/* Barra de pesquisa ROSA com sombra forte embaixo + borda branca */}
+        <div className="max-w-2xl mx-auto mb-16">
+          <div className="relative group">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 w-5 h-5 z-10 pointer-events-none" />
+            <Input
+              type="text"
+              placeholder="Buscar receitas ou categorias..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-12 pr-4 py-4 text-lg rounded-2xl font-medium shadow-2xl border-4 border-white/50 focus:outline-none focus:ring-0 transition-all duration-300 group-hover:shadow-3xl"
+              style={{
+                background: 'linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #f9a8d4 100%)',
+                backgroundSize: '200% 200%',
+                color: 'white',
+                boxShadow: '0 20px 40px rgba(236, 72, 153, 0.4), 0 10px 20px rgba(0,0,0,0.1)'
+              }}
+            />
+            {searchTerm && (
+              <button
+                type="button"
+                onClick={() => setSearchTerm('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors z-10"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            )}
+          </div>
+          {searchTerm && (
+            <p className="text-center text-sm text-gray-500 mt-3">
+              Mostrando resultados para "{searchTerm}"
+            </p>
+          )}
+        </div>
+
         {/* Seção Recém Adicionados */}
-        <section className="mb-16">
-          <div className="flex items-center gap-3 mb-8">
-            <Clock className="w-7 h-7 text-pink-500" />
-            <h2 className="text-2xl font-bold text-gray-900">Recém Adicionados</h2>
-          </div>
-          <div className="grid grid-cols-2 gap-4 sm:gap-6">
-            {recemAdicionados.map((receita) => (
-              <ReceitaCard key={receita.id} receita={receita} />
-            ))}
-          </div>
-        </section>
+        {recemAdicionados.length > 0 && (
+          <section className="mb-16">
+            <div className="flex items-center gap-3 mb-8">
+              <Clock className="w-7 h-7 text-pink-500" />
+              <h2 className="text-2xl font-bold text-gray-900">Recém Adicionados</h2>
+            </div>
+            <div className="grid grid-cols-2 gap-4 sm:gap-6">
+              {recemAdicionados.map((receita) => (
+                <ReceitaCard key={receita.id} receita={receita} />
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Seção Em Alta */}
-        <section className="mb-16">
-          <div className="flex items-center gap-3 mb-8">
-            <Flame className="w-7 h-7 text-orange-500" />
-            <h2 className="text-2xl font-bold text-gray-900">Em Alta</h2>
-          </div>
-          <div className="grid grid-cols-2 gap-4 sm:gap-6">
-            {emAlta.map((receita) => (
-              <ReceitaCard key={receita.id} receita={receita} />
-            ))}
-          </div>
-        </section>
+        {emAlta.length > 0 && (
+          <section className="mb-16">
+            <div className="flex items-center gap-3 mb-8">
+              <Flame className="w-7 h-7 text-orange-500" />
+              <h2 className="text-2xl font-bold text-gray-900">Em Alta</h2>
+            </div>
+            <div className="grid grid-cols-2 gap-4 sm:gap-6">
+              {emAlta.map((receita) => (
+                <ReceitaCard key={receita.id} receita={receita} />
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Todas as Receitas */}
-        <section>
-          <div className="flex items-center gap-3 mb-8">
-            <Tag className="w-7 h-7 text-purple-500" />
-            <h2 className="text-2xl font-bold text-gray-900">Todas as Receitas</h2>
+        {demais.length > 0 && (
+          <section>
+            <div className="flex items-center gap-3 mb-8">
+              <Tag className="w-7 h-7 text-purple-500" />
+              <h2 className="text-2xl font-bold text-gray-900">Todas as Receitas</h2>
+            </div>
+            <div className="grid grid-cols-2 gap-4 sm:gap-6">
+              {demais.map((receita) => (
+                <ReceitaCard key={receita.id} receita={receita} />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {filteredReceitas.length === 0 && searchTerm && (
+          <div className="text-center py-20">
+            <Search className="w-16 h-16 text-gray-400 mx-auto mb-6" />
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">Nenhuma receita encontrada</h3>
+            <p className="text-gray-600">Tente buscar por outro termo</p>
           </div>
-          <div className="grid grid-cols-2 gap-4 sm:gap-6">
-            {demais.map((receita) => (
-              <ReceitaCard key={receita.id} receita={receita} />
-            ))}
-          </div>
-        </section>
+        )}
       </div>
     </div>
   )
