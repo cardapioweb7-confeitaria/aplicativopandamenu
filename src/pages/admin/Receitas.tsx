@@ -50,7 +50,7 @@ export default function Home() {
           <input
             type="text"
             placeholder="Buscar"
-            className="w-full pl-6 pr-12 py-4 text-lg bg-white border border-gray-300 rounded-xl focus:border-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-200 shadow-none"
+            className="w-full pl-6 pr-12 py-4 text-lg bg-white border border-gray-300 rounded-xl focus:outline-none shadow-none"
           />
           <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
         </div>
