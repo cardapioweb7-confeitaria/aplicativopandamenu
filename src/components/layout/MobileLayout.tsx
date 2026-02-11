@@ -60,20 +60,20 @@ export function MobileLayout({ tabs, labels, activeTab, onTabChange, showBack = 
             }}
           >
             <div className="relative">
-              {/* Botão central para ocultar */}
-              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+              {/* Botão central para ocultar - POSICIONADO ACIMA das tabs sem cobrir */}
+              <div className="absolute left-1/2 top-2 -translate-x-1/2 z-10">
                 <Button
                   onClick={toggleNav}
                   variant="ghost"
                   size="icon"
-                  className="h-12 w-12 rounded-full bg-white/90 backdrop-blur-sm shadow-xl border-2 border-white hover:bg-white hover:scale-110 transition-all duration-200"
+                  className="h-10 w-10 rounded-full bg-white/90 backdrop-blur-sm shadow-xl border-2 border-white hover:bg-white hover:scale-110 transition-all duration-200"
                 >
-                  <ChevronDown className="w-5 h-5 text-pink-600" />
+                  <ChevronDown className="w-4 h-4 text-pink-600" />
                 </Button>
               </div>
               
-              {/* Tabs ao redor do botão central */}
-              <div className="grid grid-cols-3 gap-2 p-3 px-6 pt-16 pb-4 opacity-90">
+              {/* Tabs sem padding extra - botão não cobre */}
+              <div className="grid grid-cols-3 gap-2 p-3 px-6 pb-4">
                 {tabs.map((tab) => (
                   <Button
                     key={tab}
@@ -104,9 +104,9 @@ export function MobileLayout({ tabs, labels, activeTab, onTabChange, showBack = 
               onClick={toggleNav}
               variant="ghost"
               size="icon"
-              className="h-14 w-14 rounded-full bg-white/90 backdrop-blur-sm shadow-2xl border-4 border-white hover:bg-white hover:scale-110 transition-all duration-200"
+              className="h-12 w-12 rounded-full bg-white/90 backdrop-blur-sm shadow-xl border-3 border-white hover:bg-white hover:scale-110 transition-all duration-200"
             >
-              <ChevronUp className="w-6 h-6 text-pink-600" />
+              <ChevronUp className="w-5 h-5 text-pink-600" />
             </Button>
           </motion.div>
         )}
