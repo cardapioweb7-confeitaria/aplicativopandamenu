@@ -14,9 +14,13 @@ export default function Inicio() {
             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-400 via-purple-400 to-orange-400 animate-[spin_6s_linear_infinite]" />
             
             {/* Círculo interno BRANCO - inset-[10px] cria anel de 10px de espessura */}
-            <div className="absolute inset-[10px] bg-gradient-to-br from-white to-slate-50 shadow-3xl rounded-full flex items-center justify-center z-10">
-              {/* Emoji do bolo - tamanho otimizado para o inner */}
-              <div className="text-7xl">🎂</div>
+            <div className="absolute inset-[10px] bg-gradient-to-br from-white to-slate-50 shadow-3xl rounded-full flex items-center justify-center z-10 overflow-hidden">
+              {/* Imagem 1012.jpeg full-size com object-cover */}
+              <img 
+                src="/1012.jpeg" 
+                alt="Foto" 
+                className="w-full h-full object-cover rounded-full" 
+              />
             </div>
           </div>
 
