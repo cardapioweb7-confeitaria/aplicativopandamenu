@@ -38,15 +38,27 @@ export default function Inicio() {
         {/* LOGO PROEMINENTE + TIPO DE ACESSO EM DIV BRANCA COM SOMBRA */}
         <div className="text-center mb-12">
           {/* Card principal com logo e tipo de acesso */}
-          <Card className="max-w-md mx-auto shadow-2xl border-0 overflow-hidden bg-white">
-            <CardContent className="p-8 pt-12 pb-12">
-              {/* Logo em div branca com sombra */}
-              <div className="mx-auto w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 mb-8 shadow-2xl rounded-full overflow-hidden bg-white border-8 border-white">
-                <img 
-                  src="/logointernaadmin.png" 
-                  alt="Panda Menu Logo" 
-                  className="w-full h-full object-contain p-6"
-                />
+          <Card className="max-w-lg mx-auto shadow-2xl border-0 overflow-hidden bg-white">
+            <CardContent className="p-8 pt-16 pb-16">
+              {/* Logo MAIOR com bordas extras rosas externas + internas brancas duplas + PLACEHOLDER */}
+              <div className="mx-auto mb-8 relative group">
+                {/* Bordas extras ROSAS externas (dupla camada para profundidade) */}
+                <div className="absolute inset-0 mx-6 my-6 rounded-full border-8 border-pink-400 shadow-2xl group-hover:scale-105 transition-all duration-500 animate-pulse-slow">
+                  <div className="absolute inset-0 mx-4 my-4 rounded-full border-8 border-pink-500 shadow-2xl" />
+                </div>
+                
+                {/* Container interno com bordas BRANCAS duplas */}
+                <div className="relative z-10 w-40 h-40 sm:w-48 sm:h-48 lg:w-64 lg:h-64 xl:w-72 xl:h-72 bg-gradient-to-br from-pink-50 to-white shadow-3xl rounded-full border-12 border-white p-4 flex items-center justify-center">
+                  {/* PLACEHOLDER até sistema de upload - Ícone de bolo grande */}
+                  <div className="w-full h-full flex items-center justify-center rounded-full bg-gradient-to-br from-pink-100 to-pink-200 shadow-inner p-8">
+                    <div className="text-6xl sm:text-7xl lg:text-8xl xl:text-9xl animate-bounce-slow">
+                      🎂
+                    </div>
+                    <p className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-xs font-bold text-pink-600 uppercase tracking-wider bg-white/80 px-3 py-1 rounded-full shadow-md">
+                      Logo Placeholder
+                    </p>
+                  </div>
+                </div>
               </div>
               
               {/* Tipo de Acesso: Vitalício com ponto verde piscando */}
