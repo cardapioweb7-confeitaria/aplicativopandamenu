@@ -107,7 +107,7 @@ export default function Receitas() {
         
         {/* Conteúdo hero centralizado */}
         <div className="absolute inset-0 flex flex-col items-center justify-start pt-16 md:pt-24 lg:pt-32 text-center px-6 md:px-12 max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 drop-shadow-2xl leading-tight tracking-tight">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 drop-shadow-2xl leading-none tracking-tight">
             Receitas
             <br />
             <span className="text-transparent bg-gradient-to-r from-red-500 via-pink-500 to-yellow-400 bg-clip-text">Profissionais</span>
