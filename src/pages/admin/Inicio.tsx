@@ -64,19 +64,19 @@ export default function Inicio() {
             <div className="space-y-2 mx-auto w-64 text-left" style={{ fontFamily: "'Poppins', sans-serif" }}>
               <div className="flex items-center gap-1">
                 <span className="text-lg font-bold text-gray-800">Seu acesso é</span>
-                <span className="inline-block bg-[#660033] text-white px-2 py-0.5 rounded-md text-sm font-bold">
+                <span className="inline-block bg-[#660033]/70 text-white px-2 py-0.5 rounded-md text-sm font-bold">
                   Vitalício
                 </span>
               </div>
               <div className="flex items-center gap-1">
                 <span className="text-lg font-bold text-gray-800">Você agora é</span>
-                <span className="inline-block bg-[#660033] text-white px-2 py-0.5 rounded-md text-sm font-bold">
+                <span className="inline-block bg-[#660033]/70 text-white px-2 py-0.5 rounded-md text-sm font-bold">
                   Premium
                 </span>
               </div>
               <div className="flex items-center gap-1">
                 <span className="text-lg font-bold text-gray-800">Nível Atual é</span>
-                <span className="inline-block bg-[#660033] text-white px-2 py-0.5 rounded-md text-sm font-bold">
+                <span className="inline-block bg-[#660033]/70 text-white px-2 py-0.5 rounded-md text-sm font-bold">
                   Iniciante
                 </span>
               </div>
