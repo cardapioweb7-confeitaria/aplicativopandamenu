@@ -95,14 +95,17 @@ export default function Inicio() {
           </div>
           
           <CardContent className="p-8 text-center pt-16 md:pt-20">
-            <div className="flex flex-col items-center space-y-6">
-              {/* Ícone faviconapp.png com fundo BRANCO - centralizado e responsivo */}
-              <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center p-3 shrink-0 shadow-2xl">
-                <img 
-                  src="/faviconapp.png" 
-                  alt="App" 
-                  className="w-10 h-10 object-contain"
-                />
+            <div className="flex flex-col items-center space-y-6 w-full max-w-xs">
+              {/* ÍCONE à ESQUERDA + TÍTULO lado a lado, centralizado */}
+              <div className="flex items-center gap-4 justify-center">
+                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center p-3 shrink-0 shadow-2xl">
+                  <img 
+                    src="/faviconapp.png" 
+                    alt="App" 
+                    className="w-10 h-10 object-contain"
+                  />
+                </div>
+                <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">INSTALE NOSSO APP</h2>
               </div>
               
               {/* Textos centralizados - SUBTEXTO EM DUAS LINHAS EXATAS */}
@@ -113,13 +116,13 @@ export default function Inicio() {
               
               {/* Botão NEON ROSA abaixo, centralizado full-width responsivo */}
               <Button 
-                className="w-full max-w-xs h-14 bg-gradient-to-r from-pink-400 via-rose-400 to-fuchsia-500 hover:from-pink-500 hover:via-rose-500 hover:to-fuchsia-600 text-white font-bold text-lg rounded-2xl px-8 shadow-lg shadow-pink-500/50 hover:shadow-xl hover:shadow-pink-500/70 transition-all duration-300 glow-neon"
+                className="w-full h-14 bg-gradient-to-r from-pink-400 via-rose-400 to-fuchsia-500 hover:from-pink-500 hover:via-rose-500 hover:to-fuchsia-600 text-white font-bold text-lg rounded-2xl px-8 shadow-lg shadow-pink-500/50 hover:shadow-xl hover:shadow-pink-500/70 transition-all duration-300 glow-neon"
               >
                 Instalar
               </Button>
 
               {/* Infos de versão e usuários - SEM ÍCONES e SEMPRE LADO A LADO */}
-              <div className="flex flex-row justify-between items-center w-full max-w-xs gap-4 pt-6 mt-4 border-t border-gray-800/50 text-xs text-gray-400 font-medium">
+              <div className="flex flex-row justify-between items-center w-full gap-4 pt-6 mt-4 border-t border-gray-800/50 text-xs text-gray-400 font-medium">
                 <span>
                   Versão do App
                   <span className="text-gray-200 font-bold ml-1">3.9.0</span>
