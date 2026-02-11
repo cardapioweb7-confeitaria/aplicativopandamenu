@@ -1,6 +1,6 @@
 "use client";
 
-import { Download, Clock, Fire, Tag, Eye } from 'lucide-react'
+import { Download, Clock, Flame, Tag, Eye } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -109,7 +109,7 @@ export default function Receitas() {
         {/* Seção Em Alta */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-8">
-            <Fire className="w-7 h-7 text-orange-500" />
+            <Flame className="w-7 h-7 text-orange-500" />
             <h2 className="text-2xl font-bold text-gray-900">Em Alta</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
