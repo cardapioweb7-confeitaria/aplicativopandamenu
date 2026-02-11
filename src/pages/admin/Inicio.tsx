@@ -10,11 +10,11 @@ export default function Inicio() {
         <CardContent className="pt-4 md:pt-12 p-8 md:p-12 pb-16 md:pb-20 text-center">
           {/* Logo com borda animada estilo Instagram Stories */}
           <div className="relative mx-auto mb-8 w-48 h-48 group">
-            {/* Borda rotativa colorida (estilo Stories Instagram) */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-orange-500 p-3 animate-spin shadow-2xl border-4 border-white/70 group-hover:paused" />
+            {/* Borda rotativa colorida (estilo Stories Instagram) - SEM sombra preta, mais lenta e grossa */}
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-orange-500 p-6 animate-[spin_4s_linear_infinite] border-4 border-white/90 group-hover:[animation-play-state:paused]" />
             
             {/* Container interno branco */}
-            <div className="relative z-10 w-full h-full bg-white shadow-3xl rounded-full flex items-center justify-center p-8 group-hover:scale-105 transition-all duration-300">
+            <div className="relative z-10 w-full h-full bg-gradient-to-br from-white to-slate-50 shadow-3xl rounded-full flex items-center justify-center p-8 group-hover:scale-105 transition-all duration-300">
               {/* Emoji do bolo */}
               <div className="text-7xl">🎂</div>
             </div>
