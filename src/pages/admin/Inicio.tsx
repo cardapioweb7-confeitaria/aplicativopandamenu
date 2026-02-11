@@ -105,7 +105,7 @@ export default function Inicio() {
                     className="w-10 h-10 object-contain"
                   />
                 </div>
-                <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight text-center leading-tight">
+                <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight text-left leading-tight">
                   INSTALE<br />NOSSO APP
                 </h2>
               </div>
