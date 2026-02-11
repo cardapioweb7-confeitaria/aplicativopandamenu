@@ -96,7 +96,7 @@ export default function Inicio() {
           
           <CardContent className="p-8 text-center pt-16 md:pt-20">
             <div className="flex flex-col items-center space-y-6 w-full max-w-xs">
-              {/* ÍCONE à ESQUERDA + TÍTULO lado a lado, centralizado */}
+              {/* ÍCONE à ESQUERDA + TÍTULO lado a lado, centralizado - QUEBRA EXATA APÓS 'INSTALE' */}
               <div className="flex items-center gap-4 justify-center">
                 <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center p-3 shrink-0 shadow-2xl">
                   <img 
@@ -105,7 +105,9 @@ export default function Inicio() {
                     className="w-10 h-10 object-contain"
                   />
                 </div>
-                <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">INSTALE NOSSO APP</h2>
+                <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight text-center leading-tight">
+                  INSTALE<br />NOSSO APP
+                </h2>
               </div>
               
               {/* Textos centralizados - SUBTEXTO EM DUAS LINHAS EXATAS */}
