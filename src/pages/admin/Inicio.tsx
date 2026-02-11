@@ -61,7 +61,7 @@ export default function Inicio() {
             </div>
 
             {/* Status simples - texto empilhado sem background, centralizado no bloco mas alinhado à esquerda */}
-            <div className="space-y-2 mx-auto w-64 text-left" style={{ fontFamily: "'Poppins', sans-serif" }}>
+            <div className="space-y-2 mx-auto w-64 p-6 rounded-2xl border-2 border-dashed border-pink-300 bg-white/50 shadow-lg backdrop-blur-sm" style={{ fontFamily: "'Poppins', sans-serif" }}>
               <div className="grid grid-cols-[1fr_auto] items-center gap-1">
                 <span className="text-lg font-medium text-gray-800">Seu acesso é</span>
                 <span className="inline-block bg-[#660033]/70 text-white px-2 py-0.5 rounded-md text-sm font-bold">
