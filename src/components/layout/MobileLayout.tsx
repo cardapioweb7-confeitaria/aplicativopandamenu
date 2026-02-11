@@ -25,7 +25,7 @@ export function MobileLayout({ tabs, labels, activeTab, onTabChange, showBack = 
 
   return (
     <div className="min-h-screen bg-pink-50 flex flex-col">
-      <div className="flex-1 pb-28"> {/* pb-28 = 112px → cobre nav + margem segura */}
+      <div className={`flex-1 ${showNav ? 'pb-36' : 'pb-28'}`}> {/* pb-36=144px quando visível, pb-28=112px quando oculto */}
         {showBack && (
           <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200 p-4 shadow-sm">
             <Button 
