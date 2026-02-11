@@ -102,6 +102,16 @@ export default function Receitas() {
           </p>
         </div>
 
+        {/* FAIXA ANIMADA MARQUEE ACIMA DA BARRA DE PESQUISA */}
+        <div className="max-w-4xl mx-auto mb-8 overflow-hidden">
+          <div className="marquee-container">
+            <div className="marquee-content">
+              <span className="marquee-text">As melhores receitas em um só lugar! → </span>
+              <span className="marquee-text">As melhores receitas em um só lugar! → </span>
+            </div>
+          </div>
+        </div>
+
         {/* Barra de pesquisa ROSA SIMPLES sem sombra/gradient animado */}
         <div className="max-w-2xl mx-auto mb-16">
           <div className="relative">
@@ -188,6 +198,60 @@ export default function Receitas() {
           </div>
         )}
       </div>
+
+      <style>{`
+        /* FAIXA ANIMADA MARQUEE */
+        .marquee-container {
+          position: relative;
+          width: 100%;
+          height: 50px;
+          overflow: hidden;
+          background: linear-gradient(90deg, #ec4899 0%, #f472b6 50%, #f9a8d4 100%);
+          border-radius: 25px;
+          box-shadow: 0 8px 32px rgba(236, 72, 153, 0.3);
+          margin-bottom: 1rem;
+        }
+        
+        .marquee-content {
+          position: absolute;
+          white-space: nowrap;
+          will-change: transform;
+          animation: marquee 15s linear infinite;
+          padding-left: 100%;
+          display: flex;
+          align-items: center;
+        }
+        
+        .marquee-text {
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: white;
+          text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+          margin-right: 4rem;
+          letter-spacing: 1px;
+        }
+        
+        /* PAUSE NO HOVER */
+        .marquee-container:hover .marquee-content {
+          animation-play-state: paused;
+        }
+        
+        /* RESPONSIVO */
+        @media (max-width: 768px) {
+          .marquee-text {
+            font-size: 1rem;
+          }
+        }
+        
+        @keyframes marquee {
+          0% {
+            transform: translateX(0%);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+      `}</style>
     </div>
   )
 }
