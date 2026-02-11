@@ -10,13 +10,13 @@ export default function Inicio() {
         <Card className="w-full max-w-md border-0 shadow-2xl rounded-3xl overflow-hidden bg-white">
           <CardContent className="pt-4 md:pt-12 p-8 md:p-12 pb-16 md:pb-20 text-center">
             {/* Logo EXATA do cardapio público + borda rosa ANIMADA */}
-            <div className="relative mx-auto mb-4 w-48 h-48"> {/* Reduzido de mb-8 para mb-4 */}
+            <div className="relative mx-auto mb-4 w-48 h-48">
               {/* Anel gradient FULL SIZE - borda colorida externa girando SOZINHA */}
               <div 
                 className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-400 via-purple-400 to-orange-400 animate-[spin_6s_linear_infinite]"
                 style={{
                   zIndex: 1,
-                  filter: 'blur(0px)' // Sem blur para borda nítida
+                  filter: 'blur(0px)'
                 }}
               />
               
@@ -24,7 +24,7 @@ export default function Inicio() {
               <div 
                 className="relative z-10 w-full h-full flex items-center justify-center rounded-full shadow-lg"
                 style={{
-                  padding: '6px', // Espaço para borda externa giratória
+                  padding: '6px',
                   backgroundClip: 'content-box',
                   WebkitBackgroundClip: 'content-box',
                   boxSizing: 'border-box'
@@ -50,10 +50,10 @@ export default function Inicio() {
             </div>
 
             {/* Nome do Cliente com ícone de lápis inline na mesma linha */}
-            <div className="flex items-center justify-center gap-3 mb-10 p-6 rounded-2xl bg-white"> {/* Mudado para flex inline */}
+            <div className="flex items-center justify-center gap-3 mb-10 p-6 rounded-2xl bg-white">
               <h1 className="text-4xl font-black text-gray-900 tracking-tight">Bruno</h1>
               <button 
-                className="p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-all cursor-pointer group border border-gray-100 flex-shrink-0" {/* Inline sem absolute */}
+                className="p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-all cursor-pointer group border border-gray-100 flex-shrink-0"
                 title="Alterar nome (em breve)"
                 type="button"
               >
