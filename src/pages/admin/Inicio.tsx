@@ -25,7 +25,7 @@ export default function Inicio() {
           </div>
 
           {/* Nome do Cliente com ícone de lápis (visual apenas) */}
-          <div className="relative mb-10 p-6 rounded-2xl border border-dotted border-gray-200/50 shadow-sm">
+          <div className="relative mb-10 p-6 rounded-2xl shadow-sm">
             <h1 className="text-4xl font-black text-gray-900 mb-2 tracking-tight">Bruno</h1>
             <button 
               className="absolute -top-3 -right-3 p-1.5 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-all cursor-pointer group border border-gray-100"
