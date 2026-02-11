@@ -86,7 +86,7 @@ export default function Inicio() {
         </Card>
 
         {/* NOVO CARD: Instale o App - AZUL ESCURO #010135 + faviconapp.png + linha única SEM SOMBRAS */}
-        <Card className="w-full max-w-md border-0 rounded-3xl overflow-hidden bg-white mt-6">
+        <Card className="w-full max-w-md border-0 rounded-3xl overflow-hidden bg-[#010135] mt-6">
           <CardContent className="p-8 text-center">
             <div className="flex items-center justify-between mb-6">
               {/* Ícone faviconapp.png com fundo BRANCO */}
@@ -98,11 +98,11 @@ export default function Inicio() {
                 />
               </div>
               
-              {/* Texto + Botão NA MESMA LINHA */}
+              {/* Texto + Botão NA MESMA LINHA - TEXTOS BRANCOS */}
               <div className="flex-1 flex items-center gap-4 ml-4">
                 <div className="text-left">
-                  <h2 className="text-xl font-bold text-gray-900 mb-1">Instale nosso aplicativo</h2>
-                  <p className="text-gray-600 text-sm">Acesse todas as funcionalidades de forma rápida</p>
+                  <h2 className="text-xl font-bold text-white mb-1">Instale nosso aplicativo</h2>
+                  <p className="text-gray-200 text-sm">Acesse todas as funcionalidades de forma rápida</p>
                 </div>
                 <Button 
                   className="h-14 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg rounded-2xl px-6 transition-all duration-300"
