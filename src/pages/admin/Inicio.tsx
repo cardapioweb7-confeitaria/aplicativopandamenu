@@ -74,7 +74,7 @@ export default function Inicio() {
                   Premium
                 </span>
               </div>
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-4">
                 <span className="text-lg font-bold text-gray-800">Nível Atual é</span>
                 <span className="inline-block bg-[#660033]/70 text-white px-2 py-0.5 rounded-md text-sm font-bold">
                   Iniciante
