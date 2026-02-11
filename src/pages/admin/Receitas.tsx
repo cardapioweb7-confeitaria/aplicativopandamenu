@@ -1,403 +1,192 @@
 "use client";
 
-import { Download, Clock, Flame, Tag, Eye, Search, X, Play } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { useState } from 'react'
+import { Download, Clock, Flame, Tag, Eye, Search, X, Play } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
-// Interface para receitas mockadas
+// Interface
 interface Receita {
-  id: string
-  titulo: string
-  categoria: string
-  imagemUrl: string
-  pdfUrl: string
-  views: number
-  dataAdicionado: string
+  id: string;
+  titulo: string;
+  categoria: string;
+  imagemUrl: string;
+  pdfUrl: string;
+  views: number;
+  dataAdicionado: string;
 }
 
-// Dados mockados (sem banco)
+// Mock
 const receitasMock: Receita[] = [
   {
-    id: '1',
-    titulo: 'Bolo de Chocolate Perfeito',
-    categoria: 'Bolos',
-    imagemUrl: 'https://images.unsplash.com/photo-1562440499-64b4f3163e9a?w=400&h=600&fit=crop',
-    pdfUrl: 'https://example.com/bolo-chocolate.pdf',
+    id: "1",
+    titulo: "Bolo de Chocolate Perfeito",
+    categoria: "Bolos",
+    imagemUrl:
+      "https://images.unsplash.com/photo-1562440499-64b4f3163e9a?w=400&h=600&fit=crop",
+    pdfUrl: "#",
     views: 1245,
-    dataAdicionado: '2024-01-15'
+    dataAdicionado: "2024-01-15",
   },
   {
-    id: '2',
-    titulo: 'Brigadeiro Gourmet',
-    categoria: 'Doces',
-    imagemUrl: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=600&fit=crop',
-    pdfUrl: 'https://example.com/brigadeiro-gourmet.pdf',
+    id: "2",
+    titulo: "Brigadeiro Gourmet",
+    categoria: "Doces",
+    imagemUrl:
+      "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=600&fit=crop",
+    pdfUrl: "#",
     views: 987,
-    dataAdicionado: '2024-01-14'
+    dataAdicionado: "2024-01-14",
   },
   {
-    id: '3',
-    titulo: 'Torta de Limão Clássica',
-    categoria: 'Tortas',
-    imagemUrl: 'https://images.unsplash.com/photo-1603048297194-9e04b8a61a17?w=400&h=600&fit=crop',
-    pdfUrl: 'https://example.com/torta-limao.pdf',
+    id: "3",
+    titulo: "Torta de Limão Clássica",
+    categoria: "Tortas",
+    imagemUrl:
+      "https://images.unsplash.com/photo-1603048297194-9e04b8a61a17?w=400&h=600&fit=crop",
+    pdfUrl: "#",
     views: 1567,
-    dataAdicionado: '2024-01-12'
+    dataAdicionado: "2024-01-12",
   },
   {
-    id: 'import { Download, Clock, Flame, Tag, Eye, Search, X, Play } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/uiAssistant: First, the user wants to animate the gradient on "Profissionais" using the current palette: from-red-500 via-pink-500 to-yellow-400. Make it animated by changing colors, specifically rotating the gradient.
-
-The selected component is the span: <span className="text-transparent bg-gradient-to-r from-red-500 via-pink-500 to-yellow-400 bg-clip-text">Profissionais</span>
-
-To animate a gradient, a common Tailwind way is to use a conic-gradient that rotates infinitely.
-
-I need to change it to something like:
-
-background: conic-gradient(from 0deg, red-500, pink-500, yellow-400, red-500);
-
-And add animate-spin, but animate-spin is for full 360 rotation, which works great for conic gradients.
-
-Tailwind's animate-spin rotates the element, and with conic-gradient, it creates a nice shimmer/rotation effect.
-
-But animate-spin rotates the whole element, which might not be ideal for text. For text gradients, a better way is to use @keyframes for background position or a rotating conic gradient.
-
-Since it's Tailwind, I can add custom CSS with Tailwind's arbitrary values or define a keyframe.
-
-The guidelines say: Use Tailwind CSS extensively. But for animations like this, we might need custom styles.
-
-A popular technique is:
-
-className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-pink-500 to-yellow-400 animate-gradient-x" or something, but need to define the animation.
-
-Since it's a React app with Tailwind, I can add a style tag or use Tailwind config, but simplest is to use inline style or add a class with custom animation.
-
-To keep it simple and Tailwind-only, use:
-
-<span className="text-transparent bg-[conic-gradient(red,pink,yellow,red)] bg-clip-text animate-[spin_20s_linear_infinite]">
-
-Tailwind supports arbitrary values for bg-gradient and animate.
-
-Yes! Tailwind v3+ supports arbitrary animations like animate-[spin_20s_linear_infinite].
-
-Colors: from-red-500 is #ef4444, pink-500 is #ec4899, yellow-400 is #fbbf24.
-
-But for conic-gradient, use the hex or Tailwind color names in arbitrary.
-
-Tailwind arbitrary gradients support color names.
-
-So, bg-[conic-gradient(from_0deg,from-red-500,via-pink-500,to-yellow-400,from-red-500)]
-
-And animate-[spin_20s_linear_infinite] for slow rotation.
-
-To make it seamless, repeat the first color at the end.
-
-Perfect.
-
-Also, ensure it's slow, like 20s or 30s for subtle animation.
-
-The file is src/pages/admin/Receitas.tsx, and I need to output the entire file in <dyad-write>, as per rules: ALWAYS write the entire file.
-
-Check imports: no new imports needed.
-
-Before changes: explain briefly: "Vou animar o gradiente do texto 'Profissionais' criando uma rotação suave com conic-gradient e animação spin customizada."
-
-Then, after changes: "Adicionou animação rotativa suave ao gradiente do título 'Profissionais'."
-
-Chat summary: "Animando gradiente do texto Profissionais"
-
-The previous response had a truncated dyad-write, but I need to output the full correct file.
-
-In my previous simulation, it was cut off, but now output properly.
-
-The file has a small error in the provided code? No, from the initial file.
-
-In ReceitaPoster, img src has replace('h=300', 'h=600'), but unsplash urls have h=600 already? Anyway, keep as is.
-
-In the h1, it's already leading-none from previous change.
-
-Now, update only the span class.
-
-Change to:
-
-<span className="text-transparent bg-[conic-gradient(from_0deg,_red,_orange,_yellow,_red)] bg-clip-text animate-[spin_25s_linear_infinite]">Profissionais</span>
-
-Use Tailwind colors: bg-[conic-gradient(from_0deg,#ef4444,#f472b6,#fbbf24,#ef4444)] bg-clip-text animate-[spin_25s_linear_infinite]
-
-To match exactly: red-500 #ef4444, pink-500 #ec4899, yellow-400 #fbbf24.
-
-Yes.
-
-For smoother, add more stops or via.
-
-But conic-gradient(from_0deg, #ef4444 0deg, #ec4899 120deg, #fbbf24 240deg, #ef4444 360deg)
-
-Tailwind arbitrary supports that.
-
-Simple: bg-[conic-gradient(red-500,pink-500,yellow-400,red-500)]
-
-Tailwind color names work in arbitrary values.
-
-Yes.
-
-And animate-spin but slower: Tailwind has animate-spin which is 1.6s, too fast. So custom: animate-[spin_20s_linear_infinite]
-
-Perfect.
-
-Also, to prevent text rotation, since spin rotates the element, but for gradient animation on text with bg-clip-text, it works because the background rotates relative to the text.
-
-Yes, it creates a nice color shift effect without rotating the text shape.
-
-Great.
-
-Now, output the full file.Vou animar o gradiente do texto "Profissionais" usando `conic-gradient` com as cores atuais (vermelho, rosa, amarelo) e uma rotação suave infinita de 25 segundos para um efeito dinâmico e sutil.
-
-<dyad-write path="src/pages/admin/Receitas.tsx" description="Adicionando animação rotativa conic-gradient ao texto 'Profissionais' com spin customizado lento.">
-"use client";
-
-import { Download, Clock, Flame, Tag, Eye, Search, X, Play } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { useState } from 'react'
-
-// Interface para receitas mockadas
-interface Receita {
-  id: string
-  titulo: string
-  categoria: string
-  imagemUrl: string
-  pdfUrl: string
-  views: number
-  dataAdicionado: string
-}
-
-// Dados mockados (sem banco)
-const receitasMock: Receita[] = [
-  {
-    id: '1',
-    titulo: 'Bolo de Chocolate Perfeito',
-    categoria: 'Bolos',
-    imagemUrl: 'https://images.unsplash.com/photo-1562440499-64b4f3163e9a?w=400&h=600&fit=crop',
-    pdfUrl: 'https://example.com/bolo-chocolate.pdf',
-    views: 1245,
-    dataAdicionado: '2024-01-15'
-  },
-  {
-    id: '2',
-    titulo: 'Brigadeiro Gourmet',
-    categoria: 'Doces',
-    imagemUrl: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=600&fit=crop',
-    pdfUrl: 'https://example.com/brigadeiro-gourmet.pdf',
-    views: 987,
-    dataAdicionado: '2024-01-14'
-  },
-  {
-    id: '3',
-    titulo: 'Torta de Limão Clássica',
-    categoria: 'Tortas',
-    imagemUrl: 'https://images.unsplash.com/photo-1603048297194-9e04b8a61a17?w=400&h=600&fit=crop',
-    pdfUrl: 'https://example.com/torta-limao.pdf',
-    views: 1567,
-    dataAdicionado: '2024-01-12'
-  },
-  {
-    id: '4',
-    titulo: 'Cupcakes de Baunilha',
-    categoria: 'Cupcakes',
-    imagemUrl: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=600&fit=crop',
-    pdfUrl: 'https://example.com/cupcakes-baunilha.pdf',
+    id: "4",
+    titulo: "Cupcakes de Baunilha",
+    categoria: "Cupcakes",
+    imagemUrl:
+      "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=600&fit=crop",
+    pdfUrl: "#",
     views: 2034,
-    dataAdicionado: '2024-01-10'
+    dataAdicionado: "2024-01-10",
   },
-  {
-    id: '5',
-    titulo: 'Pão de Mel Recheado',
-    categoria: 'Doces',
-    imagemUrl: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=600&fit=crop',
-    pdfUrl: 'https://example.com/pao-mel.pdf',
-    views: 890,
-    dataAdicionado: '2024-01-08'
-  }
-]
+];
 
 export default function Receitas() {
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // Filtrar receitas baseado no termo de busca
-  const filteredReceitas = receitasMock.filter(receita =>
-    receita.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    receita.categoria.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  const filteredReceitas = receitasMock.filter(
+    (receita) =>
+      receita.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      receita.categoria.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-  // Recém adicionados filtrados
-  const recemAdicionados = filteredReceitas
-    .sort((a, b) => new Date(b.dataAdicionado).getTime() - new Date(a.dataAdicionado).getTime())
-    .slice(0, 6)
+  const recemAdicionados = [...filteredReceitas]
+    .sort(
+      (a, b) =>
+        new Date(b.dataAdicionado).getTime() -
+        new Date(a.dataAdicionado).getTime()
+    )
+    .slice(0, 6);
 
-  // Em alta filtrados
-  const emAlta = filteredReceitas
+  const emAlta = [...filteredReceitas]
     .sort((a, b) => b.views - a.views)
-    .slice(0, 6)
-
-  // Demais filtrados
-  const demais = filteredReceitas.slice(6)
+    .slice(0, 6);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white overflow-x-hidden">
-      {/* HERO NETFLIX: FULL-VIEWPORT + OVERLAY + TEXTO CENTRALIZADO */}
-      <div 
-        className="relative w-full h-screen overflow-hidden"
-        style={{
-          backgroundImage: `url(/hero)`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
-        }}
-      >
-        {/* Overlay gradiente escuro */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black/100" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
-        
-        {/* Conteúdo hero centralizado */}
-        <div className="absolute inset-0 flex flex-col items-center justify-start pt-16 md:pt-24 lg:pt-32 text-center px-6 md:px-12 max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 drop-shadow-2xl leading-none tracking-tight">
-            Receitas
-            <br />
-            <span className="text-transparent bg-[conic-gradient(from_0deg,red-500,pink-500,yellow-400,red-500)] bg-clip-text animate-[spin_25s_linear_infinite]">Profissionais</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-300 font-light mb-12 max-w-2xl mx-auto leading-relaxed">
-            Descubra receitas incríveis para elevar sua confeitaria
-          </p>
-        </div>
+    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white">
+      {/* HERO */}
+      <div className="relative w-full h-screen flex flex-col items-center justify-center text-center px-6">
+        <h1 className="text-5xl md:text-7xl font-black mb-6 leading-none">
+          Receitas
+          <br />
+          <span className="text-transparent bg-[conic-gradient(from_0deg,#ef4444,#ec4899,#fbbf24,#ef4444)] bg-clip-text animate-[spin_25s_linear_infinite]">
+            Profissionais
+          </span>
+        </h1>
+
+        <p className="text-xl text-gray-300 max-w-xl">
+          Descubra receitas incríveis para elevar sua confeitaria
+        </p>
       </div>
 
-      {/* BARRA DE PESQUISA NETFLIX (MANCHAS PRETA + ÍCONE BRANCO + INPUT REDONDO) */}
-      <div className="relative bg-black/80 backdrop-blur-md border-b border-gray-800 py-4 px-6 md:px-12 z-10">
+      {/* Busca */}
+      <div className="px-6 md:px-12 pb-10">
         <div className="max-w-4xl mx-auto relative">
-          <Search className="absolute left-0 top-1/2 -translate-y-1/2 w-6 h-6 text-gray-400 z-10 pointer-events-none" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
           <Input
-            type="text"
             placeholder="Buscar receitas..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-12 py-4 text-lg bg-gray-900/50 border-2 border-gray-700 rounded-full text-white placeholder-gray-400 focus:border-red-600 focus:outline-none focus:ring-0 transition-all duration-300"
+            className="pl-12 pr-12 py-4 bg-gray-900 border-gray-700 text-white rounded-full"
           />
           {searchTerm && (
             <button
-              type="button"
-              onClick={() => setSearchTerm('')}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+              onClick={() => setSearchTerm("")}
+              className="absolute right-4 top-1/2 -translate-y-1/2"
             >
-              <X className="w-6 h-6" />
+              <X className="text-gray-400" />
             </button>
           )}
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-12 space-y-16">
-        {/* ROW RECÉM ADICIONADOS - SCROLL HORIZONTAL NETFLIX */}
-        {recemAdicionados.length > 0 && (
-          <section>
-            <h2 className="text-3xl font-black mb-8 flex items-center gap-4">
-              <Clock className="w-10 h-10 text-red-500 shrink-0" />
-              Recém Adicionados
-            </h2>
-            <div className="flex gap-4 overflow-x-auto pb-8 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900 snap-x snap-mandatory">
-              {recemAdicionados.map((receita) => (
-                <ReceitaPoster key={receita.id} receita={receita} />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* ROW EM ALTA */}
-        {emAlta.length > 0 && (
-          <section>
-            <h2 className="text-3xl font-black mb-8 flex items-center gap-4">
-              <Flame className="w-10 h-10 text-orange-500 shrink-0" />
-              Em Alta
-            </h2>
-            <div className="flex gap-4 overflow-x-auto pb-8 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900 snap-x snap-mandatory">
-              {emAlta.map((receita) => (
-                <ReceitaPoster key={receita.id} receita={receita} />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* ROW TODAS AS RECEITAS */}
-        {demais.length > 0 && (
-          <section>
-            <h2 className="text-3xl font-black mb-8 flex items-center gap-4">
-              <Tag className="w-10 h-10 text-purple-500 shrink-0" />
-              Todas as Receitas
-            </h2>
-            <div className="flex gap-4 overflow-x-auto pb-8 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900 snap-x snap-mandatory">
-              {demais.map((receita) => (
-                <ReceitaPoster key={receita.id} receita={receita} />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* VAZIO */}
-        {filteredReceitas.length === 0 && searchTerm && (
-          <div className="text-center py-32">
-            <Search className="w-24 h-24 text-gray-600 mx-auto mb-8 opacity-50" />
-            <h3 className="text-4xl font-black text-gray-400 mb-4">Nenhuma receita encontrada</h3>
-            <p className="text-xl text-gray-500">Tente buscar por outro termo</p>
-          </div>
-        )}
+      {/* Listas */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-16 pb-20">
+        <Section titulo="Recém Adicionados" icon={<Clock />} data={recemAdicionados} />
+        <Section titulo="Em Alta" icon={<Flame />} data={emAlta} />
       </div>
     </div>
-  )
+  );
+}
+
+function Section({
+  titulo,
+  icon,
+  data,
+}: {
+  titulo: string;
+  icon: React.ReactNode;
+  data: Receita[];
+}) {
+  if (data.length === 0) return null;
+
+  return (
+    <section>
+      <h2 className="text-3xl font-black mb-8 flex items-center gap-3">
+        {icon}
+        {titulo}
+      </h2>
+
+      <div className="flex gap-6 overflow-x-auto pb-4">
+        {data.map((receita) => (
+          <ReceitaPoster key={receita.id} receita={receita} />
+        ))}
+      </div>
+    </section>
+  );
 }
 
 function ReceitaPoster({ receita }: { receita: Receita }) {
   return (
-    <div className="group relative w-44 flex-shrink-0 snap-center hover:scale-110 transition-all duration-300 cursor-pointer">
-      {/* Poster vertical Netflix */}
-      <div className="w-full aspect-[2/3] rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-b from-gray-800 to-black group-hover:shadow-red-500/25">
-        <img 
-          src={receita.imagemUrl.replace('h=300', 'h=600')} 
+    <div className="group relative w-44 flex-shrink-0 cursor-pointer transition-all duration-300 hover:scale-110">
+      <div className="aspect-[2/3] rounded-2xl overflow-hidden bg-gray-800 shadow-xl">
+        <img
+          src={receita.imagemUrl}
           alt={receita.titulo}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
         />
-        {/* Overlay hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4" />
-        
-        {/* Badge categoria */}
-        <div className="absolute top-4 left-4 z-10">
-          <Badge className="bg-red-600/90 text-white font-bold px-3 py-1 backdrop-blur-sm">
+
+        <div className="absolute top-3 left-3">
+          <Badge className="bg-red-600 text-white">
             {receita.categoria}
           </Badge>
         </div>
-        
-        {/* Play button hover */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <div className="w-20 h-20 bg-red-600/90 backdrop-blur-xl rounded-2xl flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-200">
-            <Play className="w-8 h-8 text-white ml-1" />
+
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+          <div className="bg-red-600 rounded-full p-4">
+            <Play className="text-white" />
           </div>
         </div>
       </div>
-      
-      {/* Título abaixo */}
-      <h3 className="mt-3 text-sm font-bold text-white line-clamp-2 px-1 leading-tight">
+
+      <h3 className="mt-3 text-sm font-bold line-clamp-2">
         {receita.titulo}
       </h3>
-      
-      {/* Views */}
-      <div className="flex items-center gap-2 mt-1 text-xs text-gray-400">
+
+      <div className="flex items-center gap-2 text-xs text-gray-400 mt-1">
         <Eye className="w-3 h-3" />
-        <span>{receita.views.toLocaleString()} views</span>
+        {receita.views} views
       </div>
     </div>
-  )
+  );
 }
