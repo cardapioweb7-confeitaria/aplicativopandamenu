@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { Edit, Download } from 'lucide-react'
 
 export default function Inicio() {
