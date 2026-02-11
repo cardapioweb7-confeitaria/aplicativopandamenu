@@ -11,29 +11,35 @@ export default function Inicio() {
           <CardContent className="pt-4 md:pt-12 p-8 md:p-12 pb-16 md:pb-20 text-center">
             {/* Logo EXATA do cardapio público + borda rosa ANIMADA */}
             <div className="relative mx-auto mb-8 w-48 h-48">
-              {/* Anel gradient FULL SIZE - borda colorida externa girando */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-400 via-purple-400 to-orange-400 animate-[spin_6s_linear_infinite]" />
-              
-              {/* Outer: CONIC-GRADIENT BORDER ANIMADO + padding - substitui solid border */}
+              {/* Anel gradient FULL SIZE - borda colorida externa girando SOZINHA */}
               <div 
-                className="absolute inset-0 rounded-full shadow-lg flex items-center justify-center bg-transparent animate-spin-border"
+                className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-400 via-purple-400 to-orange-400 animate-[spin_6s_linear_infinite]"
                 style={{
-                  padding: '3px',
-                  backgroundImage: 'conic-gradient(#ec4899 0deg, #f472b6 90deg, #ec4899 180deg, #f472b6 270deg, #ec4899 360deg)',
+                  zIndex: 1,
+                  filter: 'blur(0px)' // Sem blur para borda nítida
+                }}
+              />
+              
+              {/* Container ESTÁTICO da imagem + bordas internas (z-10 > girando) */}
+              <div 
+                className="relative z-10 w-full h-full flex items-center justify-center rounded-full shadow-lg"
+                style={{
+                  padding: '6px', // Espaço para borda externa giratória
                   backgroundClip: 'content-box',
                   WebkitBackgroundClip: 'content-box',
-                  boxSizing: 'border-box' as const
+                  boxSizing: 'border-box'
                 }}
               >
-                {/* Inner: white border + padding - EXATO do Logo.tsx */}
+                {/* Borda branca interna + padding - EXATO do Logo.tsx */}
                 <div 
-                  className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-white"
+                  className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-white shadow-inner"
                   style={{
                     border: '3px solid white',
-                    padding: '2px'
+                    padding: '2px',
+                    boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.8)'
                   }}
                 >
-                  {/* Imagem PREENCHE perfeitamente - object-cover para foto */}
+                  {/* Imagem PREENCHE perfeitamente - object-cover para foto ESTÁTICA */}
                   <img 
                     src="/1012.jpeg" 
                     alt="Foto" 
