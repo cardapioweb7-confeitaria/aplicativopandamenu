@@ -127,17 +127,6 @@ export default function Inicio() {
               >
                 Instalar
               </Button>
-
-              {/* Infos de versão e usuários - SEM ÍCONES e SEMPRE LADO A LADO */}
-              <div className="flex flex-row justify-between items-center w-full gap-4 pt-6 mt-4 border-t border-gray-800/50 text-xs text-gray-400 font-medium">
-                <span>
-                  Versão do App
-                  <span className="text-gray-200 font-bold ml-1">3.9.0</span>
-                </span>
-                <span>
-                  14.220 usuários
-                </span>
-              </div>
             </div>
           </CardContent>
         </Card>
