@@ -3,13 +3,40 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Edit } from 'lucide-react'
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
 
 export default function Inicio() {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      localStorage.clear();
+      router.push('/login');
+      router.refresh();
+    } catch (error) {
+      console.error('Erro no logout:', error);
+    }
+  };
+
   return (
     <>
       <div className="min-h-screen flex flex-col items-center justify-start md:justify-center pt-2 px-4 pb-8 md:p-6 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200">
         <Card className="w-full max-w-md border-0 rounded-3xl overflow-hidden bg-white mt-8 md:mt-12">
-          <CardContent className="pt-12 md:pt-20 p-8 md:p-12 pb-8 md:pb-12 text-center">
+          <CardContent className="relative pt-12 md:pt-20 p-8 md:p-12 pb-8 md:pb-12 text-center">
+            {/* BOTÃO SAIR VERMELHO - APENAS MOBILE - TOP-LEFT ACIMA DA LOGO */}
+            <div className="md:hidden absolute top-4 left-4 z-30">
+              <Button
+                variant="destructive"
+                size="sm"
+                className="px-3 py-1 text-xs font-semibold h-auto"
+                onClick={handleLogout}
+              >
+                SAIR
+              </Button>
+            </div>
+
             {/* Logo EXATA do cardapio público + borda rosa ANIMADA */}
             <div className="relative mx-auto mb-2 w-48 h-48">
               {/* Anel gradient FULL SIZE - borda colorida externa girando SOZINHA */}
