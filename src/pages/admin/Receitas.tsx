@@ -90,9 +90,9 @@ export default function Receitas() {
   const demais = filteredReceitas.slice(4)
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20 px-4 md:px-8 pb-12">
-      {/* HERO IMAGEM FULL-WIDTH MOBILE - ANTES DO CONTAINER */}
-      <div className="relative w-full -mx-4 md:mx-0 h-[300px] sm:h-[400px] md:h-[500px] mb-16 md:mb-20 overflow-hidden rounded-3xl shadow-2xl">
+    <div className="min-h-screen bg-gray-50 pt-0 px-4 md:px-8 pb-12">
+      {/* HERO IMAGEM FULL-WIDTH MOBILE/DESKTOP GRUDADO NO TOPO */}
+      <div className="relative w-full -mx-4 md:-mx-8 h-[300px] sm:h-[400px] md:h-[500px] mb-16 md:mb-20 overflow-hidden rounded-3xl shadow-2xl">
         {/* Imagem de fundo */}
         <img
           src="/hero-receitas.jpg"
