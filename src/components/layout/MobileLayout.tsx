@@ -60,8 +60,8 @@ export function MobileLayout({ tabs, labels, activeTab, onTabChange, showBack = 
             }}
           >
             <div className="relative">
-              {/* Botão central para ocultar - POSICIONADO ACIMA das tabs sem cobrir */}
-              <div className="absolute left-1/2 top-2 -translate-x-1/2 z-10">
+              {/* Botão central para ocultar - MAIS PARA CIMA */}
+              <div className="absolute left-1/2 top-1 -translate-x-1/2 z-10">
                 <Button
                   onClick={toggleNav}
                   variant="ghost"
