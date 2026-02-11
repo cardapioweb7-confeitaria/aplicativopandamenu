@@ -3,18 +3,17 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Edit } from 'lucide-react'
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 
 export default function Inicio() {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       await supabase.auth.signOut();
       localStorage.clear();
-      router.push('/login');
-      router.refresh();
+      navigate('/login');
     } catch (error) {
       console.error('Erro no logout:', error);
     }
