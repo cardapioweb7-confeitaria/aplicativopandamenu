@@ -104,9 +104,9 @@ export function MobileLayout({ tabs, labels, activeTab, onTabChange, showBack = 
               onClick={toggleNav}
               variant="ghost"
               size="icon"
-              className="h-12 w-12 rounded-full bg-white/95 backdrop-blur-xl shadow-2xl border-4 border-white hover:bg-white hover:scale-110 transition-all duration-200"
+              className="h-12 w-12 rounded-full bg-gray-800 border-4 border-pink-500 hover:bg-gray-700 hover:border-pink-600 hover:scale-110 transition-all duration-200 animate-pulse-slow shadow-2xl"
             >
-              <ChevronUp className="w-5 h-5 text-pink-600" />
+              <ChevronUp className="w-5 h-5 text-pink-400" />
             </Button>
           </motion.div>
         )}
