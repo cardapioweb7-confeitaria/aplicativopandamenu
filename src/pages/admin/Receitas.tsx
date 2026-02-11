@@ -18,16 +18,17 @@ export default function Home() {
       </style>
 
       {/* HERO */}
-      <section className="relative w-full min-h-[70vh] flex flex-col items-center justify-start pt-24 text-center px-6">
+      <section className="relative w-full min-h-[65vh] flex flex-col items-center justify-start pt-10 text-center px-6">
 
-        {/* Imagem centralizada acima do título */}
+        {/* LOGO */}
         <img 
           src="/101012.png" 
           alt="Logo Receitas" 
-          className="mx-auto mb-8 w-32 h-32 sm:w-48 sm:h-48 lg:w-64 lg:h-64 object-contain drop-shadow-2xl"
+          className="mx-auto mb-4 w-28 h-28 sm:w-40 sm:h-40 lg:w-52 lg:h-52 object-contain drop-shadow-2xl"
         />
 
-        <h1 className="text-5xl md:text-7xl font-black mb-6 leading-none">
+        {/* TÍTULO */}
+        <h1 className="text-4xl md:text-6xl font-black mb-6 leading-tight">
           Receitas
           <br />
           <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#b88900,#fbbf24,#ffffff,#fbbf24,#b88900)] bg-[length:300%_300%] animate-[goldGradient_6s_linear_infinite]">
@@ -35,18 +36,15 @@ export default function Home() {
           </span>
         </h1>
 
-        <p className="text-xl md:text-2xl max-w-2xl leading-relaxed">
-          Descubra receitas incríveis <br />
-          para elevar sua confeitaria para <br />
-          o{" "}
-          <span className="text-[#fbbf24] font-semibold underline underline-offset-4 decoration-2">
-            próximo Nível!
-          </span>
+        {/* SUBTÍTULO */}
+        <p className="text-lg md:text-xl max-w-2xl leading-relaxed text-gray-200">
+          Para adoçar momentos, <br className="hidden sm:block" />
+          gerar renda ou realizar sonhos.
         </p>
 
       </section>
 
-      {/* CONTEÚDO ABAIXO (exemplo visual) */}
+      {/* CONTEÚDO ABAIXO */}
       <section className="px-6 pb-20">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
