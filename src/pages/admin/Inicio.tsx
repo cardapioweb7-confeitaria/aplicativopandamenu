@@ -8,19 +8,35 @@ export default function Inicio() {
     <div className="min-h-screen flex flex-col items-center justify-start md:justify-center pt-2 px-4 pb-8 md:p-6 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200">
       <Card className="w-full max-w-md border-0 shadow-2xl rounded-3xl overflow-hidden bg-white">
         <CardContent className="pt-4 md:pt-12 p-8 md:p-12 pb-16 md:pb-20 text-center">
-          {/* Logo com borda animada estilo Instagram Stories - REDUZIDA 30% */}
+          {/* Logo EXATA do cardapio público + spinning ring */}
           <div className="relative mx-auto mb-8 w-48 h-48">
-            {/* Anel gradient FULL SIZE - borda colorida externa */}
+            {/* Spinning gradient ring */}
             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-400 via-purple-400 to-orange-400 animate-[spin_6s_linear_infinite]" />
             
-            {/* Container BRANCO com overflow-hidden - cria borda branca interna PERFEITA */}
-            <div className="absolute inset-[12px] bg-gradient-to-br from-white to-slate-50 shadow-3xl rounded-full overflow-hidden relative z-10">
-              {/* Foto PREENCHE perfeitamente o white ring - SEM borda interna extra */}
-              <img 
-                src="/1012.jpeg" 
-                alt="Foto" 
-                className="w-full h-full object-cover rounded-full block shadow-lg" 
-              />
+            {/* Outer: border colored + padding - EXATO do Logo.tsx */}
+            <div 
+              className="w-48 h-48 rounded-full overflow-hidden shadow-lg flex items-center justify-center bg-white absolute inset-0"
+              style={{
+                border: '3px solid #ec4899',
+                boxSizing: 'border-box',
+                padding: '3px'
+              }}
+            >
+              {/* Inner: white border + padding - EXATO do Logo.tsx */}
+              <div 
+                className="w-full h-full rounded-full overflow-hidden flex items-center justify-center bg-white"
+                style={{
+                  border: '3px solid white',
+                  padding: '2px'
+                }}
+              >
+                {/* Imagem PREENCHE perfeitamente - object-cover para foto */}
+                <img 
+                  src="/1012.jpeg" 
+                  alt="Foto" 
+                  className="w-full h-full object-cover rounded-full block shadow-lg" 
+                />
+              </div>
             </div>
           </div>
 
