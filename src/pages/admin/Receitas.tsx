@@ -1,6 +1,6 @@
 "use client";
 
-import { Download, Clock, Flame, Tag, Eye, Search } from 'lucide-react'
+import { Download, Clock, Flame, Tag, Eye, Search, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -102,7 +102,7 @@ export default function Receitas() {
           </p>
         </div>
 
-        {/* Barra de pesquisa ROSA com sombra forte embaixo + borda branca */}
+        {/* Barra de pesquisa ROSA com sombra CONCENTRADA inferior-direita + SEM BORDA */}
         <div className="max-w-2xl mx-auto mb-16">
           <div className="relative group">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 w-5 h-5 z-10 pointer-events-none" />
@@ -111,12 +111,12 @@ export default function Receitas() {
               placeholder="Buscar receitas ou categorias..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 text-lg rounded-2xl font-medium shadow-2xl border-4 border-white/50 focus:outline-none focus:ring-0 transition-all duration-300 group-hover:shadow-3xl"
+              className="w-full pl-12 pr-4 py-4 text-lg rounded-2xl font-medium shadow-[0_10px_30px_rgba(236,72,153,0.6),0_5px_15px_rgba(236,72,153,0.3)] focus:outline-none focus:ring-0 transition-all duration-300 group-hover:shadow-[0_12px_35px_rgba(236,72,153,0.7),0_6px_18px_rgba(236,72,153,0.4)]"
               style={{
                 background: 'linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #f9a8d4 100%)',
                 backgroundSize: '200% 200%',
                 color: 'white',
-                boxShadow: '0 20px 40px rgba(236, 72, 153, 0.4), 0 10px 20px rgba(0,0,0,0.1)'
+                border: 'none' // SEM BORDA
               }}
             />
             {searchTerm && (
