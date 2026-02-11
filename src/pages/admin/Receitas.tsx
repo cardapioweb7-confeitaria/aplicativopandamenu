@@ -19,17 +19,17 @@ export default function Home() {
       </style>
 
       {/* HERO */}
-      <section className="relative w-full min-h-[55vh] flex flex-col items-center justify-start pt-12 text-center px-6">
+      <section className="relative w-full min-h-[35vh] flex flex-col items-center justify-start pt-12 text-center px-6">
 
         {/* LOGO */}
         <img 
           src="/101012.png" 
           alt="Logo Receitas" 
-          className="mx-auto mb-6 w-28 h-28 sm:w-40 sm:h-40 lg:w-52 lg:h-52 object-contain drop-shadow-2xl"
+          className="mx-auto mb-4 w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 object-contain drop-shadow-2xl"
         />
 
         {/* TÍTULO */}
-        <h1 className="text-4xl md:text-6xl font-black mb-8 leading-[0.95]">
+        <h1 className="text-3xl md:text-5xl font-black mb-6 leading-[0.95]">
           <span className="block">Receitas</span>
           <span className="block text-transparent bg-clip-text bg-[linear-gradient(90deg,#b88900,#fbbf24,#ffffff,#fbbf24,#b88900)] bg-[length:300%_300%] animate-[goldGradient_6s_linear_infinite]">
             Profissionais
@@ -37,7 +37,7 @@ export default function Home() {
         </h1>
 
         {/* BARRA DE PESQUISA */}
-        <div className="relative w-full max-w-md mx-auto mb-12">
+        <div className="relative w-full max-w-md mx-auto mb-6">
           <input
             type="text"
             placeholder="Buscar"
