@@ -87,11 +87,16 @@ export default function Inicio() {
 
         {/* CARD REFAZIDO: Instale o App - AZUL ESCURO #010135 + faviconapp.png + selo Recomendado + stats abaixo */}
         <Card className="w-full max-w-md border-0 rounded-3xl overflow-hidden bg-[#010135] mt-6 relative">
-          {/* Selo Recomendado no canto superior direito */}
-          <div className="absolute top-4 right-4 z-10">
-            <div className="bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-500 text-black px-4 py-2 rounded-full text-xs font-bold shadow-2xl shadow-yellow-500/50 rotate-[-10deg] transform -translate-x-2 -translate-y-2 border-2 border-white/50">
-              ⭐ Recomendado
-            </div>
+          {/* Faixa "Recomendado" estilo ribbon igual promoções */}
+          <div 
+            className="absolute top-4 -right-12 bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-500 text-black font-bold px-6 py-2 transform rotate-45 shadow-lg z-10"
+            style={{ 
+              width: '180px',
+              textAlign: 'center',
+              fontSize: '0.8rem'
+            }}
+          >
+            ⭐ Recomendado
           </div>
           
           <CardContent className="p-8 text-center pt-16 md:pt-20">
