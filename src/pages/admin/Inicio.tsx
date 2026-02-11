@@ -115,11 +115,10 @@ export default function Inicio() {
                 </h2>
               </div>
               
-              {/* Textos centralizados - SUBTEXTO EM 3 LINHAS COM ESPAÇAMENTO MÍNIMO */}
-              <div className="text-white text-base max-w-sm mx-auto leading-5 text-center space-y-0.5 font-medium">
-                <span className="block">Todas as funcionalidades</span>
-                <span className="block">na palma da sua mão,</span>
-                <span className="block">agora.</span>
+              {/* Textos centralizados - SUBTEXTO EM 2 LINHAS COM ESPAÇAMENTO MÍNIMO */}
+              <div className="text-white text-base max-w-sm mx-auto leading-5 text-center space-y-0.5">
+                <span className="block">Todas as funcionalidades na</span>
+                <span className="block">palma da sua mão agora</span>
               </div>
               
               {/* Botão NEON DOURADO abaixo, centralizado full-width responsivo */}
