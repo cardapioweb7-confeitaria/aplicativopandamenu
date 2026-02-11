@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Search, Plus } from "lucide-react";
+import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/lib/supabase";
@@ -96,10 +96,10 @@ export default function Receitas() {
       <section className="relative w-full min-h-[40vh] flex flex-col items-center justify-start pt-12 text-center px-6">
         {/* BOTÃO PEQUENO NO CANTO ESQUERDO SUPERIOR - APENAS PARA OWNERS */}
         {!loadingRole && isOwner && (
-          <div className="absolute top-4 left-6 z-20">
+          <div className="absolute top-2 left-4 z-20">
             <Button 
               size="sm"
-              className="px-4 py-2 font-semibold text-sm shadow-md hover:shadow-lg transition-all duration-200 border border-green-300"
+              className="px-3 py-1 text-xs font-semibold shadow-md hover:shadow-lg transition-all duration-200 border border-green-300"
               style={{
                 backgroundColor: '#D4EDDA',
                 color: '#155724',
@@ -110,7 +110,6 @@ export default function Receitas() {
                 showSuccess('Funcionalidade em desenvolvimento!')
               }}
             >
-              <Plus className="w-4 h-4 mr-2" />
               Cadastrar Receita
             </Button>
           </div>
