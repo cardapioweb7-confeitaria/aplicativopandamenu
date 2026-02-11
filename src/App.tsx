@@ -80,7 +80,7 @@ const App = () => {
                   <Route path="/login" element={<Login />} />
                   <Route path="/cardapio/cadastro" element={<Cadastro />} />
                   <Route path="/admin" element={<AdminLayout />} />
-                  <Route path="/admin/exclusivo" element={<AdminLayout />} />
+                  <Route path="/restrito" element={<AdminLayout />} />
                   {/* ROTA DO CARDÁPIO PÚBLICO */}
                   <Route path="/cardapio/:slug" element={<CardapioPublico />} />
                   <Route path="*" element={<NotFound />} />
