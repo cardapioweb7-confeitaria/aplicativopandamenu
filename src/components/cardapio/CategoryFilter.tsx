@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React from 'react'
 
 interface Category {
   name: string
@@ -13,6 +13,10 @@ interface CategoryFilterProps {
 }
 
 export function CategoryFilter({ categories, selectedCategory, onCategorySelect, categoryIcons = {} }: CategoryFilterProps) {
+  if (!categories || categories.length === 0) {
+    return null
+  }
+
   const categoryIconMap: { [key: string]: string } = {
     'Bolos': '/icons/1.png',
     'Doces': '/icons/2.png',
@@ -34,7 +38,9 @@ export function CategoryFilter({ categories, selectedCategory, onCategorySelect,
         style={{ 
           display: 'flex', 
           gap: '8px', 
-          padding: '4px 0',
+          padding: '4px 24px',
+          marginLeft: '-24px',
+          marginRight: '-24px',
           justifyContent: 'flex-start',
           overflowX: 'auto',
           scrollbarWidth: 'none',
@@ -71,8 +77,8 @@ export function CategoryFilter({ categories, selectedCategory, onCategorySelect,
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '80px',
-                height: '80px',
+                width: '72px',
+                height: '72px',
                 borderRadius: '50%',
                 backgroundColor: isSelected ? '#2E2E2E' : '#fe62a6',
                 border: '3px solid #DBDFE4',
@@ -81,7 +87,7 @@ export function CategoryFilter({ categories, selectedCategory, onCategorySelect,
                 transition: 'all 0.2s',
                 padding: '8px',
                 flexShrink: 0,
-                minWidth: '80px',
+                minWidth: '72px',
                 boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
               }}
               onMouseOver={(e) => {
@@ -97,8 +103,8 @@ export function CategoryFilter({ categories, selectedCategory, onCategorySelect,
                 src={iconToUse} 
                 alt={category.name}
                 style={{ 
-                  width: '40px', 
-                  height: '40px',
+                  width: '36px', 
+                  height: '36px',
                   objectFit: 'contain'
                 }}
                 onError={(e) => {
@@ -115,7 +121,7 @@ export function CategoryFilter({ categories, selectedCategory, onCategorySelect,
           textAlign: 'center', 
           marginTop: '8px',
           fontSize: '12px',
-          color: '#374151'
+          color: 'white'
         }}>
           ← Arraste para ver mais categorias →
         </div>
