@@ -28,6 +28,7 @@ export default function Home() {
   const [categorias, setCategorias] = useState<string[]>([])
   const [receitas, setReceitas] = useState<Receita[]>([])
   const [newCategoria, setNewCategoria] = useState('')
+  const [showNewCategoriaInput, setShowNewCategoriaInput] = useState(false)
   const [formData, setFormData] = useState({
     titulo: '',
     categoria: '',
@@ -132,6 +133,7 @@ export default function Home() {
     setImagemFile(null);
     setPdfFile(null);
     setNewCategoria('');
+    setShowNewCategoriaInput(false);
   };
 
   const handleSave = async () => {
@@ -208,6 +210,8 @@ export default function Home() {
       setImagemFile(null)
       setPdfFile(null)
       setShowUploadModal(false)
+      setShowNewCategoriaInput(false);
+      setNewCategoria('');
       
       // Reload receitas
       const { data: receitasData } = await supabase
@@ -217,6 +221,18 @@ export default function Home() {
       
       if (receitasData) {
         setReceitas(receitasData)
+      }
+      
+      // Reload categories
+      const { data: categoriasData } = await supabase
+        .from('receitas')
+        .select('categoria')
+      
+      if (categoriasData) {
+        const categoriasList = categoriasData
+          .map(item => item.categoria)
+          .filter(Boolean) as string[]
+        setCategorias(Array.from(new Set(categoriasList)))
       }
       
       showSuccess('Conteúdo cadastrado com sucesso!')
@@ -229,10 +245,18 @@ export default function Home() {
   }
 
   const addNewCategoria = () => {
+    setShowNewCategoriaInput(true);
+  }
+
+  const saveNewCategoria = () => {
     if (newCategoria.trim() && !categorias.includes(newCategoria.trim())) {
-      setCategorias([...categorias, newCategoria.trim()])
-      setFormData({ ...formData, categoria: newCategoria.trim() })
-      setNewCategoria('')
+      const updatedCategorias = [...categorias, newCategoria.trim()];
+      setCategorias(updatedCategorias);
+      setFormData({ ...formData, categoria: newCategoria.trim() });
+      setShowNewCategoriaInput(false);
+    } else if (categorias.includes(newCategoria.trim())) {
+      setFormData({ ...formData, categoria: newCategoria.trim() });
+      setShowNewCategoriaInput(false);
     }
   }
 
@@ -409,14 +433,23 @@ export default function Home() {
                   <Plus className="w-4 h-4" />
                 </Button>
               </div>
-              {newCategoria && (
-                <Input
-                  value={newCategoria}
-                  onChange={(e) => setNewCategoria(e.target.value)}
-                  placeholder="Nova categoria"
-                  className="bg-gray-800 border-gray-700 text-white"
-                  onKeyDown={(e) => e.key === 'Enter' && addNewCategoria()}
-                />
+              
+              {showNewCategoriaInput && (
+                <div className="flex gap-2 mt-2">
+                  <Input
+                    value={newCategoria}
+                    onChange={(e) => setNewCategoria(e.target.value)}
+                    placeholder="Nova categoria"
+                    className="bg-gray-800 border-gray-700 text-white flex-1"
+                    onKeyDown={(e) => e.key === 'Enter' && saveNewCategoria()}
+                  />
+                  <Button 
+                    onClick={saveNewCategoria}
+                    className="bg-green-600 hover:bg-green-700"
+                  >
+                    Salvar
+                  </Button>
+                </div>
               )}
             </div>
             
