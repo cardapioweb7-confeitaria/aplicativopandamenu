@@ -1,1 +1,71 @@
-"use client"; import React, { useState, useEffect } from "react"; import { Search, X, FileText, Image as ImageIcon, Plus } from "lucide-react"; import { Button } from "@/components/ui/button"; import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "@/components/ui/dialog"; import { Input } from "@/components/ui/input"; import { Label } from "@/components/ui/label"; import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select"; import { useAuth } from "@/hooks/useAuth"; import { supabase } from "@/lib/supabase"; import { showSuccess, showError } from "@/utils/toast"; export default function Receitas() { const { user } = useAuth(); const [isOwner, setIsOwner] = useState(false); const [loadingRole, setLoadingRole] = useState(true); const [searchTerm, setSearchTerm] = useState(""); const [receitas, setReceitas] = useState([]); const [categorias, setCategorias] = useState<string[]>([]); const [loading, setLoading] = useState(false); const [modalOpen, setModalOpen] = useState(false); const [form, setForm] = useState({ nome_arquivo: '', categoria: '', imagem_file: null, arquivo_file: null }); const [previewImageUrl, setPreviewImageUrl] = useState(null); const [previewFileName, setPreviewFileName] = useState(''); const [uploading, setUploading] = useState(false); // Verificar role do usuário useEffect(() => { const fetchRole = async () => { if (!user) { setLoadingRole(false); return; } try { if (user.email === 'teste@gmail.com') { setIsOwner(true); setLoadingRole(false); return; } const { data } = await supabase .from('profiles') .select('role') .eq('id', user.id) .single(); setIsOwner(data?.role === 'owner'); } catch (error) { console.error('Erro ao verificar role:', error); } finally { setLoadingRole(false); } }; fetchRole(); }, [user]); // Fetch receitas e categorias únicas const fetchData = async () => { if (!user || !isOwner) return; setLoading(true); try { const { data: receitasData } = await supabase .from('receitas') .select('*') .eq('user_id', user.id) .order('created_at', { ascending: false }); setReceitas(receitasData || []); // Categorias únicas const uniqueCategorias = Array.from(new Set(receitasData?.map(r => r.categoria) || [])).sort(); setCategorias(uniqueCategorias); } catch (error) { console.error('Erro ao buscar dados:', error); } finally { setLoading(false); } }; useEffect(() => { fetchData(); }, [user, isOwner]); // Handlers modal const openModal = () => { setModalOpen(true); setForm({ nome_arquivo: '', categoria: '', imagem_file: null, arquivo_file: null }); setPreviewImageUrl(null); setPreviewFileName(''); }; const closeModal = () => { setModalOpen(false); if (previewImageUrl) URL.revokeObjectURL(previewImageUrl as string); }; const handleImageChange = (e) => { const file = e.target.files?.[0]; if (file) { if (file.size > 5 * 1024 * 1024) { showError('Imagem muito grande (máx 5MB)'); return; } setForm({ ...form, imagem_file: file }); if (previewImageUrl) URL.revokeObjectURL(previewImageUrl as string); setPreviewImageUrl(URL.createObjectURL(file)); } }; const handleFileChange = (e) => { const file = e.target.files?.[0]; if (file) { if (file.size > 10 * 1024 * 1024) { showError('Arquivo muito grande (máx 10MB)'); return; } setForm({ ...form, arquivo_file: file }); setPreviewFileName(file.name); } }; const handleSave = async () => { if (!form.nome_arquivo.trim() || !form.categoria.trim() || !form.imagem_file) { showError('Preencha Nome, Categoria e Foto da Capa'); return; } setUploading(true); try { const userId = user?.id; if (!userId) throw new Error('Usuário não autenticado'); // Upload imagem const imgExt = form.imagem_file.name.split('.').pop(); const imgName = recipes/${userId}-${Date.now()}-img.${imgExt}; const { data: imgUpload } = await supabase.storage .from('recipes-images') .upload(imgName, form.imagem_file, { upsert: true }); if (!imgUpload) throw new Error('Falha no upload da imagem'); const { data: imgUrl } = supabase.storage.from('recipes-images').getPublicUrl(imgName); // Upload arquivo (opcional) let arquivo_url = ''; if (form.arquivo_file) { const fileExt = form.arquivo_file.name.split('.').pop(); const fileName = recipes/${userId}-${Date.now()}-file.${fileExt}; const { data: fileUpload } = await supabase.storage .from('recipes-images') .upload(fileName, form.arquivo_file, { upsert: true }); if (!fileUpload) throw new Error('Falha no upload do arquivo'); const { data: fileUrlData } = supabase.storage.from('recipes-images').getPublicUrl(fileName); arquivo_url = fileUrlData.publicUrl; } // Insert receita const { error } = await supabase.from('receitas').insert({ user_id: userId, titulo: form.nome_arquivo.trim(), categoria: form.categoria.trim(), imagem_url: imgUrl.publicUrl, pdf_url: arquivo_url, // ou arquivo_url }); if (error) throw error; showSuccess('Conteúdo cadastrado com sucesso!'); closeModal(); fetchData(); } catch (error: any) { console.error('Erro ao salvar:', error); showError(error.message || 'Erro ao cadastrar conteúdo'); } finally { setUploading(false); } }; // Filtrar receitas por busca const filteredReceitas = receitas.filter( (r) => r.titulo.toLowerCase().includes(searchTerm.toLowerCase()) || r.categoria.toLowerCase().includes(searchTerm.toLowerCase()) ); // Agrupar por categoria const grouped = filteredReceitas.reduce((acc, receita) => { if (!acc[receita.categoria]) acc[receita.categoria] = []; acc[receita.categoria].push(receita); return acc; }, {}); if (loadingRole) { return ( <div className="min-h-screen flex
+"use client";
+
+import React from "react";
+import { Search } from "lucide-react";
+
+export default function Home() {
+  return (
+    <div className="min-h-screen bg-[#0f0f0f] text-white">
+
+      {/* ANIMAÇÃO DO GRADIENTE DOURADO */}
+      <style>
+        {`
+          @keyframes goldGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+        `}
+      </style>
+
+      {/* HERO */}
+      <section className="relative w-full min-h-[55vh] flex flex-col items-center justify-start pt-12 text-center px-6">
+
+        {/* LOGO */}
+        <img 
+          src="/101012.png" 
+          alt="Logo Receitas" 
+          className="mx-auto mb-6 w-28 h-28 sm:w-40 sm:h-40 lg:w-52 lg:h-52 object-contain drop-shadow-2xl"
+        />
+
+        {/* TÍTULO */}
+        <h1 className="text-4xl md:text-6xl font-black mb-8 leading-[0.95]">
+          <span className="block">Receitas</span>
+          <span className="block text-transparent bg-clip-text bg-[linear-gradient(90deg,#b88900,#fbbf24,#ffffff,#fbbf24,#b88900)] bg-[length:300%_300%] animate-[goldGradient_6s_linear_infinite]">
+            Profissionais
+          </span>
+        </h1>
+
+        {/* BARRA DE PESQUISA */}
+        <div className="relative w-full max-w-md mx-auto mb-12">
+          <input
+            type="text"
+            placeholder="Buscar"
+            className="w-full pl-6 pr-12 py-4 text-lg bg-white border border-gray-300 rounded-xl focus:outline-none shadow-none text-gray-900"
+          />
+          <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+        </div>
+
+      </section>
+
+      {/* CONTEÚDO ABAIXO */}
+      <section className="px-6 pb-20">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div
+              key={i}
+              className="bg-[#1a1a1a] p-6 rounded-2xl"
+            >
+              <div className="h-32 bg-[#262626] rounded-xl mb-4"></div>
+              <h3 className="font-semibold mb-2">Receita {i + 1}</h3>
+              <p className="text-sm text-gray-400">Categoria</p>
+            </div>
+          ))}
+
+        </div>
+      </section>
+
+    </div>
+  );
+}
