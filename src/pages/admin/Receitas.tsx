@@ -153,11 +153,6 @@ export default function Receitas() {
       return
     }
 
-    if (file.size > 10 * 1024 * 1024) {
-      showError('Arquivo muito grande (máximo 10MB)')
-      return
-    }
-
     setUploading(true)
     try {
       const fileName = `receita-pdf-${Date.now()}.pdf`
@@ -468,7 +463,7 @@ export default function Receitas() {
                 <div className="flex-1">
                   <input type="file" accept=".pdf" onChange={(e) => e.target.files?.[0] && handlePdfUpload(e.target.files[0])} className="hidden" id="pdf-upload" disabled={uploading} />
                   <label htmlFor="pdf-upload" className="flex items-center justify-center w-full h-24 border-2 border-dashed border-gray-600 rounded-lg cursor-pointer hover:border-pink-500 transition-colors">
-                    <div className="text-center"><FileText className="w-6 h-6 text-gray-400 mx-auto mb-2" /><p className="text-gray-400">Clique para selecionar o arquivo PDF</p><p className="text-xs text-gray-500">PDF até 10MB</p></div>
+                    <div className="text-center"><FileText className="w-6 h-6 text-gray-400 mx-auto mb-2" /><p className="text-gray-400">Clique para selecionar o arquivo PDF</p><p className="text-xs text-gray-500">PDF sem limite de tamanho</p></div>
                   </label>
                 </div>
                 {formData.pdf_url && (<div className="flex items-center gap-2 bg-green-900/20 border border-green-500 rounded-lg p-3"><FileText className="w-5 h-5 text-green-400" /><span className="text-green-400 text-sm">PDF anexado</span><button onClick={() => setFormData(prev => ({ ...prev, pdf_url: '' }))} className="text-red-400 hover:text-red-300"><X className="w-4 h-4" /></button></div>)}
@@ -523,7 +518,7 @@ export default function Receitas() {
                 <div className="flex-1">
                   <input type="file" accept=".pdf" onChange={(e) => e.target.files?.[0] && handlePdfUpload(e.target.files[0])} className="hidden" id="edit-pdf-upload" disabled={uploading} />
                   <label htmlFor="edit-pdf-upload" className="flex items-center justify-center w-full h-24 border-2 border-dashed border-gray-600 rounded-lg cursor-pointer hover:border-pink-500 transition-colors">
-                    <div className="text-center"><FileText className="w-6 h-6 text-gray-400 mx-auto mb-2" /><p className="text-gray-400">Clique para alterar o PDF</p><p className="text-xs text-gray-500">PDF até 10MB</p></div>
+                    <div className="text-center"><FileText className="w-6 h-6 text-gray-400 mx-auto mb-2" /><p className="text-gray-400">Clique para alterar o PDF</p><p className="text-xs text-gray-500">PDF sem limite de tamanho</p></div>
                   </label>
                 </div>
                 {formData.pdf_url && (<div className="flex items-center gap-2 bg-green-900/20 border border-green-500 rounded-lg p-3"><FileText className="w-5 h-5 text-green-400" /><span className="text-green-400 text-sm">PDF anexado</span><button onClick={() => setFormData(prev => ({ ...prev, pdf_url: '' }))} className="text-red-400 hover:text-red-300"><X className="w-4 h-4" /></button></div>)}
