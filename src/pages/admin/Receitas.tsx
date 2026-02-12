@@ -302,53 +302,53 @@ export default function Receitas() {
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {receitas.map((receita) => (
             <div key={receita.id} className="bg-white rounded-lg overflow-hidden shadow-sm h-full flex flex-col border border-gray-100 text-gray-800">
-              <div className="p-3 flex-1 flex flex-col">
-                {/* Imagem */}
-                <div className="w-full aspect-square rounded-lg flex items-center justify-center mb-3 bg-gray-50 overflow-hidden relative">
-                  {receita.imagem_url ? (
-                    <img 
-                      src={receita.imagem_url} 
-                      alt={receita.titulo} 
-                      className="w-full h-full object-cover rounded-lg"
-                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                    />
-                  ) : (
+              {/* Imagem */}
+              <div className="w-full aspect-square bg-gray-50 overflow-hidden relative">
+                {receita.imagem_url ? (
+                  <img 
+                    src={receita.imagem_url} 
+                    alt={receita.titulo} 
+                    className="w-full h-full object-cover"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
                     <FileText className="w-8 h-8 text-gray-400" />
-                  )}
-                </div>
-                
-                {/* Conteúdo */}
-                <div className="flex-1 flex flex-col">
-                  <h4 className="font-semibold text-sm leading-tight flex-1 line-clamp-2 mb-2">
-                    {receita.titulo}
-                  </h4>
-                  
-                  {/* Categoria e botão */}
-                  <div className="mt-auto">
-                    <div className="mb-2">
-                      <Badge 
-                        variant="secondary" 
-                        className="text-xs px-2 py-0.5 rounded-sm"
-                        style={{ 
-                          backgroundColor: '#6A0122',
-                          color: 'white',
-                        }}
-                      >
-                        {receita.categoria}
-                      </Badge>
-                    </div>
-
-                    <Button
-                      onClick={() => downloadPdf(receita.pdf_url, receita.titulo)}
-                      className="w-full py-2 px-3 rounded-lg text-white text-xs font-medium transition-colors text-center whitespace-nowrap"
-                      style={{ backgroundColor: '#FF4F97' }}
-                      onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#E64280' }}
-                      onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#FF4F97' }}
-                      disabled={!receita.pdf_url}
-                    >
-                      Acessar
-                    </Button>
                   </div>
+                )}
+              </div>
+              
+              {/* Conteúdo */}
+              <div className="p-3 flex-1 flex flex-col">
+                <h4 className="font-semibold text-sm leading-tight flex-1 line-clamp-2 mb-2">
+                  {receita.titulo}
+                </h4>
+                
+                {/* Categoria e botão */}
+                <div className="mt-auto">
+                  <div className="mb-2">
+                    <Badge 
+                      variant="secondary" 
+                      className="text-xs px-2 py-0.5 rounded-sm"
+                      style={{ 
+                        backgroundColor: '#6A0122',
+                        color: 'white',
+                      }}
+                    >
+                      {receita.categoria}
+                    </Badge>
+                  </div>
+
+                  <Button
+                    onClick={() => downloadPdf(receita.pdf_url, receita.titulo)}
+                    className="w-full py-2 px-3 rounded-lg text-white text-xs font-medium transition-colors text-center whitespace-nowrap"
+                    style={{ backgroundColor: '#FF4F97' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#E64280' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#FF4F97' }}
+                    disabled={!receita.pdf_url}
+                  >
+                    Acessar
+                  </Button>
                 </div>
               </div>
             </div>
