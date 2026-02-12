@@ -32,7 +32,7 @@ export function MobileLayout({
             onClick={() => onTabChange("home")}
             className={cn(
               "transition-all duration-300",
-              activeTab === "home" ? "scale-110" : "opacity-80"
+              activeTab === "home" ? "scale-110" : ""
             )}
           >
             <img
