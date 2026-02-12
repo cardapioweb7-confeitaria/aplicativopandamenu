@@ -160,28 +160,28 @@ export default function Home() {
     setUploading(true)
     
     try {
-      // Upload imagem
+      // Upload imagem to the 'products' bucket (or another existing bucket)
       const imagemFileName = `receitas/${Date.now()}_${imagemFile.name}`
       const { error: imagemError } = await supabase.storage
-        .from('receitas')
+        .from('products') // Using existing bucket
         .upload(imagemFileName, imagemFile)
       
       if (imagemError) throw imagemError
       
       const { data: imagemData } = supabase.storage
-        .from('receitas')
+        .from('products') // Using existing bucket
         .getPublicUrl(imagemFileName)
       
-      // Upload PDF
+      // Upload PDF to the 'products' bucket (or another existing bucket)
       const pdfFileName = `receitas/${Date.now()}_${pdfFile.name}`
       const { error: pdfError } = await supabase.storage
-        .from('receitas')
+        .from('products') // Using existing bucket
         .upload(pdfFileName, pdfFile)
       
       if (pdfError) throw pdfError
       
       const { data: pdfData } = supabase.storage
-        .from('receitas')
+        .from('products') // Using existing bucket
         .getPublicUrl(pdfFileName)
       
       // Save to database
