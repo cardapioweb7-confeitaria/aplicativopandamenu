@@ -108,6 +108,32 @@ export default function Home() {
     }
   }
 
+  const handleOpenUploadModal = () => {
+    // Minimize navigation menu before opening modal
+    const minimizeEvent = new CustomEvent('minimizeNavigation');
+    window.dispatchEvent(minimizeEvent);
+    
+    // Open the modal after a short delay to allow animation
+    setTimeout(() => {
+      setShowUploadModal(true);
+    }, 300);
+  };
+
+  const handleCloseUploadModal = () => {
+    setShowUploadModal(false);
+    // Reset form when closing
+    setFormData({
+      titulo: '',
+      categoria: '',
+      descricao: '',
+      imagem_url: '',
+      pdf_url: ''
+    });
+    setImagemFile(null);
+    setPdfFile(null);
+    setNewCategoria('');
+  };
+
   const handleSave = async () => {
     if (!formData.titulo.trim()) {
       showError('Título é obrigatório')
@@ -259,7 +285,7 @@ export default function Home() {
         {/* BOTÃO DE CADASTRO (somente para owners) */}
         {isOwner && (
           <Button 
-            onClick={() => setShowUploadModal(true)}
+            onClick={handleOpenUploadModal}
             className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg mb-8"
           >
             Cadastrar Conteúdo
@@ -308,7 +334,7 @@ export default function Home() {
       </section>
       
       {/* MODAL DE UPLOAD */}
-      <Dialog open={showUploadModal} onOpenChange={setShowUploadModal}>
+      <Dialog open={showUploadModal} onOpenChange={handleCloseUploadModal}>
         <DialogContent className="max-w-md w-[95vw] bg-[#1a1a1a] border-gray-800">
           <DialogHeader>
             <DialogTitle className="text-white">Cadastrar Conteúdo</DialogTitle>
@@ -436,7 +462,7 @@ export default function Home() {
             <div className="flex gap-3 pt-4">
               <Button 
                 variant="outline" 
-                onClick={() => setShowUploadModal(false)}
+                onClick={handleCloseUploadModal}
                 className="flex-1 border-gray-600 text-white"
               >
                 Cancelar
