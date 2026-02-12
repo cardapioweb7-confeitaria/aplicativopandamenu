@@ -41,6 +41,7 @@ interface Receita {
   categoria: string;
   imagem_url: string;
   pdf_url: string;
+  created_at: string;
 }
 
 const categorias = [
@@ -64,19 +65,12 @@ export default function Receitas() {
   const [receitas, setReceitas] = useState<Receita[]>([]);
   const [search, setSearch] = useState("");
 
-  const [newCategoria, setNewCategoria] = useState("");
-  const [showNewCategoriaInput, setShowNewCategoriaInput] = useState(false);
-  const [editingReceita, setEditingReceita] = useState<Receita | null>(null);
-
   const [formData, setFormData] = useState({
     titulo: "",
     categoria: "",
     imagem_url: "",
     pdf_url: "",
   });
-
-  const [imagemFile, setImagemFile] = useState<File | null>(null);
-  const [pdfFile, setPdfFile] = useState<File | null>(null);
 
   useEffect(() => {
     const checkOwnerStatus = async () => {
@@ -105,7 +99,7 @@ export default function Receitas() {
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (!error && data) setReceitas(data);
+    if (!error && data) setReceitas(data as Receita[]);
   };
 
   useEffect(() => {
@@ -195,6 +189,11 @@ export default function Receitas() {
     })
   }
 
+  const handleOpenModal = () => {
+    resetForm();
+    setShowUploadModal(true);
+  };
+
   const handleSave = async () => {
     if (!formData.titulo.trim()) {
       showError('Título é obrigatório')
@@ -253,6 +252,13 @@ export default function Receitas() {
     document.body.removeChild(link);
   };
 
+  const isNew = (createdAt: string) => {
+    const createdDate = new Date(createdAt);
+    const now = new Date();
+    const diffInMinutes = (now.getTime() - createdDate.getTime()) / (1000 * 60);
+    return diffInMinutes < 5; // Consider "new" if created in the last 5 minutes
+  };
+
   const filteredReceitas = receitas.filter((r) =>
     r.titulo.toLowerCase().includes(search.toLowerCase())
   );
@@ -275,7 +281,7 @@ export default function Receitas() {
 
         {isOwner && (
           <Button
-            onClick={() => setShowUploadModal(true)}
+            onClick={handleOpenModal}
             className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg mb-4"
           >
             Cadastrar Conteúdo
@@ -308,8 +314,13 @@ export default function Receitas() {
             {filteredReceitas.map((receita) => (
               <div
                 key={receita.id}
-                className="bg-white rounded-lg overflow-hidden shadow-sm flex flex-col text-gray-800"
+                className="bg-white rounded-lg overflow-hidden shadow-sm flex flex-col text-gray-800 relative"
               >
+                {isNew(receita.created_at) && (
+                  <Badge className="absolute top-2 left-2 bg-yellow-400 text-black font-bold z-10">
+                    NOVO
+                  </Badge>
+                )}
                 <div className="w-full aspect-[4/5] bg-gray-50 overflow-hidden relative">
                   {receita.imagem_url ? (
                     <img
@@ -337,7 +348,7 @@ export default function Receitas() {
                     onClick={() =>
                       downloadPdf(receita.pdf_url, receita.titulo)
                     }
-                    className="bg-[#FF4F97] text-white"
+                    className="bg-[#FF4F97] text-white mt-auto"
                   >
                     Acessar
                   </Button>
