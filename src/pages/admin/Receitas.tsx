@@ -254,11 +254,45 @@ export default function Receitas() {
     document.body.removeChild(link)
   }
 
+  const receitasEmAlta = receitas.slice(0, 3);
+  const outrasReceitas = receitas.slice(3);
+
   return (
     <div className="min-h-screen bg-[#0f0f0f] text-white">
       {/* ANIMAÇÃO DO GRADIENTE DOURADO */}
       <style>
         {`
+          @property --angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+          }
+
+          @keyframes rotate {
+            to {
+              --angle: 360deg;
+            }
+          }
+
+          .animated-border-gold {
+            position: relative;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            border-radius: 1.5rem; /* 24px */
+            padding: 1.5rem; /* 24px */
+            background: #1a1a1a;
+          }
+
+          .animated-border-gold::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            z-index: -1;
+            border-radius: inherit;
+            background: conic-gradient(from var(--angle), #b88900, #fbbf24, #ffffff, #fbbf24, #b88900);
+            animation: rotate 4s linear infinite;
+          }
+
           @keyframes goldGradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -302,72 +336,62 @@ export default function Receitas() {
       </section>
 
       {/* CONTEÚDO ABAIXO */}
-      <section className="px-6 pb-20">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {receitas.map((receita) => (
-            <div key={receita.id} className="bg-white rounded-lg overflow-hidden shadow-sm h-full flex flex-col border border-gray-100 text-gray-800">
-              {/* Imagem */}
-              <div className="w-full aspect-[9/16] md:aspect-square bg-gray-50 overflow-hidden relative">
-                {isOwner && (
-                  <Button
-                    size="icon"
-                    variant="secondary"
-                    onClick={() => handleOpenEditModal(receita)}
-                    className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-black/50 text-white hover:bg-black/70"
-                  >
-                    <Edit className="w-4 h-4" />
-                  </Button>
-                )}
-                {receita.imagem_url ? (
-                  <img 
-                    src={receita.imagem_url} 
-                    alt={receita.titulo} 
-                    className="w-full h-full object-cover"
-                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <FileText className="w-8 h-8 text-gray-400" />
+      <section className="px-6 pb-20 space-y-12">
+        {/* SEÇÃO EM ALTA */}
+        {receitasEmAlta.length > 0 && (
+          <div className="max-w-6xl mx-auto animated-border-gold">
+            <h2 className="text-2xl font-bold mb-6 text-center text-white">🔥 Em Alta</h2>
+            <div className="grid grid-cols-3 gap-4">
+              {receitasEmAlta.map((receita) => (
+                <div key={receita.id} className="bg-white rounded-lg overflow-hidden shadow-sm h-full flex flex-col border border-gray-100 text-gray-800">
+                  <div className="w-full aspect-square bg-gray-50 overflow-hidden relative">
+                    {isOwner && (
+                      <Button size="icon" variant="secondary" onClick={() => handleOpenEditModal(receita)} className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-black/50 text-white hover:bg-black/70">
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                    )}
+                    {receita.imagem_url ? <img src={receita.imagem_url} alt={receita.titulo} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} /> : <div className="w-full h-full flex items-center justify-center"><FileText className="w-8 h-8 text-gray-400" /></div>}
                   </div>
-                )}
-              </div>
-              
-              {/* Conteúdo */}
-              <div className="p-3 flex-1 flex flex-col">
-                <h4 className="font-semibold text-sm leading-tight flex-1 line-clamp-2 mb-2">
-                  {receita.titulo}
-                </h4>
-                
-                {/* Categoria e botão */}
-                <div className="mt-auto">
-                  <div className="mb-2">
-                    <Badge 
-                      variant="secondary" 
-                      className="text-xs px-2 py-0.5 rounded-sm"
-                      style={{ 
-                        backgroundColor: '#6A0122',
-                        color: 'white',
-                      }}
-                    >
-                      {receita.categoria}
-                    </Badge>
+                  <div className="p-3 flex-1 flex flex-col">
+                    <h4 className="font-semibold text-sm leading-tight flex-1 line-clamp-2 mb-2">{receita.titulo}</h4>
+                    <div className="mt-auto">
+                      <div className="mb-2"><Badge variant="secondary" className="text-xs px-2 py-0.5 rounded-sm" style={{ backgroundColor: '#6A0122', color: 'white' }}>{receita.categoria}</Badge></div>
+                      <Button onClick={() => downloadPdf(receita.pdf_url, receita.titulo)} className="w-full py-2 px-3 rounded-lg text-white text-xs font-medium transition-colors text-center whitespace-nowrap" style={{ backgroundColor: '#FF4F97' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#E64280' }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#FF4F97' }} disabled={!receita.pdf_url}>Acessar</Button>
+                    </div>
                   </div>
-
-                  <Button
-                    onClick={() => downloadPdf(receita.pdf_url, receita.titulo)}
-                    className="w-full py-2 px-3 rounded-lg text-white text-xs font-medium transition-colors text-center whitespace-nowrap"
-                    style={{ backgroundColor: '#FF4F97' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#E64280' }}
-                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#FF4F97' }}
-                    disabled={!receita.pdf_url}
-                  >
-                    Acessar
-                  </Button>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        )}
+
+        {/* OUTRAS RECEITAS */}
+        {outrasReceitas.length > 0 && (
+          <div className="max-w-6xl mx-auto">
+             <h2 className="text-2xl font-bold mb-6 text-center text-gray-400">Todas as Receitas</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {outrasReceitas.map((receita) => (
+                <div key={receita.id} className="bg-white rounded-lg overflow-hidden shadow-sm h-full flex flex-col border border-gray-100 text-gray-800">
+                  <div className="w-full aspect-[4/5] bg-gray-50 overflow-hidden relative">
+                    {isOwner && (
+                      <Button size="icon" variant="secondary" onClick={() => handleOpenEditModal(receita)} className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-black/50 text-white hover:bg-black/70">
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                    )}
+                    {receita.imagem_url ? <img src={receita.imagem_url} alt={receita.titulo} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} /> : <div className="w-full h-full flex items-center justify-center"><FileText className="w-8 h-8 text-gray-400" /></div>}
+                  </div>
+                  <div className="p-3 flex-1 flex flex-col">
+                    <h4 className="font-semibold text-sm leading-tight flex-1 line-clamp-2 mb-2">{receita.titulo}</h4>
+                    <div className="mt-auto">
+                      <div className="mb-2"><Badge variant="secondary" className="text-xs px-2 py-0.5 rounded-sm" style={{ backgroundColor: '#6A0122', color: 'white' }}>{receita.categoria}</Badge></div>
+                      <Button onClick={() => downloadPdf(receita.pdf_url, receita.titulo)} className="w-full py-2 px-3 rounded-lg text-white text-xs font-medium transition-colors text-center whitespace-nowrap" style={{ backgroundColor: '#FF4F97' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#E64280' }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#FF4F97' }} disabled={!receita.pdf_url}>Acessar</Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </section>
 
       {/* MODAL DE UPLOAD/EDIÇÃO */}
