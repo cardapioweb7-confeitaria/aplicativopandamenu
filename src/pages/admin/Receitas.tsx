@@ -308,7 +308,7 @@ export default function Receitas() {
       <section className="px-6 pb-20 space-y-12">
         {/* SEÇÃO EM ALTA */}
         {receitasEmAlta.length > 0 && (
-          <div className="-mx-6 bg-[#3a2e00] p-6 md:mx-auto md:max-w-6xl md:rounded-2xl">
+          <div className="-mx-6 bg-[#ffd700] p-6 md:mx-auto md:max-w-6xl md:rounded-2xl">
             <h2 className="text-2xl font-bold mb-6 text-center text-white">🔥 Em Alta</h2>
             <div className="grid grid-cols-3 gap-4">
               {receitasEmAlta.map((receita) => (
