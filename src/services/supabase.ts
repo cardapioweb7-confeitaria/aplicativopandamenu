@@ -22,6 +22,8 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   }
 })
 
+const BUCKET_NAME = 'public_files';
+
 export class SupabaseService {
   private generateCodeFromUserId(userId: string): string {
     return userId.slice(-5).toLowerCase()
@@ -38,7 +40,7 @@ export class SupabaseService {
       
       // 2️⃣ Fazer upload da imagem comprimida
       const { data, error } = await supabase.storage
-        .from(bucket)
+        .from(BUCKET_NAME)
         .upload(fileName, compressedFile, {
           cacheControl: '3600',
           upsert: false
@@ -50,7 +52,7 @@ export class SupabaseService {
       }
 
       const { data: { publicUrl } } = supabase.storage
-        .from(bucket)
+        .from(BUCKET_NAME)
         .getPublicUrl(fileName)
 
       console.log('✅ Upload realizado com sucesso!')
@@ -75,7 +77,7 @@ export class SupabaseService {
       const compressedFile = await compressImage(fileToCompress as File, COMPRESS_CONFIG.logo)
       
       const { data, error } = await supabase.storage
-        .from('logos')
+        .from(BUCKET_NAME)
         .upload(fileName, compressedFile, {
           cacheControl: '3600',
           upsert: false
@@ -84,7 +86,7 @@ export class SupabaseService {
       if (error) throw error
 
       const { data: { publicUrl } } = supabase.storage
-        .from('logos')
+        .from(BUCKET_NAME)
         .getPublicUrl(fileName)
 
       console.log('✅ Logo enviado com qualidade máxima!')
@@ -103,7 +105,7 @@ export class SupabaseService {
       const compressedFile = await compressImage(file, COMPRESS_CONFIG.banner)
       
       const { data, error } = await supabase.storage
-        .from('banners')
+        .from(BUCKET_NAME)
         .upload(fileName, compressedFile, {
           cacheControl: '3600',
           upsert: false
@@ -112,7 +114,7 @@ export class SupabaseService {
       if (error) throw error
 
       const { data: { publicUrl } } = supabase.storage
-        .from('banners')
+        .from(BUCKET_NAME)
         .getPublicUrl(fileName)
 
       console.log('✅ Banner enviado com alta qualidade!')

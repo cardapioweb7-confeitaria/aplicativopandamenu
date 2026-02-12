@@ -56,6 +56,8 @@ const categorias = [
   'Outros'
 ];
 
+const BUCKET_NAME = 'public_files';
+
 export default function Receitas() {
   const { user } = useAuth();
 
@@ -121,7 +123,7 @@ export default function Receitas() {
     try {
       const fileName = `receita-${Date.now()}.${file.name.split('.').pop()}`
       const { data, error } = await supabase.storage
-        .from('receitas')
+        .from(BUCKET_NAME)
         .upload(fileName, file, {
           cacheControl: '3600',
           upsert: false
@@ -130,7 +132,7 @@ export default function Receitas() {
       if (error) throw error
 
       const { data: { publicUrl } } = supabase.storage
-        .from('receitas')
+        .from(BUCKET_NAME)
         .getPublicUrl(fileName)
 
       setFormData(prev => ({ ...prev, imagem_url: publicUrl }))
@@ -158,7 +160,7 @@ export default function Receitas() {
     try {
       const fileName = `receita-pdf-${Date.now()}.pdf`
       const { data, error } = await supabase.storage
-        .from('receitas')
+        .from(BUCKET_NAME)
         .upload(fileName, file, {
           cacheControl: '3600',
           upsert: false
@@ -167,7 +169,7 @@ export default function Receitas() {
       if (error) throw error
 
       const { data: { publicUrl } } = supabase.storage
-        .from('receitas')
+        .from(BUCKET_NAME)
         .getPublicUrl(fileName)
 
       setFormData(prev => ({ ...prev, pdf_url: publicUrl }))
