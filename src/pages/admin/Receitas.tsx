@@ -307,7 +307,7 @@ export default function Receitas() {
           {receitas.map((receita) => (
             <div key={receita.id} className="bg-white rounded-lg overflow-hidden shadow-sm h-full flex flex-col border border-gray-100 text-gray-800">
               {/* Imagem */}
-              <div className="w-full aspect-square bg-gray-50 overflow-hidden relative">
+              <div className="w-full aspect-[9/16] md:aspect-square bg-gray-50 overflow-hidden relative">
                 {isOwner && (
                   <Button
                     size="icon"
