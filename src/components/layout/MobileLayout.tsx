@@ -1,88 +1,70 @@
 "use client";
 
 import { ReactNode } from "react";
-import { Heart, MessageCircle, Flame, Home } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface MobileLayoutProps {
+  tabs: string[];
+  labels: Record<string, string>;
   activeTab: string;
   onTabChange: (tab: string) => void;
+  showBack?: boolean;
+  onBack?: () => void;
   content: ReactNode;
 }
 
 export function MobileLayout({
+  tabs,
+  labels,
   activeTab,
   onTabChange,
+  showBack = false,
+  onBack,
   content,
 }: MobileLayoutProps) {
   return (
-    <div className="h-screen flex flex-col bg-gray-100 overflow-hidden md:hidden">
+    <div className="min-h-screen bg-pink-50 flex flex-col relative">
       
       {/* CONTEÚDO */}
-      <div className="flex-1 overflow-y-auto pb-32">
-        {content}
+      <div className="flex-1 pb-32">
+        {showBack && (
+          <div className="sticky top-0 z-40 bg-white border-b border-gray-200 p-4 shadow-sm">
+            <Button
+              variant="ghost"
+              size="lg"
+              onClick={onBack}
+              className="w-full text-lg font-bold text-gray-800 hover:text-gray-900 justify-start"
+            >
+              <ArrowLeft className="w-6 h-6 mr-3" />
+              Voltar ao Menu Principal
+            </Button>
+          </div>
+        )}
+
+        <div className="h-full overflow-y-auto">
+          {content}
+        </div>
       </div>
 
-      {/* MENU FLUTUANTE */}
-      <div className="fixed bottom-6 left-0 right-0 flex justify-center z-50">
-        <div className="bg-[#1a0f2e] rounded-full px-10 py-5 flex items-center gap-12 shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
-          
-          {/* HOME */}
-          <button
-            onClick={() => onTabChange("home")}
-            className={cn(
-              "transition-all duration-300 p-2 rounded-full",
-              activeTab === "home"
-                ? "scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)] bg-white/20"
-                : "opacity-90 hover:bg-white/10"
-            )}
-            aria-label="Home"
-          >
-            <Home className="w-9 h-9 text-white" />
-          </button>
-
-          {/* FAVORITOS */}
-          <button
-            onClick={() => onTabChange("favoritos")}
-            className={cn(
-              "transition-all duration-300 p-2 rounded-full",
-              activeTab === "favoritos"
-                ? "scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)] bg-white/20"
-                : "opacity-90 hover:bg-white/10"
-            )}
-            aria-label="Favoritos"
-          >
-            <Heart className="w-9 h-9 text-white" />
-          </button>
-
-          {/* MENSAGENS */}
-          <button
-            onClick={() => onTabChange("mensagens")}
-            className={cn(
-              "transition-all duration-300 p-2 rounded-full",
-              activeTab === "mensagens"
-                ? "scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)] bg-white/20"
-                : "opacity-90 hover:bg-white/10"
-            )}
-            aria-label="Mensagens"
-          >
-            <MessageCircle className="w-9 h-9 text-white" />
-          </button>
-
-          {/* TRENDING */}
-          <button
-            onClick={() => onTabChange("trending")}
-            className={cn(
-              "transition-all duration-300 p-2 rounded-full",
-              activeTab === "trending"
-                ? "scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)] bg-white/20"
-                : "opacity-90 hover:bg-white/10"
-            )}
-            aria-label="Trending"
-          >
-            <Flame className="w-9 h-9 text-white" />
-          </button>
-
+      {/* MENU INFERIOR SUSPENSO */}
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-full flex justify-center px-4">
+        <div className="bg-white shadow-xl rounded-full px-4 py-3 flex gap-2 w-full max-w-md justify-between">
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              onClick={() => onTabChange(tab)}
+              className={cn(
+                "flex-1 text-center text-xs sm:text-sm font-semibold py-2 rounded-full transition-colors",
+                activeTab === tab
+                  ? "bg-pink-500 text-white"
+                  : "text-gray-600"
+              )}
+            >
+              {labels[tab]}
+            </button>
+          ))}
         </div>
       </div>
     </div>
