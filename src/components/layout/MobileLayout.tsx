@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import { Heart, MessageCircle, Flame } from "lucide-react";
+import { Heart, MessageCircle, Flame, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface MobileLayoutProps {
@@ -16,7 +16,7 @@ export function MobileLayout({
   content,
 }: MobileLayoutProps) {
   return (
-    <div className="h-screen flex flex-col bg-gray-100 overflow-hidden">
+    <div className="h-screen flex flex-col bg-gray-100 overflow-hidden md:hidden">
       
       {/* CONTEÚDO */}
       <div className="flex-1 overflow-y-auto pb-32">
@@ -31,28 +31,26 @@ export function MobileLayout({
           <button
             onClick={() => onTabChange("home")}
             className={cn(
-              "transition-all duration-300",
+              "transition-all duration-300 p-2 rounded-full",
               activeTab === "home"
-                ? "scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]"
-                : "opacity-90"
+                ? "scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)] bg-white/20"
+                : "opacity-90 hover:bg-white/10"
             )}
+            aria-label="Home"
           >
-            <img
-              src="/homeapp.png"
-              alt="Home"
-              className="w-9 h-9"
-            />
+            <Home className="w-9 h-9 text-white" />
           </button>
 
           {/* FAVORITOS */}
           <button
             onClick={() => onTabChange("favoritos")}
             className={cn(
-              "transition-all duration-300",
+              "transition-all duration-300 p-2 rounded-full",
               activeTab === "favoritos"
-                ? "scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]"
-                : "opacity-90"
+                ? "scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)] bg-white/20"
+                : "opacity-90 hover:bg-white/10"
             )}
+            aria-label="Favoritos"
           >
             <Heart className="w-9 h-9 text-white" />
           </button>
@@ -61,11 +59,12 @@ export function MobileLayout({
           <button
             onClick={() => onTabChange("mensagens")}
             className={cn(
-              "transition-all duration-300",
+              "transition-all duration-300 p-2 rounded-full",
               activeTab === "mensagens"
-                ? "scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]"
-                : "opacity-90"
+                ? "scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)] bg-white/20"
+                : "opacity-90 hover:bg-white/10"
             )}
+            aria-label="Mensagens"
           >
             <MessageCircle className="w-9 h-9 text-white" />
           </button>
@@ -74,11 +73,12 @@ export function MobileLayout({
           <button
             onClick={() => onTabChange("trending")}
             className={cn(
-              "transition-all duration-300",
+              "transition-all duration-300 p-2 rounded-full",
               activeTab === "trending"
-                ? "scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]"
-                : "opacity-90"
+                ? "scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)] bg-white/20"
+                : "opacity-90 hover:bg-white/10"
             )}
+            aria-label="Trending"
           >
             <Flame className="w-9 h-9 text-white" />
           </button>
