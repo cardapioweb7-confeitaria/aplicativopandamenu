@@ -46,9 +46,11 @@ export function MobileLayout({
           <button
             onClick={() => onTabChange("favoritos")}
             className={cn(
-              "transition-all duration-300",
-              activeTab === "favoritos" ? "scale-110" : "opacity-80"
-            )}
+  "transition-all duration-300",
+  activeTab === "home"
+    ? "scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]"
+    : "opacity-90"
+)}
           >
             <Heart className="w-7 h-7 text-white" />
           </button>
