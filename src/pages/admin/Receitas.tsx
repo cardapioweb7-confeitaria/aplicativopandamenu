@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Search, Upload, FileText, Plus, X, Save, Download } from "lucide-react";
-import { Card, CardContent } from '@/components/ui/card'
+import { Search, Upload, FileText, Plus, Save, Download } from "lucide-react";
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -9,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { useAuth } from '@/hooks/useAuth'
 import { supabase } from '@/lib/supabase'
 import { showSuccess, showError } from '@/utils/toast'
+import { Badge } from "@/components/ui/badge";
 
 interface Receita {
   id: string;
@@ -237,6 +237,10 @@ export default function Receitas() {
   }
 
   const downloadPdf = (url: string, title: string) => {
+    if (!url) {
+      showError('Nenhum arquivo PDF para baixar.');
+      return;
+    }
     const link = document.createElement('a')
     link.href = url
     link.download = `${title}.pdf`
@@ -297,32 +301,55 @@ export default function Receitas() {
       <section className="px-6 pb-20">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {receitas.map((receita) => (
-            <div key={receita.id} className="bg-[#1a1a1a] p-6 rounded-2xl">
-              <div className="h-32 bg-[#262626] rounded-xl mb-4 overflow-hidden">
-                {receita.imagem_url ? (
-                  <img src={receita.imagem_url} alt={receita.titulo} className="w-full h-full object-cover" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <FileText className="w-8 h-8 text-gray-500" />
+            <div key={receita.id} className="bg-white rounded-lg overflow-hidden shadow-sm h-full flex flex-col border border-gray-100 text-gray-800">
+              <div className="p-3 flex-1 flex flex-col">
+                {/* Imagem */}
+                <div className="w-full aspect-square rounded-lg flex items-center justify-center mb-3 bg-gray-50 overflow-hidden relative">
+                  {receita.imagem_url ? (
+                    <img 
+                      src={receita.imagem_url} 
+                      alt={receita.titulo} 
+                      className="w-full h-full object-cover rounded-lg"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                    />
+                  ) : (
+                    <FileText className="w-8 h-8 text-gray-400" />
+                  )}
+                </div>
+                
+                {/* Conteúdo */}
+                <div className="flex-1 flex flex-col">
+                  <h4 className="font-semibold text-sm leading-tight flex-1 line-clamp-2 mb-2">
+                    {receita.titulo}
+                  </h4>
+                  
+                  {/* Categoria e botão */}
+                  <div className="mt-auto">
+                    <div className="mb-2">
+                      <Badge 
+                        variant="secondary" 
+                        className="text-xs px-2 py-0.5 rounded-sm"
+                        style={{ 
+                          backgroundColor: '#6A0122',
+                          color: 'white',
+                        }}
+                      >
+                        {receita.categoria}
+                      </Badge>
+                    </div>
+
+                    <Button
+                      onClick={() => downloadPdf(receita.pdf_url, receita.titulo)}
+                      className="w-full py-2 px-3 rounded-lg text-white text-xs font-medium transition-colors text-center whitespace-nowrap"
+                      style={{ backgroundColor: '#FF4F97' }}
+                      onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#E64280' }}
+                      onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#FF4F97' }}
+                      disabled={!receita.pdf_url}
+                    >
+                      Acessar
+                    </Button>
                   </div>
-                )}
-              </div>
-              <h3 className="font-semibold mb-2 truncate">{receita.titulo}</h3>
-              <div className="flex items-center justify-between">
-                <span className="text-xs bg-pink-600 text-white px-2 py-1 rounded-full">
-                  {receita.categoria}
-                </span>
-                {receita.pdf_url && (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => downloadPdf(receita.pdf_url, receita.titulo)}
-                    className="h-8 px-2 text-xs"
-                  >
-                    <Download className="w-3 h-3 mr-1" />
-                    PDF
-                  </Button>
-                )}
+                </div>
               </div>
             </div>
           ))}
