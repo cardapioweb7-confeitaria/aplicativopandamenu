@@ -205,7 +205,8 @@ export default function Receitas() {
                   </Badge>
                 )}
 
-                <div className="w-full aspect-[4/5] bg-gray-50 overflow-hidden relative">
+                <div className="w-full aspect-[3/4] bg-gray-50 overflow-hidden relative">
+
                   {receita.imagem_url ? (
                     <img
                       src={receita.imagem_url}
