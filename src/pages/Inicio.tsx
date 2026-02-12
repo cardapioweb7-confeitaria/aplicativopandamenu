@@ -3,11 +3,17 @@
 import { useState, ReactNode } from "react";
 import { MobileLayout } from "@/components/layout/MobileLayout";
 
-const HomeTabContent = () => (
+// Este é o conteúdo que será exibido na aba "Home".
+// Você deve substituir este componente pelo conteúdo real da sua página inicial.
+const HomeContent = () => (
   <div className="p-4 text-black">
     <h1 className="text-2xl font-bold">Página Inicial</h1>
-    <p>Bem-vindo(a) à sua página inicial!</p>
-    {/* Você pode adicionar o conteúdo da sua home page aqui */}
+    <p>Bem-vindo(a)! O conteúdo principal da sua aplicação deve aparecer aqui.</p>
+    <div className="mt-4 p-4 border border-dashed border-gray-400 rounded-lg bg-gray-50">
+      <p className="text-sm text-gray-600 text-center">
+        (Área para o conteúdo da sua página `Inicio.tsx`)
+      </p>
+    </div>
   </div>
 );
 
@@ -32,13 +38,13 @@ const TrendingTabContent = () => (
   </div>
 );
 
-export default function IndexPage() {
+export default function InicioPage() {
   const [activeTab, setActiveTab] = useState("home");
 
   const renderContent = (): ReactNode => {
     switch (activeTab) {
       case "home":
-        return <HomeTabContent />;
+        return <HomeContent />;
       case "favoritos":
         return <FavoritosTabContent />;
       case "mensagens":
@@ -46,7 +52,7 @@ export default function IndexPage() {
       case "trending":
         return <TrendingTabContent />;
       default:
-        return <HomeTabContent />;
+        return <HomeContent />;
     }
   };
 
