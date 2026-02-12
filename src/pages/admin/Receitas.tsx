@@ -61,6 +61,9 @@ export default function Receitas() {
   const [imagemFile, setImagemFile] = useState<File | null>(null);
   const [pdfFile, setPdfFile] = useState<File | null>(null);
 
+  // =============================
+  // CHECK OWNER
+  // =============================
   useEffect(() => {
     const checkOwnerStatus = async () => {
       if (!user) return;
@@ -82,6 +85,9 @@ export default function Receitas() {
     checkOwnerStatus();
   }, [user]);
 
+  // =============================
+  // LOAD RECEITAS
+  // =============================
   const loadReceitas = async () => {
     const { data, error } = await supabase
       .from("receitas")
@@ -111,6 +117,9 @@ export default function Receitas() {
     loadData();
   }, []);
 
+  // =============================
+  // UPLOADS
+  // =============================
   const handleImagemUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.[0]) return;
     const file = e.target.files[0];
@@ -231,7 +240,6 @@ export default function Receitas() {
     link.href = url;
     link.download = `${title}.pdf`;
     link.target = "_blank";
-
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -239,6 +247,17 @@ export default function Receitas() {
 
   return (
     <div className="min-h-screen bg-[#0f0f0f] text-white">
+
+      {/* ANIMAÇÃO DO GRADIENTE */}
+      <style>
+        {`
+        @keyframes goldPinkGradient {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        `}
+      </style>
 
       {/* HERO */}
       <section className="relative w-full min-h-[55vh] flex flex-col items-center justify-start pt-12 text-center px-6">
@@ -249,22 +268,24 @@ export default function Receitas() {
           className="mx-auto mb-6 w-28 h-28 sm:w-40 sm:h-40 lg:w-52 lg:h-52 object-contain"
         />
 
-        <h1 className="text-4xl md:text-6xl font-black mb-8">
-          Receitas Profissionais
+        <h1 className="text-4xl md:text-6xl font-black mb-4 leading-[0.95]">
+          <span className="block text-transparent bg-clip-text bg-[linear-gradient(120deg,#fc6998,#d4af37,#fc6998,#f6c453,#fc6998)] bg-[length:300%_300%] animate-[goldPinkGradient_12s_ease_infinite]">
+            Receitas Profissionais
+          </span>
         </h1>
 
         {isOwner && (
           <Button
             onClick={handleOpenUploadModal}
-            className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg mb-8"
+            className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg mb-4"
           >
             Cadastrar Conteúdo
           </Button>
         )}
       </section>
 
-      {/* TODAS AS RECEITAS */}
-      <section className="px-6 pb-20">
+      {/* LISTA */}
+      <section className="px-6 pb-20 mt-6">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl font-bold mb-6 text-center text-gray-400">
             Todas as Receitas
