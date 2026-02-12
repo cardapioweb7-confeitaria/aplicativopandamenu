@@ -189,7 +189,7 @@ export default function Receitas() {
         </div>
       </section>
 
-      {/* TODAS AS RECEITAS */}
+      {/* RECEITAS */}
       <section className="px-6 pb-20 mt-4">
         <div className="max-w-6xl mx-auto">
 
@@ -197,7 +197,7 @@ export default function Receitas() {
             {filteredReceitas.map((receita) => (
               <div
                 key={receita.id}
-                className="bg-white rounded-lg overflow-hidden shadow-sm flex flex-col text-gray-800 relative"
+                className="bg-white overflow-hidden shadow-sm flex flex-col text-gray-800 relative"
               >
                 {isNew(receita.created_at) && (
                   <Badge className="absolute top-2 left-2 bg-yellow-400 text-black font-bold z-10">
@@ -205,7 +205,8 @@ export default function Receitas() {
                   </Badge>
                 )}
 
-                <div className="w-full aspect-[4/5] bg-gray-50 overflow-hidden relative">
+                {/* Container da imagem sem arredondamento */}
+                <div className="w-full aspect-[4/5] bg-gray-50 overflow-hidden relative border-b border-gray-300">
                   {receita.imagem_url ? (
                     <img
                       src={receita.imagem_url}
