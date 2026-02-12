@@ -25,10 +25,8 @@ export function MobileLayout({
   content,
 }: MobileLayoutProps) {
   return (
-    <div
-      className="h-screen bg-pink-50 flex flex-col overflow-hidden"
-      style={{ paddingBottom: "7rem" }}
-    >
+    <div className="h-screen bg-pink-50 flex flex-col overflow-hidden pb-28">
+      
       {/* ÁREA DE CONTEÚDO */}
       <div className="flex-1 overflow-y-auto">
         {showBack && (
@@ -50,9 +48,9 @@ export function MobileLayout({
         </div>
       </div>
 
-      {/* MENU FIXO INFERIOR (SEMPRE VISÍVEL) */}
+      {/* MENU FIXO INFERIOR COM ALTURA DINÂMICA */}
       <div
-        className="fixed bottom-0 left-0 right-0 h-28 border-t border-pink-200 z-[9999] shadow-2xl"
+        className="fixed bottom-0 left-0 right-0 min-h-[7rem] border-t border-pink-200 z-[9999] shadow-2xl"
         style={{
           background:
             "linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #f9a8d4 100%)",
@@ -60,17 +58,17 @@ export function MobileLayout({
           animation: "gradient-x 3s ease infinite",
         }}
       >
-        <div className="h-full flex items-center">
+        <div className="py-4">
           <div className="grid grid-cols-4 gap-2 w-full px-4">
             {tabs.map((tab) => (
               <Button
                 key={tab}
                 variant={activeTab === tab ? "default" : "ghost"}
                 className={cn(
-                  "h-14 rounded-2xl font-bold text-xs transition-all",
+                  "h-14 rounded-2xl font-bold text-xs transition-all shadow-md",
                   activeTab === tab
-                    ? "bg-white text-[#ec4899]"
-                    : "text-white bg-transparent"
+                    ? "bg-white text-[#ec4899] shadow-xl shadow-pink-500/30"
+                    : "text-white bg-transparent shadow-lg shadow-black/20"
                 )}
                 onClick={() => onTabChange(tab)}
               >
