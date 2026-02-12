@@ -262,37 +262,6 @@ export default function Receitas() {
       {/* ANIMAÇÃO DO GRADIENTE DOURADO */}
       <style>
         {`
-          @property --angle {
-            syntax: '<angle>';
-            initial-value: 0deg;
-            inherits: false;
-          }
-
-          @keyframes rotate {
-            to {
-              --angle: 360deg;
-            }
-          }
-
-          .animated-border-gold {
-            position: relative;
-            border: 2px solid transparent;
-            background-clip: padding-box;
-            border-radius: 1.5rem; /* 24px */
-            padding: 1.5rem; /* 24px */
-            background: #1a1a1a;
-          }
-
-          .animated-border-gold::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            z-index: -1;
-            border-radius: inherit;
-            background: conic-gradient(from var(--angle), #b88900, #fbbf24, #ffffff, #fbbf24, #b88900);
-            animation: rotate 4s linear infinite;
-          }
-
           @keyframes goldGradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -339,7 +308,7 @@ export default function Receitas() {
       <section className="px-6 pb-20 space-y-12">
         {/* SEÇÃO EM ALTA */}
         {receitasEmAlta.length > 0 && (
-          <div className="max-w-6xl mx-auto animated-border-gold">
+          <div className="-mx-6 bg-[#3a2e00] p-6 md:mx-auto md:max-w-6xl md:rounded-2xl">
             <h2 className="text-2xl font-bold mb-6 text-center text-white">🔥 Em Alta</h2>
             <div className="grid grid-cols-3 gap-4">
               {receitasEmAlta.map((receita) => (
