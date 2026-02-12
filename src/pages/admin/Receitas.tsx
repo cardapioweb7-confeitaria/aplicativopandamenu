@@ -193,7 +193,7 @@ export default function Receitas() {
       <section className="px-6 pb-20 mt-4">
         <div className="max-w-6xl mx-auto">
 
-          <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredReceitas.map((receita) => (
               <div
                 key={receita.id}
@@ -205,8 +205,7 @@ export default function Receitas() {
                   </Badge>
                 )}
 
-                <div className="w-full aspect-[3/4] bg-gray-50 overflow-hidden relative">
-
+                <div className="w-full aspect-[4/5] bg-gray-50 overflow-hidden relative">
                   {receita.imagem_url ? (
                     <img
                       src={receita.imagem_url}
