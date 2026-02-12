@@ -400,7 +400,7 @@ export default function Receitas() {
                     <img
                       src={receita.imagem_url}
                       alt={receita.titulo}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
