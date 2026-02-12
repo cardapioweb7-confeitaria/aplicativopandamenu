@@ -47,6 +47,8 @@ export default function Receitas() {
   const [uploading, setUploading] = useState(false);
   const [categorias, setCategorias] = useState<string[]>([]);
   const [receitas, setReceitas] = useState<Receita[]>([]);
+  const [search, setSearch] = useState("");
+
   const [newCategoria, setNewCategoria] = useState("");
   const [showNewCategoriaInput, setShowNewCategoriaInput] = useState(false);
   const [editingReceita, setEditingReceita] = useState<Receita | null>(null);
@@ -61,9 +63,6 @@ export default function Receitas() {
   const [imagemFile, setImagemFile] = useState<File | null>(null);
   const [pdfFile, setPdfFile] = useState<File | null>(null);
 
-  // =============================
-  // CHECK OWNER
-  // =============================
   useEffect(() => {
     const checkOwnerStatus = async () => {
       if (!user) return;
@@ -85,9 +84,6 @@ export default function Receitas() {
     checkOwnerStatus();
   }, [user]);
 
-  // =============================
-  // LOAD RECEITAS
-  // =============================
   const loadReceitas = async () => {
     const { data, error } = await supabase
       .from("receitas")
@@ -98,140 +94,8 @@ export default function Receitas() {
   };
 
   useEffect(() => {
-    const loadData = async () => {
-      const { data, error } = await supabase
-        .from("receitas")
-        .select("categoria");
-
-      if (!error && data) {
-        const categoriasList = data
-          .map((item) => item.categoria)
-          .filter(Boolean) as string[];
-
-        setCategorias(Array.from(new Set(categoriasList)));
-      }
-
-      loadReceitas();
-    };
-
-    loadData();
+    loadReceitas();
   }, []);
-
-  // =============================
-  // UPLOADS
-  // =============================
-  const handleImagemUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files?.[0]) return;
-    const file = e.target.files[0];
-    setImagemFile(file);
-    setFormData({ ...formData, imagem_url: URL.createObjectURL(file) });
-  };
-
-  const handlePdfUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files?.[0]) return;
-    const file = e.target.files[0];
-    setPdfFile(file);
-    setFormData({ ...formData, pdf_url: URL.createObjectURL(file) });
-  };
-
-  const resetForm = () => {
-    setFormData({
-      titulo: "",
-      categoria: "",
-      imagem_url: "",
-      pdf_url: "",
-    });
-    setImagemFile(null);
-    setPdfFile(null);
-    setNewCategoria("");
-    setShowNewCategoriaInput(false);
-    setEditingReceita(null);
-  };
-
-  const handleOpenUploadModal = () => {
-    resetForm();
-    setShowUploadModal(true);
-  };
-
-  const handleOpenEditModal = (receita: Receita) => {
-    setEditingReceita(receita);
-    setFormData({
-      titulo: receita.titulo,
-      categoria: receita.categoria,
-      imagem_url: receita.imagem_url,
-      pdf_url: receita.pdf_url,
-    });
-    setShowUploadModal(true);
-  };
-
-  const handleCloseUploadModal = () => {
-    setShowUploadModal(false);
-    resetForm();
-  };
-
-  const handleSaveOrUpdate = async () => {
-    if (!formData.titulo.trim()) return showError("Título é obrigatório");
-    if (!formData.categoria) return showError("Categoria é obrigatória");
-    if (!formData.imagem_url) return showError("Imagem é obrigatória");
-
-    setUploading(true);
-
-    try {
-      let finalImageUrl = formData.imagem_url;
-      let finalPdfUrl = formData.pdf_url;
-
-      if (imagemFile) {
-        const imagemFileName = `receitas/${Date.now()}_${imagemFile.name}`;
-        const { error } = await supabase.storage
-          .from("products")
-          .upload(imagemFileName, imagemFile);
-        if (error) throw error;
-
-        finalImageUrl = supabase.storage
-          .from("products")
-          .getPublicUrl(imagemFileName).data.publicUrl;
-      }
-
-      if (pdfFile) {
-        const pdfFileName = `receitas/${Date.now()}_${pdfFile.name}`;
-        const { error } = await supabase.storage
-          .from("products")
-          .upload(pdfFileName, pdfFile);
-        if (error) throw error;
-
-        finalPdfUrl = supabase.storage
-          .from("products")
-          .getPublicUrl(pdfFileName).data.publicUrl;
-      }
-
-      const recipeData = {
-        titulo: formData.titulo,
-        categoria: formData.categoria,
-        imagem_url: finalImageUrl,
-        pdf_url: finalPdfUrl,
-        user_id: user?.id,
-        is_global: true,
-      };
-
-      if (editingReceita) {
-        await supabase
-          .from("receitas")
-          .update(recipeData)
-          .eq("id", editingReceita.id);
-        showSuccess("Receita atualizada com sucesso!");
-      } else {
-        await supabase.from("receitas").insert(recipeData);
-        showSuccess("Receita cadastrada com sucesso!");
-      }
-
-      handleCloseUploadModal();
-      loadReceitas();
-    } catch (error: any) {
-      showError("Erro ao salvar conteúdo: " + error.message);
-    } finally {
-      setUploading(false);
-    }
-  };
 
   const downloadPdf = (url: string, title: string) => {
     if (!url) return showError("Nenhum arquivo PDF para baixar.");
@@ -240,75 +104,69 @@ export default function Receitas() {
     link.href = url;
     link.download = `${title}.pdf`;
     link.target = "_blank";
+
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
+  const filteredReceitas = receitas.filter((r) =>
+    r.titulo.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div className="min-h-screen bg-[#0f0f0f] text-white">
 
-      {/* ANIMAÇÃO DO GRADIENTE */}
-      <style>
-        {`
-        @keyframes goldPinkGradient {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        `}
-      </style>
-
       {/* HERO */}
-      <section className="relative w-full min-h-[55vh] flex flex-col items-center justify-start pt-12 text-center px-6">
+      <section className="relative w-full min-h-[45vh] flex flex-col items-center justify-start pt-8 text-center px-6">
 
         <img
           src="/101012.png"
           alt="Logo Receitas"
-          className="mx-auto mb-6 w-28 h-28 sm:w-40 sm:h-40 lg:w-52 lg:h-52 object-contain"
+          className="mx-auto mb-4 w-28 h-28 sm:w-40 sm:h-40 lg:w-52 lg:h-52 object-contain"
         />
 
-        <h1 className="text-4xl md:text-6xl font-black mb-4 leading-[0.95]">
-          <span className="block text-transparent bg-clip-text bg-[linear-gradient(120deg,#fc6998,#d4af37,#fc6998,#f6c453,#fc6998)] bg-[length:300%_300%] animate-[goldPinkGradient_12s_ease_infinite]">
-            Receitas Profissionais
-          </span>
+        <h1 className="text-4xl md:text-6xl font-black mb-4 bg-gradient-to-r from-[#b8860b] via-[#ffd700] to-[#fff4b0] bg-[length:200%_200%] bg-clip-text text-transparent animate-gold">
+          RECEITAS PROFISSIONAIS
         </h1>
 
         {isOwner && (
           <Button
-            onClick={handleOpenUploadModal}
             className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg mb-4"
           >
             Cadastrar Conteúdo
           </Button>
         )}
+
+        {/* BARRA DE PESQUISA */}
+        <div className="w-full max-w-md mt-2">
+          <div className="relative">
+            <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+            <Input
+              placeholder="Pesquisar receitas..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-9 bg-white text-black"
+            />
+          </div>
+        </div>
+
       </section>
 
-      {/* LISTA */}
-      <section className="px-6 pb-20 mt-6">
+      {/* TODAS AS RECEITAS */}
+      <section className="px-6 pb-20 mt-4">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl font-bold mb-6 text-center text-gray-400">
             Todas as Receitas
           </h2>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {receitas.map((receita) => (
+            {filteredReceitas.map((receita) => (
               <div
                 key={receita.id}
                 className="bg-white rounded-lg overflow-hidden shadow-sm flex flex-col text-gray-800"
               >
                 <div className="w-full aspect-[4/5] bg-gray-50 overflow-hidden relative">
-                  {isOwner && (
-                    <Button
-                      size="icon"
-                      variant="secondary"
-                      onClick={() => handleOpenEditModal(receita)}
-                      className="absolute top-2 right-2"
-                    >
-                      <Edit className="w-4 h-4" />
-                    </Button>
-                  )}
-
                   {receita.imagem_url ? (
                     <img
                       src={receita.imagem_url}
@@ -345,6 +203,19 @@ export default function Receitas() {
           </div>
         </div>
       </section>
+
+      {/* ANIMAÇÃO DO DEGRADÊ DOURADO */}
+      <style jsx>{`
+        @keyframes goldMove {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+
+        .animate-gold {
+          animation: goldMove 6s ease-in-out infinite;
+        }
+      `}</style>
 
     </div>
   );
