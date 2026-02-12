@@ -1,60 +1,260 @@
-{/* ANIMAÇÃO DO GRADIENTE DOURADO */}
-  <style>
-    {`
-      @keyframes goldGradient {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { Search, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/lib/supabase";
+import { showSuccess, showError } from "@/utils/toast";
+
+export default function Receitas() {
+  const { user } = useAuth();
+
+  const [isOwner, setIsOwner] = useState(false);
+  const [loadingRole, setLoadingRole] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [receitas, setReceitas] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
+  const [form, setForm] = useState({
+    nome_arquivo: "",
+    categoria: "",
+    imagem_file: null as File | null,
+    arquivo_file: null as File | null,
+  });
+
+  const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
+  const [previewFileName, setPreviewFileName] = useState("");
+
+  // ===============================
+  // Verificar Role
+  // ===============================
+  useEffect(() => {
+    const fetchRole = async () => {
+      if (!user) {
+        setLoadingRole(false);
+        return;
       }
-    `}
-  </style>
 
-  {/* HERO */}
-  <section className="relative w-full min-h-[55vh] flex flex-col items-center justify-start pt-12 text-center px-6">
+      try {
+        if (user.email === "teste@gmail.com") {
+          setIsOwner(true);
+          setLoadingRole(false);
+          return;
+        }
 
-    {/* LOGO */}
-    <img 
-      src="/101012.png" 
-      alt="Logo Receitas" 
-      className="mx-auto mb-6 w-28 h-28 sm:w-40 sm:h-40 lg:w-52 lg:h-52 object-contain drop-shadow-2xl"
-    />
+        const { data } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", user.id)
+          .single();
 
-    {/* TÍTULO */}
-    <h1 className="text-4xl md:text-6xl font-black mb-8 leading-[0.95]">
-      <span className="block">Receitas</span>
-      <span className="block text-transparent bg-clip-text bg-[linear-gradient(90deg,#b88900,#fbbf24,#ffffff,#fbbf24,#b88900)] bg-[length:300%_300%] animate-[goldGradient_6s_linear_infinite]">
-        Profissionais
-      </span>
-    </h1>
+        setIsOwner(data?.role === "owner");
+      } catch (error) {
+        console.error("Erro ao verificar role:", error);
+      } finally {
+        setLoadingRole(false);
+      }
+    };
 
-    {/* BARRA DE PESQUISA */}
-    <div className="relative w-full max-w-md mx-auto mb-12">
-      <input
-        type="text"
-        placeholder="Buscar"
-        className="w-full pl-6 pr-12 py-4 text-lg bg-white border border-gray-300 rounded-xl focus:outline-none shadow-none text-gray-900"
-      />
-      <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-    </div>
+    fetchRole();
+  }, [user]);
 
-  </section>
+  // ===============================
+  // Buscar receitas
+  // ===============================
+  const fetchData = async () => {
+    if (!user || !isOwner) return;
 
-  {/* CONTEÚDO ABAIXO */}
-  <section className="px-6 pb-20">
-    <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    setLoading(true);
 
-      {Array.from({ length: 8 }).map((_, i) => (
-        <div
-          key={i}
-          className="bg-[#1a1a1a] p-6 rounded-2xl"
-        >
-          <div className="h-32 bg-[#262626] rounded-xl mb-4"></div>
-          <h3 className="font-semibold mb-2">Receita {i + 1}</h3>
-          <p className="text-sm text-gray-400">Categoria</p>
+    try {
+      const { data } = await supabase
+        .from("receitas")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+
+      setReceitas(data || []);
+    } catch (error) {
+      console.error("Erro ao buscar receitas:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [user, isOwner]);
+
+  // ===============================
+  // Upload
+  // ===============================
+  const handleSave = async () => {
+    if (!form.nome_arquivo || !form.categoria || !form.imagem_file) {
+      showError("Preencha Nome, Categoria e Imagem");
+      return;
+    }
+
+    if (!user) return;
+
+    setUploading(true);
+
+    try {
+      const imgExt = form.imagem_file.name.split(".").pop();
+      const imgName = `recipes/${user.id}-${Date.now()}.${imgExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("recipes-images")
+        .upload(imgName, form.imagem_file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: imgUrl } = supabase.storage
+        .from("recipes-images")
+        .getPublicUrl(imgName);
+
+      await supabase.from("receitas").insert({
+        user_id: user.id,
+        titulo: form.nome_arquivo,
+        categoria: form.categoria,
+        imagem_url: imgUrl.publicUrl,
+      });
+
+      showSuccess("Receita cadastrada com sucesso!");
+      setModalOpen(false);
+      fetchData();
+    } catch (error: any) {
+      showError(error.message || "Erro ao salvar");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  // ===============================
+  // Filtro
+  // ===============================
+  const filteredReceitas = receitas.filter(
+    (r) =>
+      r.titulo?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      r.categoria?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // ===============================
+  // LOADING ROLE
+  // ===============================
+  if (loadingRole) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p>Carregando...</p>
+      </div>
+    );
+  }
+
+  // ===============================
+  // SEM PERMISSÃO
+  // ===============================
+  if (!isOwner) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p>Você não tem permissão para acessar essa página.</p>
+      </div>
+    );
+  }
+
+  // ===============================
+  // RENDER
+  // ===============================
+  return (
+    <div className="min-h-screen p-6 bg-gray-100">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Receitas</h1>
+
+        <Button onClick={() => setModalOpen(true)}>
+          <Plus size={16} className="mr-2" />
+          Nova Receita
+        </Button>
+      </div>
+
+      <div className="mb-4 flex items-center gap-2">
+        <Search size={18} />
+        <Input
+          placeholder="Buscar..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
+      {loading ? (
+        <p>Carregando receitas...</p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {filteredReceitas.map((receita) => (
+            <Card key={receita.id}>
+              <CardContent className="p-4">
+                <img
+                  src={receita.imagem_url}
+                  alt={receita.titulo}
+                  className="w-full h-40 object-cover rounded mb-2"
+                />
+                <h2 className="font-semibold">{receita.titulo}</h2>
+                <p className="text-sm text-gray-500">
+                  {receita.categoria}
+                </p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
-      ))}
+      )}
 
+      {/* MODAL */}
+      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Nova Receita</DialogTitle>
+          </DialogHeader>
+
+          <Input
+            placeholder="Nome"
+            value={form.nome_arquivo}
+            onChange={(e) =>
+              setForm({ ...form, nome_arquivo: e.target.value })
+            }
+          />
+
+          <Input
+            placeholder="Categoria"
+            value={form.categoria}
+            onChange={(e) =>
+              setForm({ ...form, categoria: e.target.value })
+            }
+          />
+
+          <Input
+            type="file"
+            onChange={(e) =>
+              setForm({ ...form, imagem_file: e.target.files?.[0] || null })
+            }
+          />
+
+          <DialogFooter>
+            <Button onClick={handleSave} disabled={uploading}>
+              {uploading ? "Salvando..." : "Salvar"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
-  </section>
-
-</div>
+  );
+}
