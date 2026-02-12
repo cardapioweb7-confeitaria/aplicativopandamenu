@@ -37,7 +37,7 @@ export function DesktopLayout({
           animation: 'gradient-x 3s ease infinite'
         }}
       >
-        <div className="p-8 flex items-center justify-center">
+        <div className="p-0 flex items-center justify-center">
           <div className="text-center">
             <img 
               src="/logointernaadmin.png" 
