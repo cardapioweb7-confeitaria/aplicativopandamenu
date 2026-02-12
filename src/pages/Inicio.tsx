@@ -3,8 +3,7 @@
 import { useState, ReactNode } from "react";
 import { MobileLayout } from "@/components/layout/MobileLayout";
 
-// Este é o conteúdo que será exibido na aba "Home".
-// Você deve substituir este componente pelo conteúdo real da sua página inicial.
+// Conteúdos das tabs
 const HomeContent = () => (
   <div className="p-4 text-black">
     <h1 className="text-2xl font-bold">Página Inicial</h1>
@@ -41,6 +40,9 @@ const TrendingTabContent = () => (
 export default function InicioPage() {
   const [activeTab, setActiveTab] = useState("home");
 
+  const tabs = ["home", "favoritos", "mensagens", "trending"];
+  const labels = ["Home", "Favoritos", "Mensagens", "Em Alta"];
+
   const renderContent = (): ReactNode => {
     switch (activeTab) {
       case "home":
@@ -58,6 +60,8 @@ export default function InicioPage() {
 
   return (
     <MobileLayout
+      tabs={tabs}
+      labels={labels}
       activeTab={activeTab}
       onTabChange={setActiveTab}
       content={renderContent()}
