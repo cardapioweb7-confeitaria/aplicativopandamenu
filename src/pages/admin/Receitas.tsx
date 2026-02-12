@@ -199,18 +199,23 @@ export default function Receitas() {
   };
 
   const handleSave = async () => {
+    if (!user) {
+      showError('Sessão expirada. Por favor, faça login novamente para continuar.');
+      return;
+    }
+
     if (!formData.titulo.trim()) {
-      showError('Título é obrigatório')
+      showError('O título da receita é obrigatório.')
       return
     }
 
     if (!formData.categoria) {
-      showError('Categoria é obrigatória')
+      showError('A categoria da receita é obrigatória.')
       return
     }
 
     if (!formData.imagem_url) {
-      showError('Imagem é obrigatória')
+      showError('A imagem de capa da receita é obrigatória.')
       return
     }
 
@@ -223,7 +228,7 @@ export default function Receitas() {
           categoria: formData.categoria,
           imagem_url: formData.imagem_url,
           pdf_url: formData.pdf_url,
-          user_id: user?.id,
+          user_id: user.id,
           is_global: true // Marca como receita global
         })
         .select()
@@ -317,7 +322,7 @@ export default function Receitas() {
           <CategoryFilter
             categories={filterCategories}
             selectedCategory={selectedCategory}
-            onCategorySelect={(cat) => setSelectedCategory(cat)}
+            onCategorySelect={(cat) => setSelectedCategory(cat === 'Todos' ? null : cat)}
           />
         </div>
 
@@ -385,14 +390,42 @@ export default function Receitas() {
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold text-white flex items-center gap-3">
               <ChefHat className="w-6 h-6" />
-              Cadastrar Receita Global
+              Cadastrar Nova Receita
             </DialogTitle>
           </DialogHeader>
 
           <div className="space-y-6 p-6">
+            {/* Título e Categoria */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-white">Título da Receita *</Label>
+                <Input
+                  value={formData.titulo}
+                  onChange={(e) => setFormData(prev => ({ ...prev, titulo: e.target.value }))}
+                  placeholder="Ex: Bolo de Chocolate Perfeito"
+                  className="bg-gray-800 border-gray-600 text-white"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-white">Categoria *</Label>
+                <Select value={formData.categoria} onValueChange={(value) => setFormData(prev => ({ ...prev, categoria: value }))}>
+                  <SelectTrigger className="bg-gray-800 border-gray-600 text-white">
+                    <SelectValue placeholder="Selecione a categoria..." />
+                  </SelectTrigger>
+                  <SelectContent className="bg-gray-800 border-gray-600">
+                    {categorias.map(cat => (
+                      <SelectItem key={cat} value={cat} className="text-white hover:bg-gray-700">
+                        {cat}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
             {/* Upload de Imagem */}
             <div className="space-y-4">
-              <Label className="text-white text-lg font-semibold">Capa da Receita *</Label>
+              <Label className="text-white text-lg font-semibold">Imagem de Capa *</Label>
               <div className="flex gap-4">
                 <div className="flex-1">
                   <input
@@ -409,7 +442,7 @@ export default function Receitas() {
                   >
                     <div className="text-center">
                       <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                      <p className="text-gray-400">Clique para selecionar imagem</p>
+                      <p className="text-gray-400">Clique para selecionar a imagem de capa</p>
                       <p className="text-xs text-gray-500">PNG, JPG até 5MB</p>
                     </div>
                   </label>
@@ -434,7 +467,7 @@ export default function Receitas() {
 
             {/* Upload de PDF */}
             <div className="space-y-4">
-              <Label className="text-white text-lg font-semibold">Arquivo PDF (Opcional)</Label>
+              <Label className="text-white text-lg font-semibold">Arquivo PDF da Receita (Opcional)</Label>
               <div className="flex gap-4">
                 <div className="flex-1">
                   <input
@@ -451,7 +484,7 @@ export default function Receitas() {
                   >
                     <div className="text-center">
                       <FileText className="w-6 h-6 text-gray-400 mx-auto mb-2" />
-                      <p className="text-gray-400">Clique para selecionar PDF</p>
+                      <p className="text-gray-400">Clique para selecionar o arquivo PDF</p>
                       <p className="text-xs text-gray-500">PDF até 10MB</p>
                     </div>
                   </label>
@@ -468,34 +501,6 @@ export default function Receitas() {
                     </button>
                   </div>
                 )}
-              </div>
-            </div>
-
-            {/* Título e Categoria */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label className="text-white">Título *</Label>
-                <Input
-                  value={formData.titulo}
-                  onChange={(e) => setFormData(prev => ({ ...prev, titulo: e.target.value }))}
-                  placeholder="Nome da receita"
-                  className="bg-gray-800 border-gray-600 text-white"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label className="text-white">Categoria *</Label>
-                <Select value={formData.categoria} onValueChange={(value) => setFormData(prev => ({ ...prev, categoria: value }))}>
-                  <SelectTrigger className="bg-gray-800 border-gray-600 text-white">
-                    <SelectValue placeholder="Selecione..." />
-                  </SelectTrigger>
-                  <SelectContent className="bg-gray-800 border-gray-600">
-                    {categorias.map(cat => (
-                      <SelectItem key={cat} value={cat} className="text-white hover:bg-gray-700">
-                        {cat}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
               </div>
             </div>
 
