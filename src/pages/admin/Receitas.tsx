@@ -1,264 +1,84 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import { Search, Upload, FileText, Plus, Save, Download, Edit, Trash2 } from "lucide-react";
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { useAuth } from '@/hooks/useAuth'
-import { supabase } from '@/lib/supabase'
-import { showSuccess, showError } from '@/utils/toast'
-import { Badge } from "@/components/ui/badge";
+{/* SEÇÃO EM ALTA */}
+{receitasEmAlta.length > 0 && (
+  <div className="px-6">
+    <div className="max-w-6xl mx-auto p-8 rounded-3xl shadow-2xl 
+      bg-gradient-to-r from-[#3a2e00] via-[#b88900] to-[#fbbf24]">
+      
+      <h2 className="text-2xl font-bold mb-8 text-center text-white">
+        🔥 Em Alta
+      </h2>
 
-interface Receita {
-  id: string;
-  titulo: string;
-  categoria: string;
-  imagem_url: string;
-  pdf_url: string;
-}
+      <div className="grid grid-cols-3 gap-6">
+        {receitasEmAlta.map((receita) => (
+          <div
+            key={receita.id}
+            className="bg-white rounded-xl overflow-hidden shadow-md h-full flex flex-col border border-gray-100 text-gray-800"
+          >
+            <div className="w-full aspect-square bg-gray-50 overflow-hidden relative">
+              {isOwner && (
+                <Button
+                  size="icon"
+                  variant="secondary"
+                  onClick={() => handleOpenEditModal(receita)}
+                  className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-black/50 text-white hover:bg-black/70"
+                >
+                  <Edit className="w-4 h-4" />
+                </Button>
+              )}
 
-export default function Receitas() {
-  const { user } = useAuth()
-  const [isOwner, setIsOwner] = useState(false)
-  const [showUploadModal, setShowUploadModal] = useState(false)
-  const [uploading, setUploading] = useState(false)
-  const [categorias, setCategorias] = useState<string[]>([])
-  const [receitas, setReceitas] = useState<Receita[]>([])
-  const [newCategoria, setNewCategoria] = useState('')
-  const [showNewCategoriaInput, setShowNewCategoriaInput] = useState(false)
-  const [editingReceita, setEditingReceita] = useState<Receita | null>(null)
-  const [formData, setFormData] = useState({
-    titulo: '',
-    categoria: '',
-    imagem_url: '',
-    pdf_url: ''
-  })
-  const [imagemFile, setImagemFile] = useState<File | null>(null)
-  const [pdfFile, setPdfFile] = useState<File | null>(null)
+              {receita.imagem_url ? (
+                <img
+                  src={receita.imagem_url}
+                  alt={receita.titulo}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                  }}
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <FileText className="w-8 h-8 text-gray-400" />
+                </div>
+              )}
+            </div>
 
-  // Check if user is owner
-  useEffect(() => {
-    const checkOwnerStatus = async () => {
-      if (user) {
-        try {
-          const { data, error } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', user.id)
-            .single()
-          if (error) throw error
-          if (data?.role === 'owner') {
-            setIsOwner(true)
-          }
-        } catch (error) {
-          console.error('Error checking owner status:', error)
-        }
-      }
-    }
-    checkOwnerStatus()
-  }, [user])
+            <div className="p-4 flex-1 flex flex-col">
+              <h4 className="font-semibold text-sm leading-tight flex-1 line-clamp-2 mb-3">
+                {receita.titulo}
+              </h4>
 
-  const loadReceitas = async () => {
-    const { data: receitasData, error: receitasError } = await supabase
-      .from('receitas')
-      .select('*')
-      .order('created_at', { ascending: false })
-    if (!receitasError && receitasData) {
-      setReceitas(receitasData)
-    }
-  }
+              <div className="mt-auto">
+                <div className="mb-3">
+                  <Badge
+                    variant="secondary"
+                    className="text-xs px-2 py-0.5 rounded-sm"
+                    style={{ backgroundColor: '#6A0122', color: 'white' }}
+                  >
+                    {receita.categoria}
+                  </Badge>
+                </div>
 
-  // Load categorias and receitas
-  useEffect(() => {
-    const loadData = async () => {
-      const { data: categoriasData, error: categoriasError } = await supabase
-        .from('receitas')
-        .select('categoria')
-      if (!categoriasError && categoriasData) {
-        const categoriasList = categoriasData
-          .map(item => item.categoria)
-          .filter(Boolean) as string[]
-        setCategorias(Array.from(new Set(categoriasList)))
-      }
-      loadReceitas()
-    }
-    loadData()
-  }, [])
-
-  const handleImagemUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0]
-      setImagemFile(file)
-      setFormData({ ...formData, imagem_url: URL.createObjectURL(file) })
-    }
-  }
-
-  const handlePdfUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0]
-      setPdfFile(file)
-      setFormData({ ...formData, pdf_url: URL.createObjectURL(file) })
-    }
-  }
-
-  const resetForm = () => {
-    setFormData({
-      titulo: '',
-      categoria: '',
-      imagem_url: '',
-      pdf_url: ''
-    });
-    setImagemFile(null);
-    setPdfFile(null);
-    setNewCategoria('');
-    setShowNewCategoriaInput(false);
-    setEditingReceita(null);
-  }
-
-  const handleOpenUploadModal = () => {
-    resetForm();
-    const minimizeEvent = new CustomEvent('minimizeNavigation');
-    window.dispatchEvent(minimizeEvent);
-    setTimeout(() => {
-      setShowUploadModal(true);
-    }, 300);
-  };
-
-  const handleOpenEditModal = (receita: Receita) => {
-    setEditingReceita(receita);
-    setFormData({
-      titulo: receita.titulo,
-      categoria: receita.categoria,
-      imagem_url: receita.imagem_url,
-      pdf_url: receita.pdf_url,
-    });
-    setImagemFile(null);
-    setPdfFile(null);
-    setShowUploadModal(true);
-  }
-
-  const handleCloseUploadModal = () => {
-    setShowUploadModal(false);
-    resetForm();
-  };
-
-  const handleSaveOrUpdate = async () => {
-    if (!formData.titulo.trim()) {
-      showError('Título é obrigatório')
-      return
-    }
-    if (!formData.categoria) {
-      showError('Categoria é obrigatória')
-      return
-    }
-    if (!formData.imagem_url) {
-      showError('Imagem é obrigatória')
-      return
-    }
-
-    setUploading(true)
-    try {
-      let finalImageUrl = editingReceita ? editingReceita.imagem_url : formData.imagem_url;
-      if (imagemFile) {
-        const imagemFileName = `receitas/${Date.now()}_${imagemFile.name}`;
-        const { error: imagemError } = await supabase.storage.from('products').upload(imagemFileName, imagemFile);
-        if (imagemError) throw imagemError;
-        finalImageUrl = supabase.storage.from('products').getPublicUrl(imagemFileName).data.publicUrl;
-      }
-
-      let finalPdfUrl = editingReceita ? editingReceita.pdf_url : formData.pdf_url;
-      if (pdfFile) {
-        const pdfFileName = `receitas/${Date.now()}_${pdfFile.name}`;
-        const { error: pdfError } = await supabase.storage.from('products').upload(pdfFileName, pdfFile);
-        if (pdfError) throw pdfError;
-        finalPdfUrl = supabase.storage.from('products').getPublicUrl(pdfFileName).data.publicUrl;
-      }
-
-      const recipeData = {
-        titulo: formData.titulo,
-        categoria: formData.categoria,
-        imagem_url: finalImageUrl,
-        pdf_url: finalPdfUrl,
-        user_id: user?.id,
-        is_global: true
-      };
-
-      if (editingReceita) {
-        const { error } = await supabase.from('receitas').update(recipeData).eq('id', editingReceita.id);
-        if (error) throw error;
-        showSuccess('Receita atualizada com sucesso!');
-      } else {
-        const { error } = await supabase.from('receitas').insert(recipeData);
-        if (error) throw error;
-        showSuccess('Receita cadastrada com sucesso!');
-      }
-
-      handleCloseUploadModal();
-      loadReceitas();
-
-    } catch (error: any) {
-      console.error('Error saving content:', error)
-      showError('Erro ao salvar conteúdo: ' + error.message)
-    } finally {
-      setUploading(false)
-    }
-  }
-
-  const handleDelete = async () => {
-    if (!editingReceita) return;
-    if (!confirm(`Tem certeza que deseja excluir a receita "${editingReceita.titulo}"?`)) return;
-
-    setUploading(true);
-    try {
-      const { error } = await supabase.from('receitas').delete().eq('id', editingReceita.id);
-      if (error) throw error;
-      showSuccess('Receita excluída com sucesso!');
-      handleCloseUploadModal();
-      loadReceitas();
-    } catch (error: any) {
-      showError('Erro ao excluir receita: ' + error.message);
-    } finally {
-      setUploading(false);
-    }
-  }
-
-  const addNewCategoria = () => {
-    setShowNewCategoriaInput(true);
-  }
-
-  const saveNewCategoria = () => {
-    if (newCategoria.trim() && !categorias.includes(newCategoria.trim())) {
-      const updatedCategorias = [...categorias, newCategoria.trim()];
-      setCategorias(updatedCategorias);
-      setFormData({ ...formData, categoria: newCategoria.trim() });
-      setShowNewCategoriaInput(false);
-    } else if (categorias.includes(newCategoria.trim())) {
-      setFormData({ ...formData, categoria: newCategoria.trim() });
-      setShowNewCategoriaInput(false);
-    }
-  }
-
-  const downloadPdf = (url: string, title: string) => {
-    if (!url) {
-      showError('Nenhum arquivo PDF para baixar.');
-      return;
-    }
-    const link = document.createElement('a')
-    link.href = url
-    link.download = `${title}.pdf`
-    link.target = '_blank'
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-  }
-
-  const receitasEmAlta = receitas.slice(0, 3);
-  const outrasReceitas = receitas.slice(3);
-
-  return (
-    <div className="min-h-screen bg-[#0f0f0f] text-white">
-      {/* restante do código JSX exatamente como você enviou */}
+                <Button
+                  onClick={() =>
+                    downloadPdf(receita.pdf_url, receita.titulo)
+                  }
+                  className="w-full py-2 px-3 rounded-lg text-white text-xs font-medium transition-colors text-center whitespace-nowrap"
+                  style={{ backgroundColor: '#FF4F97' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#E64280';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#FF4F97';
+                  }}
+                  disabled={!receita.pdf_url}
+                >
+                  Acessar
+                </Button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
-  );
-}
+  </div>
+)}
