@@ -34,6 +34,7 @@ import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/lib/supabase";
 import { showSuccess, showError } from "@/utils/toast";
+import { CategoryFilter } from "@/components/cardapio/CategoryFilter";
 
 interface Receita {
   id: string;
@@ -66,6 +67,7 @@ export default function Receitas() {
   const [uploading, setUploading] = useState(false);
   const [receitas, setReceitas] = useState<Receita[]>([]);
   const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     titulo: "",
@@ -261,15 +263,22 @@ export default function Receitas() {
     return diffInMinutes < 5; // Consider "new" if created in the last 5 minutes
   };
 
-  const filteredReceitas = receitas.filter((r) =>
-    r.titulo.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredReceitas = receitas.filter((r) => {
+    const matchesSearch = r.titulo.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory = selectedCategory ? r.categoria === selectedCategory : true;
+    return matchesSearch && matchesCategory;
+  });
+
+  const filterCategories = [
+    { name: 'Todos', icon: '' },
+    ...categorias.map(cat => ({ name: cat, icon: '' }))
+  ];
 
   return (
     <div className="min-h-screen bg-[#0f0f0f] text-white">
 
       {/* HERO */}
-      <section className="relative w-full min-h-[45vh] flex flex-col items-center justify-start pt-8 text-center px-6">
+      <section className="relative w-full flex flex-col items-center justify-start pt-8 text-center px-6 pb-8">
 
         <img
           src="/101012.png"
@@ -301,6 +310,15 @@ export default function Receitas() {
               className="pl-9 bg-white text-black"
             />
           </div>
+        </div>
+
+        {/* FILTRO DE CATEGORIAS */}
+        <div className="w-full max-w-4xl mt-6">
+          <CategoryFilter
+            categories={filterCategories}
+            selectedCategory={selectedCategory}
+            onCategorySelect={(cat) => setSelectedCategory(cat)}
+          />
         </div>
 
       </section>
