@@ -1,81 +1,76 @@
 "use client";
 
 import { ReactNode } from "react";
-import { ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Home, Heart, MessageCircle, Flame } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface MobileLayoutProps {
-  tabs: string[];
-  labels: Record<string, string>;
   activeTab: string;
   onTabChange: (tab: string) => void;
-  showBack?: boolean;
-  onBack?: () => void;
   content: ReactNode;
 }
 
 export function MobileLayout({
-  tabs,
-  labels,
   activeTab,
   onTabChange,
-  showBack = false,
-  onBack,
   content,
 }: MobileLayoutProps) {
   return (
-    <div className="h-screen bg-pink-50 flex flex-col overflow-hidden pb-28">
+    <div className="h-screen flex flex-col bg-gray-100 overflow-hidden">
       
-      {/* ÁREA DE CONTEÚDO */}
-      <div className="flex-1 overflow-y-auto">
-        {showBack && (
-          <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200 p-4 shadow-sm">
-            <Button
-              variant="ghost"
-              size="lg"
-              onClick={onBack}
-              className="w-full text-lg font-bold text-gray-800 justify-start"
-            >
-              <ArrowLeft className="w-6 h-6 mr-3" />
-              Voltar ao Menu Principal
-            </Button>
-          </div>
-        )}
-
-        <div className="min-h-full">
-          {content}
-        </div>
+      {/* CONTEÚDO */}
+      <div className="flex-1 overflow-y-auto pb-32">
+        {content}
       </div>
 
-      {/* MENU FIXO INFERIOR COM ALTURA DINÂMICA */}
-      <div
-        className="fixed bottom-0 left-0 right-0 min-h-[7rem] border-t border-pink-200 z-[9999] shadow-2xl"
-        style={{
-          background:
-            "linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #f9a8d4 100%)",
-          backgroundSize: "200% 200%",
-          animation: "gradient-x 3s ease infinite",
-        }}
-      >
-        <div className="py-4">
-          <div className="grid grid-cols-4 gap-2 w-full px-4">
-            {tabs.map((tab) => (
-              <Button
-                key={tab}
-                variant={activeTab === tab ? "default" : "ghost"}
-                className={cn(
-                  "h-14 rounded-2xl font-bold text-xs transition-all shadow-md",
-                  activeTab === tab
-                    ? "bg-white text-[#ec4899] shadow-xl shadow-pink-500/30"
-                    : "text-white bg-transparent shadow-lg shadow-black/20"
-                )}
-                onClick={() => onTabChange(tab)}
-              >
-                {labels[tab]}
-              </Button>
-            ))}
-          </div>
+      {/* MENU FLUTUANTE */}
+      <div className="fixed bottom-6 left-0 right-0 flex justify-center z-50">
+        <div className="bg-[#1a0f2e] rounded-full px-10 py-5 flex items-center gap-12 shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+          
+          {/* HOME */}
+          <button
+            onClick={() => onTabChange("home")}
+            className={cn(
+              "transition-all duration-300",
+              activeTab === "home" ? "scale-110" : "opacity-80"
+            )}
+          >
+            <Home className="w-7 h-7 text-white" />
+          </button>
+
+          {/* FAVORITOS */}
+          <button
+            onClick={() => onTabChange("favoritos")}
+            className={cn(
+              "transition-all duration-300",
+              activeTab === "favoritos" ? "scale-110" : "opacity-80"
+            )}
+          >
+            <Heart className="w-7 h-7 text-white" />
+          </button>
+
+          {/* MENSAGENS */}
+          <button
+            onClick={() => onTabChange("mensagens")}
+            className={cn(
+              "transition-all duration-300",
+              activeTab === "mensagens" ? "scale-110" : "opacity-80"
+            )}
+          >
+            <MessageCircle className="w-7 h-7 text-white" />
+          </button>
+
+          {/* TRENDING */}
+          <button
+            onClick={() => onTabChange("trending")}
+            className={cn(
+              "transition-all duration-300",
+              activeTab === "trending" ? "scale-110" : "opacity-80"
+            )}
+          >
+            <Flame className="w-7 h-7 text-white" />
+          </button>
+
         </div>
       </div>
     </div>
