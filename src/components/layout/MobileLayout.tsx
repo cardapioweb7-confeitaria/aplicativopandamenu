@@ -1,88 +1,82 @@
 "use client";
 
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  Utensils,
-  Wrench,
-  Users
-} from "lucide-react";
+import { ReactNode } from "react";
+import { Heart, MessageCircle, Flame } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-export default function MobileMenu() {
-  const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
+interface MobileLayoutProps {
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+  content: ReactNode;
+}
 
+export function MobileLayout({
+  activeTab,
+  onTabChange,
+  content,
+}: MobileLayoutProps) {
   return (
-    <>
-      {/* BOTÃO FLUTUANTE */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 bg-[#1a0033] text-white w-14 h-14 flex items-center justify-center shadow-lg z-50"
-      >
-        ☰
-      </button>
+    <div className="h-screen flex flex-col bg-gray-100 overflow-hidden">
+      
+      {/* CONTEÚDO */}
+      <div className="flex-1 overflow-y-auto pb-32">
+        {content}
+      </div>
 
-      {/* MENU SUSPENSO */}
-      {open && (
-        <div className="fixed bottom-24 right-6 bg-[#140028] p-4 shadow-2xl z-40 min-w-[220px]">
+      {/* MENU FLUTUANTE */}
+      <div className="fixed bottom-6 left-0 right-0 flex justify-center z-50">
+        <div className="bg-[#1a0f2e] rounded-full px-10 py-5 flex items-center gap-12 shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+          
+          {/* HOME (PNG PERSONALIZADO) */}
+          <button
+            onClick={() => onTabChange("home")}
+            className={cn(
+              "transition-all duration-300",
+              activeTab === "home" ? "scale-110" : "opacity-80"
+            )}
+          >
+            <img
+              src="/icons/homeapp.png"
+              alt="Home"
+              className="w-7 h-7"
+            />
+          </button>
 
-          <div className="flex flex-col gap-3">
+          {/* FAVORITOS */}
+          <button
+            onClick={() => onTabChange("favoritos")}
+            className={cn(
+              "transition-all duration-300",
+              activeTab === "favoritos" ? "scale-110" : "opacity-80"
+            )}
+          >
+            <Heart className="w-7 h-7 text-white" />
+          </button>
 
-            {/* INÍCIO (COM SEU PNG) */}
-            <button
-              onClick={() => {
-                navigate("/");
-                setOpen(false);
-              }}
-              className="flex items-center gap-3 text-white bg-[#1f003d] px-4 py-3 shadow-md w-full text-left"
-            >
-              <img
-                src="/icons/homeapp.png"
-                alt="Início"
-                className="w-6 h-6"
-              />
-              <span>Início</span>
-            </button>
+          {/* MENSAGENS */}
+          <button
+            onClick={() => onTabChange("mensagens")}
+            className={cn(
+              "transition-all duration-300",
+              activeTab === "mensagens" ? "scale-110" : "opacity-80"
+            )}
+          >
+            <MessageCircle className="w-7 h-7 text-white" />
+          </button>
 
-            {/* CARDÁPIO */}
-            <button
-              onClick={() => {
-                navigate("/cardapio");
-                setOpen(false);
-              }}
-              className="flex items-center gap-3 text-white bg-[#1f003d] px-4 py-3 shadow-md w-full text-left"
-            >
-              <Utensils size={20} />
-              <span>Cardápio</span>
-            </button>
+          {/* TRENDING */}
+          <button
+            onClick={() => onTabChange("trending")}
+            className={cn(
+              "transition-all duration-300",
+              activeTab === "trending" ? "scale-110" : "opacity-80"
+            )}
+          >
+            <Flame className="w-7 h-7 text-white" />
+          </button>
 
-            {/* UTILITÁRIOS */}
-            <button
-              onClick={() => {
-                navigate("/utilitarios");
-                setOpen(false);
-              }}
-              className="flex items-center gap-3 text-white bg-[#1f003d] px-4 py-3 shadow-md w-full text-left"
-            >
-              <Wrench size={20} />
-              <span>Utilitários</span>
-            </button>
-
-            {/* COMUNIDADE */}
-            <button
-              onClick={() => {
-                navigate("/comunidade");
-                setOpen(false);
-              }}
-              className="flex items-center gap-3 text-white bg-[#1f003d] px-4 py-3 shadow-md w-full text-left"
-            >
-              <Users size={20} />
-              <span>Comunidade</span>
-            </button>
-
-          </div>
         </div>
-      )}
-    </>
+      </div>
+    </div>
   );
 }
