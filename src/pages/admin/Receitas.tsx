@@ -16,8 +16,8 @@ interface Receita {
   titulo: string;
   categoria: string;
   imagem_url: string;
-  // Changed from pdf_url to video_url to match database schema
-  video_url: string;
+  // Changed from video_url to pdf_url to match database schema
+  pdf_url: string;
   descricao: string;
 }
 
@@ -35,12 +35,12 @@ export default function Home() {
     categoria: '',
     descricao: '',
     imagem_url: '',
-    // Changed from pdf_url to video_url to match database schema
-    video_url: ''
+    // Changed from video_url to pdf_url to match database schema
+    pdf_url: ''
   })
   const [imagemFile, setImagemFile] = useState<File | null>(null)
-  // Changed from pdfFile to videoFile to match database schema
-  const [videoFile, setVideoFile] = useState<File | null>(null)
+  // Changed from videoFile to pdfFile to match database schema
+  const [pdfFile, setPdfFile] = useState<File | null>(null)
 
   // Check if user is owner
   useEffect(() => {
@@ -98,12 +98,12 @@ export default function Home() {
     }
   }
 
-  // Changed from handlePdfUpload to handleVideoUpload to match database schema
-  const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Changed from handleVideoUpload to handlePdfUpload to match database schema
+  const handlePdfUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0]
-      setVideoFile(file)
-      setFormData({ ...formData, video_url: URL.createObjectURL(file) })
+      setPdfFile(file)
+      setFormData({ ...formData, pdf_url: URL.createObjectURL(file) })
     }
   }
 
@@ -125,11 +125,11 @@ export default function Home() {
       categoria: '',
       descricao: '',
       imagem_url: '',
-      video_url: ''
+      pdf_url: ''
     });
     setImagemFile(null);
-    // Changed from setPdfFile to setVideoFile to match database schema
-    setVideoFile(null);
+    // Changed from setVideoFile to setPdfFile to match database schema
+    setPdfFile(null);
     setNewCategoria('');
     setShowNewCategoriaInput(false);
   };
@@ -147,9 +147,9 @@ export default function Home() {
       showError('Imagem é obrigatória')
       return
     }
-    // Changed from pdfFile to videoFile to match database schema
-    if (!videoFile) {
-      showError('Vídeo é obrigatório')
+    // Changed from videoFile to pdfFile to match database schema
+    if (!pdfFile) {
+      showError('PDF é obrigatório')
       return
     }
 
@@ -165,19 +165,19 @@ export default function Home() {
         .from('products') // Using existing bucket
         .getPublicUrl(imagemFileName)
 
-      // Upload vídeo to the 'products' bucket (or another existing bucket)
-      // Changed from pdfFileName to videoFileName and pdfFile to videoFile
-      const videoFileName = `receitas/${Date.now()}_${videoFile.name}`
-      const { error: videoError } = await supabase.storage
+      // Upload PDF to the 'products' bucket (or another existing bucket)
+      // Changed from videoFileName to pdfFileName and videoFile to pdfFile
+      const pdfFileName = `receitas/${Date.now()}_${pdfFile.name}`
+      const { error: pdfError } = await supabase.storage
         .from('products') // Using existing bucket
-        .upload(videoFileName, videoFile)
-      if (videoError) throw videoError
-      const { data: videoData } = supabase.storage
+        .upload(pdfFileName, pdfFile)
+      if (pdfError) throw pdfError
+      const { data: pdfData } = supabase.storage
         .from('products') // Using existing bucket
-        .getPublicUrl(videoFileName)
+        .getPublicUrl(pdfFileName)
 
       // Save to database
-      // Changed pdf_url to video_url to match database schema
+      // Changed video_url to pdf_url to match database schema
       const { error: dbError } = await supabase
         .from('receitas')
         .insert({
@@ -185,7 +185,7 @@ export default function Home() {
           categoria: formData.categoria,
           descricao: formData.descricao,
           imagem_url: imagemData.publicUrl,
-          video_url: videoData.publicUrl,
+          pdf_url: pdfData.publicUrl,
           user_id: user?.id,
           is_global: true
         })
@@ -197,11 +197,11 @@ export default function Home() {
         categoria: '',
         descricao: '',
         imagem_url: '',
-        video_url: ''
+        pdf_url: ''
       })
       setImagemFile(null)
-      // Changed from setPdfFile to setVideoFile to match database schema
-      setVideoFile(null)
+      // Changed from setVideoFile to setPdfFile to match database schema
+      setPdfFile(null)
       setShowUploadModal(false)
       setShowNewCategoriaInput(false);
       setNewCategoria('');
@@ -251,11 +251,11 @@ export default function Home() {
     }
   }
 
-  // Changed from downloadPdf to downloadVideo to match database schema
-  const downloadVideo = (url: string, title: string) => {
+  // Changed from downloadVideo to downloadPdf to match database schema
+  const downloadPdf = (url: string, title: string) => {
     const link = document.createElement('a')
     link.href = url
-    link.download = `${title}.mp4`
+    link.download = `${title}.pdf`
     link.target = '_blank'
     document.body.appendChild(link)
     link.click()
@@ -328,17 +328,17 @@ export default function Home() {
                 <span className="text-xs bg-pink-600 text-white px-2 py-1 rounded-full">
                   {receita.categoria}
                 </span>
-                {/* Changed from pdf_url to video_url to match database schema */}
-                {receita.video_url && (
+                {/* Changed from video_url to pdf_url to match database schema */}
+                {receita.pdf_url && (
                   <Button
                     size="sm"
                     variant="outline"
-                    // Changed from downloadPdf to downloadVideo to match database schema
-                    onClick={() => downloadVideo(receita.video_url, receita.titulo)}
+                    // Changed from downloadVideo to downloadPdf to match database schema
+                    onClick={() => downloadPdf(receita.pdf_url, receita.titulo)}
                     className="h-8 px-2 text-xs"
                   >
                     <Download className="w-3 h-3 mr-1" />
-                    Vídeo
+                    PDF
                   </Button>
                 )}
               </div>
@@ -439,15 +439,15 @@ export default function Home() {
               />
             </div>
 
-            {/* Upload do Vídeo */}
+            {/* Upload do PDF */}
             <div className="space-y-2">
-              <label className="text-white text-sm">Arquivo de Vídeo</label>
+              <label className="text-white text-sm">Arquivo PDF</label>
               <div className="flex items-center justify-center w-full">
                 <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-600 rounded-lg cursor-pointer bg-gray-800 hover:bg-gray-700">
-                  {formData.video_url ? (
+                  {formData.pdf_url ? (
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                       <FileText className="w-8 h-8 text-green-500" />
-                      <p className="text-xs text-green-500 mt-2">Vídeo selecionado</p>
+                      <p className="text-xs text-green-500 mt-2">PDF selecionado</p>
                     </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -455,7 +455,7 @@ export default function Home() {
                       <p className="text-xs text-gray-400 mt-2">Clique para enviar</p>
                     </div>
                   )}
-                  <input type="file" className="hidden" accept="video/*" onChange={handleVideoUpload} />
+                  <input type="file" className="hidden" accept="application/pdf,image/*" onChange={handlePdfUpload} />
                 </label>
               </div>
             </div>
