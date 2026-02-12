@@ -70,10 +70,11 @@ export default function Home() {
       const { data: categoriasData, error: categoriasError } = await supabase
         .from('receitas')
         .select('categoria')
-        .distinct()
       
       if (!categoriasError && categoriasData) {
-        const categoriasList = categoriasData.map(item => item.categoria).filter(Boolean) as string[]
+        const categoriasList = categoriasData
+          .map(item => item.categoria)
+          .filter(Boolean) as string[]
         setCategorias(Array.from(new Set(categoriasList)))
       }
       
