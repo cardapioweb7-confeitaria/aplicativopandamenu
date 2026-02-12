@@ -193,7 +193,7 @@ export default function Receitas() {
       <section className="px-6 pb-20 mt-4">
         <div className="max-w-6xl mx-auto">
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {filteredReceitas.map((receita) => (
               <div
                 key={receita.id}
