@@ -47,11 +47,7 @@ export default function ReceitasPage() {
         <p className="text-center text-gray-400">Encontre inspiração para sua próxima obra-prima.</p>
       </header>
 
-      <RecipeCategoryFilter
-        categories={categories}
-        selectedCategory={selectedCategory}
-        onCategorySelect={setSelectedCategory}
-      />
+      {/* O filtro de categoria foi removido daqui */}
 
       {loading ? (
         <div className="text-center">Carregando receitas...</div>
