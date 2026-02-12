@@ -24,7 +24,7 @@ export default function AdminLayout() {
   const device = useDeviceDetection()
 
   // Tabs por modo
-  const mainTabs = ['inicio', 'receitas', 'arquivos', 'toppers', 'comunidade', 'cardapio']
+  const mainTabs = ['inicio', 'receitas', 'arquivos', 'cardapio']
   const cardapioTabs = ['previa', 'design', 'produtos', 'clientes', 'precificacao', 'voltar']
   const currentTabs = isCardapioMode ? cardapioTabs : mainTabs
 

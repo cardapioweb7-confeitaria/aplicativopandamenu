@@ -72,14 +72,14 @@ export function MobileLayout({ tabs, labels, activeTab, onTabChange, showBack = 
                 </Button>
               </div>
               
-              {/* Tabs sem padding extra - botão não cobre */}
-              <div className="grid grid-cols-3 gap-2 p-3 px-6 pb-4">
+              {/* Tabs com 4 colunas */}
+              <div className="grid grid-cols-4 gap-2 p-3 px-4 pb-4">
                 {tabs.map((tab) => (
                   <Button
                     key={tab}
                     variant={activeTab === tab ? "default" : "ghost"}
                     className={cn(
-                      "h-14 rounded-2xl font-bold text-sm transition-all duration-300 shadow-lg hover:shadow-xl active:scale-[0.98]",
+                      "h-14 rounded-2xl font-bold text-xs sm:text-sm transition-all duration-300 shadow-lg hover:shadow-xl active:scale-[0.98]",
                       activeTab === tab
                         ? "bg-white text-[#ec4899] shadow-pink-500/50"
                         : "text-white/90 hover:bg-white/20 hover:text-white bg-transparent"
