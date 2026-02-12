@@ -314,10 +314,6 @@ export default function Receitas() {
       {/* TODAS AS RECEITAS */}
       <section className="px-6 pb-20 mt-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl font-bold mb-6 text-center text-gray-400">
-            Todas as Receitas
-          </h2>
-
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredReceitas.map((receita) => (
               <div
