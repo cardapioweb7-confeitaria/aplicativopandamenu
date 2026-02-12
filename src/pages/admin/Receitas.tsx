@@ -16,7 +16,6 @@ interface Receita {
   categoria: string;
   imagem_url: string;
   pdf_url: string;
-  descricao: string;
 }
 
 export default function Receitas() {
@@ -174,8 +173,6 @@ export default function Receitas() {
           categoria: formData.categoria,
           imagem_url: imagemData.publicUrl,
           pdf_url: pdfData.publicUrl,
-          ingredientes: [], // Default empty array for NOT NULL constraint
-          modo_preparo: '', // Default empty string for NOT NULL constraint
           user_id: user?.id,
           is_global: true
         })

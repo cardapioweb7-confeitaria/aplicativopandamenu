@@ -9,22 +9,15 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Textarea } from '@/components/ui/textarea'
 import { Upload, FileText, X, Save, Plus, ChefHat } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { showSuccess, showError } from '@/utils/toast'
 
 interface RecipeFormData {
   titulo: string
-  descricao: string
   categoria: string
   imagem_url: string
   pdf_url: string
-  ingredientes: string[]
-  modo_preparo: string
-  tempo_preparo: string
-  rendimento: string
-  dificuldade: string
 }
 
 const categorias = [
@@ -48,15 +41,9 @@ export default function Exclusivo() {
   const [uploading, setUploading] = useState(false)
   const [formData, setFormData] = useState<RecipeFormData>({
     titulo: '',
-    descricao: '',
     categoria: '',
     imagem_url: '',
     pdf_url: '',
-    ingredientes: [''],
-    modo_preparo: '',
-    tempo_preparo: '',
-    rendimento: '',
-    dificuldade: 'facil'
   })
 
   useEffect(() => {
@@ -178,15 +165,9 @@ export default function Exclusivo() {
         .from('receitas')
         .insert({
           titulo: formData.titulo.trim(),
-          descricao: formData.descricao.trim(),
           categoria: formData.categoria,
           imagem_url: formData.imagem_url,
           pdf_url: formData.pdf_url,
-          ingredientes: formData.ingredientes.filter(i => i.trim()),
-          modo_preparo: formData.modo_preparo.trim(),
-          tempo_preparo: formData.tempo_preparo.trim(),
-          rendimento: formData.rendimento.trim(),
-          dificuldade: formData.dificuldade,
           user_id: user?.id,
           is_global: true // Marca como receita global
         })
@@ -209,37 +190,10 @@ export default function Exclusivo() {
   const resetForm = () => {
     setFormData({
       titulo: '',
-      descricao: '',
       categoria: '',
       imagem_url: '',
       pdf_url: '',
-      ingredientes: [''],
-      modo_preparo: '',
-      tempo_preparo: '',
-      rendimento: '',
-      dificuldade: 'facil'
     })
-  }
-
-  const addIngrediente = () => {
-    setFormData(prev => ({
-      ...prev,
-      ingredientes: [...prev.ingredientes, '']
-    }))
-  }
-
-  const updateIngrediente = (index: number, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      ingredientes: prev.ingredientes.map((ing, i) => i === index ? value : ing)
-    }))
-  }
-
-  const removeIngrediente = (index: number) => {
-    setFormData(prev => ({
-      ...prev,
-      ingredientes: prev.ingredientes.filter((_, i) => i !== index)
-    }))
   }
 
   if (loading || authLoading) {
@@ -296,7 +250,7 @@ export default function Exclusivo() {
           <div className="space-y-6 p-6">
             {/* Upload de Imagem */}
             <div className="space-y-4">
-              <Label className="text-white text-lg font-semibold">Imagem da Receita *</Label>
+              <Label className="text-white text-lg font-semibold">Capa da Receita *</Label>
               <div className="flex gap-4">
                 <div className="flex-1">
                   <input
@@ -398,104 +352,6 @@ export default function Exclusivo() {
                         {cat}
                       </SelectItem>
                     ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            {/* Descrição */}
-            <div className="space-y-2">
-              <Label className="text-white">Descrição</Label>
-              <Textarea
-                value={formData.descricao}
-                onChange={(e) => setFormData(prev => ({ ...prev, descricao: e.target.value }))}
-                placeholder="Descreva a receita..."
-                rows={3}
-                className="bg-gray-800 border-gray-600 text-white"
-              />
-            </div>
-
-            {/* Ingredientes */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <Label className="text-white text-lg font-semibold">Ingredientes</Label>
-                <Button
-                  type="button"
-                  onClick={addIngrediente}
-                  size="sm"
-                  className="bg-pink-600 hover:bg-pink-700"
-                >
-                  <Plus className="w-4 h-4 mr-2" />
-                  Adicionar
-                </Button>
-              </div>
-              <div className="space-y-2">
-                {formData.ingredientes.map((ingrediente, index) => (
-                  <div key={index} className="flex gap-2">
-                    <Input
-                      value={ingrediente}
-                      onChange={(e) => updateIngrediente(index, e.target.value)}
-                      placeholder={`Ingrediente ${index + 1}`}
-                      className="bg-gray-800 border-gray-600 text-white"
-                    />
-                    {formData.ingredientes.length > 1 && (
-                      <Button
-                        type="button"
-                        onClick={() => removeIngrediente(index)}
-                        variant="outline"
-                        size="sm"
-                        className="border-red-500 text-red-400 hover:bg-red-500 hover:text-white"
-                      >
-                        <X className="w-4 h-4" />
-                      </Button>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Modo de Preparo */}
-            <div className="space-y-2">
-              <Label className="text-white">Modo de Preparo</Label>
-              <Textarea
-                value={formData.modo_preparo}
-                onChange={(e) => setFormData(prev => ({ ...prev, modo_preparo: e.target.value }))}
-                placeholder="Passo a passo da receita..."
-                rows={4}
-                className="bg-gray-800 border-gray-600 text-white"
-              />
-            </div>
-
-            {/* Informações Adicionais */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="space-y-2">
-                <Label className="text-white">Tempo</Label>
-                <Input
-                  value={formData.tempo_preparo}
-                  onChange={(e) => setFormData(prev => ({ ...prev, tempo_preparo: e.target.value }))}
-                  placeholder="30 min"
-                  className="bg-gray-800 border-gray-600 text-white"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label className="text-white">Rendimento</Label>
-                <Input
-                  value={formData.rendimento}
-                  onChange={(e) => setFormData(prev => ({ ...prev, rendimento: e.target.value }))}
-                  placeholder="8 porções"
-                  className="bg-gray-800 border-gray-600 text-white"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label className="text-white">Dificuldade</Label>
-                <Select value={formData.dificuldade} onValueChange={(value) => setFormData(prev => ({ ...prev, dificuldade: value }))}>
-                  <SelectTrigger className="bg-gray-800 border-gray-600 text-white">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-gray-800 border-gray-600">
-                    <SelectItem value="facil" className="text-white hover:bg-gray-700">Fácil</SelectItem>
-                    <SelectItem value="medio" className="text-white hover:bg-gray-700">Médio</SelectItem>
-                    <SelectItem value="dificil" className="text-white hover:bg-gray-700">Difícil</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
