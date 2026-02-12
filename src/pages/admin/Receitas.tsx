@@ -348,10 +348,6 @@ export default function Receitas() {
                     {receita.titulo}
                   </h4>
 
-                  <Badge className="mb-3 bg-[#6A0122] text-white">
-                    {receita.categoria}
-                  </Badge>
-
                   <Button
                     onClick={() =>
                       downloadPdf(receita.pdf_url, receita.titulo)
