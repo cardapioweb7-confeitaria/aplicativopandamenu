@@ -4,7 +4,6 @@ import { Search, Upload, FileText, Plus, X, Save, Download } from "lucide-react"
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useAuth } from '@/hooks/useAuth'
@@ -32,7 +31,6 @@ export default function Receitas() {
   const [formData, setFormData] = useState({
     titulo: '',
     categoria: '',
-    descricao: '',
     imagem_url: '',
     pdf_url: ''
   })
@@ -119,7 +117,6 @@ export default function Receitas() {
     setFormData({
       titulo: '',
       categoria: '',
-      descricao: '',
       imagem_url: '',
       pdf_url: ''
     });
@@ -169,16 +166,16 @@ export default function Receitas() {
         .from('products') // Using existing bucket
         .getPublicUrl(pdfFileName)
 
-      // Save to database
+      // Save to database with only required fields
       const { error: dbError } = await supabase
         .from('receitas')
         .insert({
           titulo: formData.titulo,
           categoria: formData.categoria,
-          descricao: formData.descricao || '', // Provide empty string if no description
           imagem_url: imagemData.publicUrl,
           pdf_url: pdfData.publicUrl,
-          ingredientes: [], // Add empty ingredients array to satisfy NOT NULL constraint
+          ingredientes: [], // Default empty array for NOT NULL constraint
+          modo_preparo: '', // Default empty string for NOT NULL constraint
           user_id: user?.id,
           is_global: true
         })
@@ -188,7 +185,6 @@ export default function Receitas() {
       setFormData({
         titulo: '',
         categoria: '',
-        descricao: '',
         imagem_url: '',
         pdf_url: ''
       })
@@ -336,7 +332,7 @@ export default function Receitas() {
         </div>
       </section>
 
-      {/* MODAL DE UPLOAD */}
+      {/* MODAL DE UPLOAD SIMPLIFICADO */}
       <Dialog open={showUploadModal} onOpenChange={handleCloseUploadModal}>
         <DialogContent className="max-w-md w-[95vw] bg-[#1a1a1a] border-gray-800">
           <DialogHeader>
@@ -345,7 +341,7 @@ export default function Receitas() {
           <div className="space-y-4 py-4">
             {/* Upload da Imagem */}
             <div className="space-y-2">
-              <label className="text-white text-sm">Capa</label>
+              <label className="text-white text-sm">Capa *</label>
               <div className="flex items-center justify-center w-full">
                 <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-600 rounded-lg cursor-pointer bg-gray-800 hover:bg-gray-700">
                   {formData.imagem_url ? (
@@ -368,7 +364,7 @@ export default function Receitas() {
 
             {/* Título */}
             <div className="space-y-2">
-              <label className="text-white text-sm">Título</label>
+              <label className="text-white text-sm">Título *</label>
               <Input
                 value={formData.titulo}
                 onChange={(e) => setFormData({ ...formData, titulo: e.target.value })}
@@ -379,7 +375,7 @@ export default function Receitas() {
 
             {/* Categoria */}
             <div className="space-y-2">
-              <label className="text-white text-sm">Categoria</label>
+              <label className="text-white text-sm">Categoria *</label>
               <div className="flex gap-2">
                 <Select
                   value={formData.categoria}
@@ -416,21 +412,9 @@ export default function Receitas() {
               )}
             </div>
 
-            {/* Descrição */}
-            <div className="space-y-2">
-              <label className="text-white text-sm">Descrição</label>
-              <Textarea
-                value={formData.descricao}
-                onChange={(e) => setFormData({ ...formData, descricao: e.target.value })}
-                placeholder="Descrição do conteúdo"
-                className="bg-gray-800 border-gray-700 text-white"
-                rows={3}
-              />
-            </div>
-
             {/* Upload do PDF */}
             <div className="space-y-2">
-              <label className="text-white text-sm">Arquivo PDF</label>
+              <label className="text-white text-sm">Arquivo PDF *</label>
               <div className="flex items-center justify-center w-full">
                 <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-600 rounded-lg cursor-pointer bg-gray-800 hover:bg-gray-700">
                   {formData.pdf_url ? (
@@ -444,7 +428,7 @@ export default function Receitas() {
                       <p className="text-xs text-gray-400 mt-2">Clique para enviar</p>
                     </div>
                   )}
-                  <input type="file" className="hidden" accept="application/pdf,image/*" onChange={handlePdfUpload} />
+                  <input type="file" className="hidden" accept="application/pdf" onChange={handlePdfUpload} />
                 </label>
               </div>
             </div>
