@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 
 interface Category {
   name: string
@@ -13,10 +13,6 @@ interface CategoryFilterProps {
 }
 
 export function CategoryFilter({ categories, selectedCategory, onCategorySelect, categoryIcons = {} }: CategoryFilterProps) {
-  if (!categories || categories.length === 0) {
-    return null
-  }
-
   const categoryIconMap: { [key: string]: string } = {
     'Bolos': '/icons/1.png',
     'Doces': '/icons/2.png',

@@ -48,40 +48,38 @@ export default function Inicio() {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col items-center justify-start md:justify-center pt-2 px-4 pb-8 md:p-6 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 space-y-6">
-
-        {/* CARD DE ACESSO - MODERNIZADO */}
-        <Card className="w-full max-w-xs border-0 rounded-3xl overflow-hidden bg-white shadow-lg mt-6 md:mt-8">
-          <CardContent className="relative pt-6 p-6 text-center">
+      <div className="min-h-screen flex flex-col items-center justify-start md:justify-center pt-2 px-4 pb-8 md:p-6 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200">
+        <Card className="w-full max-w-xs border-0 rounded-2xl overflow-hidden bg-white mt-6 md:mt-8">
+          <CardContent className="relative pt-8 p-4 pb-6 text-center">
             {/* BOTÃO SAIR VERMELHO - APENAS MOBILE - TOP-LEFT */}
-            <div className="md:hidden absolute top-3 left-3 z-30">
+            <div className="md:hidden absolute top-2 left-2 z-30">
               <Button
                 variant="destructive"
                 size="sm"
-                className="px-3 py-1 text-xs font-semibold h-auto"
+                className="px-2 py-1 text-xs font-semibold h-auto"
                 onClick={handleLogout}
               >
                 SAIR
               </Button>
             </div>
 
-            {/* Status moderno */}
-            <div className="space-y-3 mx-auto w-48 p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 shadow-md text-sm text-gray-700">
-              <div className="flex justify-between items-center">
-                <span className="font-medium">Seu acesso é</span>
-                <span className="bg-pink-700/80 text-white px-2 py-0.5 rounded-full font-semibold text-xs">
+            {/* Status ultra-compact 60px */}
+            <div className="space-y-1 mx-auto w-44 p-3 rounded-xl border border-dashed border-pink-200 bg-white/70 shadow-md backdrop-blur-sm text-xs" style={{ fontFamily: "'Poppins', sans-serif" }}>
+              <div className="grid grid-cols-[1fr_auto] items-center gap-0.5">
+                <span className="font-semibold text-gray-700 text-[11px]">Seu acesso é</span>
+                <span className="bg-[#660033]/70 text-white px-1.5 py-px rounded text-[10px] font-bold">
                   Vitalício
                 </span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="font-medium">Você agora é</span>
-                <span className="bg-pink-700/80 text-white px-2 py-0.5 rounded-full font-semibold text-xs">
+              <div className="grid grid-cols-[1fr_auto] items-center gap-0.5">
+                <span className="font-semibold text-gray-700 text-[11px]">Você agora é</span>
+                <span className="bg-[#660033]/70 text-white px-1.5 py-px rounded text-[10px] font-bold">
                   Premium
                 </span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="font-medium">Nível Atual</span>
-                <span className="bg-pink-700/80 text-white px-2 py-0.5 rounded-full font-semibold text-xs">
+              <div className="grid grid-cols-[1fr_auto] items-center gap-0.5">
+                <span className="font-semibold text-gray-700 text-[11px]">Nível Atual</span>
+                <span className="bg-[#660033]/70 text-white px-1.5 py-px rounded text-[10px] font-bold">
                   {loadingNivel ? 'Carregando...' : nivel}
                 </span>
               </div>
@@ -89,7 +87,7 @@ export default function Inicio() {
           </CardContent>
         </Card>
 
-        {/* CARD Instale o App - mantido sem alterações */}
+        {/* CARD Instale o App - mantido */}
         <Card className="w-full max-w-md border-0 rounded-3xl overflow-hidden bg-[#010135] mt-6 relative">
           {/* Faixa "Recomendado" */}
           <div 
