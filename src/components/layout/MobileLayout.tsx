@@ -27,12 +27,14 @@ export function MobileLayout({
       <div className="fixed bottom-6 left-0 right-0 flex justify-center z-50">
         <div className="bg-[#1a0f2e] rounded-full px-10 py-5 flex items-center gap-12 shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
           
-          {/* HOME (PNG PERSONALIZADO) */}
+          {/* HOME */}
           <button
             onClick={() => onTabChange("home")}
             className={cn(
               "transition-all duration-300",
-              activeTab === "home" ? "scale-110" : ""
+              activeTab === "home"
+                ? "scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]"
+                : "opacity-90"
             )}
           >
             <img
@@ -46,13 +48,13 @@ export function MobileLayout({
           <button
             onClick={() => onTabChange("favoritos")}
             className={cn(
-  "transition-all duration-300",
-  activeTab === "home"
-    ? "scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]"
-    : "opacity-90"
-)}
+              "transition-all duration-300",
+              activeTab === "favoritos"
+                ? "scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]"
+                : "opacity-90"
+            )}
           >
-            <Heart className="w-7 h-7 text-white" />
+            <Heart className="w-9 h-9 text-white" />
           </button>
 
           {/* MENSAGENS */}
@@ -60,10 +62,12 @@ export function MobileLayout({
             onClick={() => onTabChange("mensagens")}
             className={cn(
               "transition-all duration-300",
-              activeTab === "mensagens" ? "scale-110" : "opacity-80"
+              activeTab === "mensagens"
+                ? "scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]"
+                : "opacity-90"
             )}
           >
-            <MessageCircle className="w-7 h-7 text-white" />
+            <MessageCircle className="w-9 h-9 text-white" />
           </button>
 
           {/* TRENDING */}
@@ -71,10 +75,12 @@ export function MobileLayout({
             onClick={() => onTabChange("trending")}
             className={cn(
               "transition-all duration-300",
-              activeTab === "trending" ? "scale-110" : "opacity-80"
+              activeTab === "trending"
+                ? "scale-110 drop-shadow-[0_0_6px_rgba(255,255,255,0.6)]"
+                : "opacity-90"
             )}
           >
-            <Flame className="w-7 h-7 text-white" />
+            <Flame className="w-9 h-9 text-white" />
           </button>
 
         </div>
