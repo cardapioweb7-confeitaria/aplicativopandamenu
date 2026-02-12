@@ -33,18 +33,15 @@ export function CategoryFilter({ categories, selectedCategory, onCategorySelect,
       <div 
         style={{ 
           display: 'flex', 
-          gap: '8px', 
-          padding: '4px 24px',
-          marginLeft: '-24px',
-          marginRight: '-24px',
+          gap: '16px', 
+          padding: '4px 0',
           justifyContent: 'flex-start',
           overflowX: 'auto',
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
-          WebkitScrollbar: { display: 'none' }
         } as React.CSSProperties}
       >
-        {allCategories.map((category) => {
+        {allCategories.map((category, index) => {
           const isSelected = category.name === 'Todos' 
             ? selectedCategory === null 
             : selectedCategory === category.name
@@ -84,7 +81,9 @@ export function CategoryFilter({ categories, selectedCategory, onCategorySelect,
                 padding: '8px',
                 flexShrink: 0,
                 minWidth: '72px',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                marginLeft: index === 0 ? '24px' : '0',
+                marginRight: index === allCategories.length - 1 ? '24px' : '0',
               }}
               onMouseOver={(e) => {
                 e.currentTarget.style.backgroundColor = '#2E2E2E'
