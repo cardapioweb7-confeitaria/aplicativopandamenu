@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Search, Upload, FileText, Plus, Save, Download } from "lucide-react";
+import { Search, Upload, FileText, Plus, Save, Download, Edit, Trash2 } from "lucide-react";
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -27,6 +27,7 @@ export default function Receitas() {
   const [receitas, setReceitas] = useState<Receita[]>([])
   const [newCategoria, setNewCategoria] = useState('')
   const [showNewCategoriaInput, setShowNewCategoriaInput] = useState(false)
+  const [editingReceita, setEditingReceita] = useState<Receita | null>(null)
   const [formData, setFormData] = useState({
     titulo: '',
     categoria: '',
@@ -58,6 +59,16 @@ export default function Receitas() {
     checkOwnerStatus()
   }, [user])
 
+  const loadReceitas = async () => {
+    const { data: receitasData, error: receitasError } = await supabase
+      .from('receitas')
+      .select('*')
+      .order('created_at', { ascending: false })
+    if (!receitasError && receitasData) {
+      setReceitas(receitasData)
+    }
+  }
+
   // Load categorias and receitas
   useEffect(() => {
     const loadData = async () => {
@@ -71,15 +82,7 @@ export default function Receitas() {
           .filter(Boolean) as string[]
         setCategorias(Array.from(new Set(categoriasList)))
       }
-
-      // Load receitas
-      const { data: receitasData, error: receitasError } = await supabase
-        .from('receitas')
-        .select('*')
-        .order('created_at', { ascending: false })
-      if (!receitasError && receitasData) {
-        setReceitas(receitasData)
-      }
+      loadReceitas()
     }
     loadData()
   }, [])
@@ -100,19 +103,7 @@ export default function Receitas() {
     }
   }
 
-  const handleOpenUploadModal = () => {
-    // Minimize navigation menu before opening modal
-    const minimizeEvent = new CustomEvent('minimizeNavigation');
-    window.dispatchEvent(minimizeEvent);
-    // Open the modal after a short delay to allow animation
-    setTimeout(() => {
-      setShowUploadModal(true);
-    }, 300);
-  };
-
-  const handleCloseUploadModal = () => {
-    setShowUploadModal(false);
-    // Reset form when closing
+  const resetForm = () => {
     setFormData({
       titulo: '',
       categoria: '',
@@ -123,9 +114,37 @@ export default function Receitas() {
     setPdfFile(null);
     setNewCategoria('');
     setShowNewCategoriaInput(false);
+    setEditingReceita(null);
+  }
+
+  const handleOpenUploadModal = () => {
+    resetForm();
+    const minimizeEvent = new CustomEvent('minimizeNavigation');
+    window.dispatchEvent(minimizeEvent);
+    setTimeout(() => {
+      setShowUploadModal(true);
+    }, 300);
   };
 
-  const handleSave = async () => {
+  const handleOpenEditModal = (receita: Receita) => {
+    setEditingReceita(receita);
+    setFormData({
+      titulo: receita.titulo,
+      categoria: receita.categoria,
+      imagem_url: receita.imagem_url,
+      pdf_url: receita.pdf_url,
+    });
+    setImagemFile(null);
+    setPdfFile(null);
+    setShowUploadModal(true);
+  }
+
+  const handleCloseUploadModal = () => {
+    setShowUploadModal(false);
+    resetForm();
+  };
+
+  const handleSaveOrUpdate = async () => {
     if (!formData.titulo.trim()) {
       showError('Título é obrigatório')
       return
@@ -134,89 +153,74 @@ export default function Receitas() {
       showError('Categoria é obrigatória')
       return
     }
-    if (!imagemFile) {
+    if (!formData.imagem_url) {
       showError('Imagem é obrigatória')
-      return
-    }
-    if (!pdfFile) {
-      showError('PDF é obrigatório')
       return
     }
 
     setUploading(true)
     try {
-      // Upload imagem to the 'products' bucket (or another existing bucket)
-      const imagemFileName = `receitas/${Date.now()}_${imagemFile.name}`
-      const { error: imagemError } = await supabase.storage
-        .from('products') // Using existing bucket
-        .upload(imagemFileName, imagemFile)
-      if (imagemError) throw imagemError
-      const { data: imagemData } = supabase.storage
-        .from('products') // Using existing bucket
-        .getPublicUrl(imagemFileName)
-
-      // Upload PDF to the 'products' bucket (or another existing bucket)
-      const pdfFileName = `receitas/${Date.now()}_${pdfFile.name}`
-      const { error: pdfError } = await supabase.storage
-        .from('products') // Using existing bucket
-        .upload(pdfFileName, pdfFile)
-      if (pdfError) throw pdfError
-      const { data: pdfData } = supabase.storage
-        .from('products') // Using existing bucket
-        .getPublicUrl(pdfFileName)
-
-      // Save to database with only required fields
-      const { error: dbError } = await supabase
-        .from('receitas')
-        .insert({
-          titulo: formData.titulo,
-          categoria: formData.categoria,
-          imagem_url: imagemData.publicUrl,
-          pdf_url: pdfData.publicUrl,
-          user_id: user?.id,
-          is_global: true
-        })
-      if (dbError) throw dbError
-
-      // Reset form
-      setFormData({
-        titulo: '',
-        categoria: '',
-        imagem_url: '',
-        pdf_url: ''
-      })
-      setImagemFile(null);
-      setPdfFile(null);
-      setShowUploadModal(false)
-      setShowNewCategoriaInput(false);
-      setNewCategoria('');
-
-      // Reload receitas
-      const { data: receitasData } = await supabase
-        .from('receitas')
-        .select('*')
-        .order('created_at', { ascending: false })
-      if (receitasData) {
-        setReceitas(receitasData)
+      let finalImageUrl = editingReceita ? editingReceita.imagem_url : formData.imagem_url;
+      if (imagemFile) {
+        const imagemFileName = `receitas/${Date.now()}_${imagemFile.name}`;
+        const { error: imagemError } = await supabase.storage.from('products').upload(imagemFileName, imagemFile);
+        if (imagemError) throw imagemError;
+        finalImageUrl = supabase.storage.from('products').getPublicUrl(imagemFileName).data.publicUrl;
       }
 
-      // Reload categories
-      const { data: categoriasData } = await supabase
-        .from('receitas')
-        .select('categoria')
-      if (categoriasData) {
-        const categoriasList = categoriasData
-          .map(item => item.categoria)
-          .filter(Boolean) as string[]
-        setCategorias(Array.from(new Set(categoriasList)))
+      let finalPdfUrl = editingReceita ? editingReceita.pdf_url : formData.pdf_url;
+      if (pdfFile) {
+        const pdfFileName = `receitas/${Date.now()}_${pdfFile.name}`;
+        const { error: pdfError } = await supabase.storage.from('products').upload(pdfFileName, pdfFile);
+        if (pdfError) throw pdfError;
+        finalPdfUrl = supabase.storage.from('products').getPublicUrl(pdfFileName).data.publicUrl;
       }
 
-      showSuccess('Conteúdo cadastrado com sucesso!')
+      const recipeData = {
+        titulo: formData.titulo,
+        categoria: formData.categoria,
+        imagem_url: finalImageUrl,
+        pdf_url: finalPdfUrl,
+        user_id: user?.id,
+        is_global: true
+      };
+
+      if (editingReceita) {
+        const { error } = await supabase.from('receitas').update(recipeData).eq('id', editingReceita.id);
+        if (error) throw error;
+        showSuccess('Receita atualizada com sucesso!');
+      } else {
+        const { error } = await supabase.from('receitas').insert(recipeData);
+        if (error) throw error;
+        showSuccess('Receita cadastrada com sucesso!');
+      }
+
+      handleCloseUploadModal();
+      loadReceitas();
+
     } catch (error: any) {
       console.error('Error saving content:', error)
       showError('Erro ao salvar conteúdo: ' + error.message)
     } finally {
       setUploading(false)
+    }
+  }
+
+  const handleDelete = async () => {
+    if (!editingReceita) return;
+    if (!confirm(`Tem certeza que deseja excluir a receita "${editingReceita.titulo}"?`)) return;
+
+    setUploading(true);
+    try {
+      const { error } = await supabase.from('receitas').delete().eq('id', editingReceita.id);
+      if (error) throw error;
+      showSuccess('Receita excluída com sucesso!');
+      handleCloseUploadModal();
+      loadReceitas();
+    } catch (error: any) {
+      showError('Erro ao excluir receita: ' + error.message);
+    } finally {
+      setUploading(false);
     }
   }
 
@@ -304,6 +308,16 @@ export default function Receitas() {
             <div key={receita.id} className="bg-white rounded-lg overflow-hidden shadow-sm h-full flex flex-col border border-gray-100 text-gray-800">
               {/* Imagem */}
               <div className="w-full aspect-square bg-gray-50 overflow-hidden relative">
+                {isOwner && (
+                  <Button
+                    size="icon"
+                    variant="secondary"
+                    onClick={() => handleOpenEditModal(receita)}
+                    className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-black/50 text-white hover:bg-black/70"
+                  >
+                    <Edit className="w-4 h-4" />
+                  </Button>
+                )}
                 {receita.imagem_url ? (
                   <img 
                     src={receita.imagem_url} 
@@ -356,11 +370,11 @@ export default function Receitas() {
         </div>
       </section>
 
-      {/* MODAL DE UPLOAD SIMPLIFICADO */}
+      {/* MODAL DE UPLOAD/EDIÇÃO */}
       <Dialog open={showUploadModal} onOpenChange={handleCloseUploadModal}>
         <DialogContent className="max-w-md w-[95vw] bg-[#1a1a1a] border-gray-800">
           <DialogHeader>
-            <DialogTitle className="text-white">Cadastrar Conteúdo</DialogTitle>
+            <DialogTitle className="text-white">{editingReceita ? 'Editar Receita' : 'Cadastrar Conteúdo'}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             {/* Upload da Imagem */}
@@ -441,10 +455,10 @@ export default function Receitas() {
               <label className="text-white text-sm">Arquivo PDF *</label>
               <div className="flex items-center justify-center w-full">
                 <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-600 rounded-lg cursor-pointer bg-gray-800 hover:bg-gray-700">
-                  {formData.pdf_url ? (
+                  {pdfFile || formData.pdf_url ? (
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                       <FileText className="w-8 h-8 text-green-500" />
-                      <p className="text-xs text-green-500 mt-2">PDF selecionado</p>
+                      <p className="text-xs text-green-500 mt-2">{pdfFile ? pdfFile.name : 'PDF selecionado'}</p>
                     </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -459,6 +473,17 @@ export default function Receitas() {
 
             {/* Botões */}
             <div className="flex gap-3 pt-4">
+              {editingReceita && (
+                <Button
+                  variant="destructive"
+                  onClick={handleDelete}
+                  disabled={uploading}
+                  className="flex-1"
+                >
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Excluir
+                </Button>
+              )}
               <Button
                 variant="outline"
                 onClick={handleCloseUploadModal}
@@ -467,11 +492,11 @@ export default function Receitas() {
                 Cancelar
               </Button>
               <Button
-                onClick={handleSave}
+                onClick={handleSaveOrUpdate}
                 disabled={uploading}
                 className="flex-1 bg-green-600 hover:bg-green-700"
               >
-                {uploading ? 'Salvando...' : 'Salvar'}
+                {uploading ? 'Salvando...' : (editingReceita ? 'Salvar Alterações' : 'Salvar')}
               </Button>
             </div>
           </div>
