@@ -31,7 +31,6 @@ import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/lib/supabase";
 import { showSuccess, showError } from "@/utils/toast";
-import { CategoryFilter } from "@/components/cardapio/CategoryFilter";
 
 interface Receita {
   id: string;
@@ -64,7 +63,6 @@ export default function Receitas() {
   const [uploading, setUploading] = useState(false);
   const [receitas, setReceitas] = useState<Receita[]>([]);
   const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     titulo: "",
@@ -128,20 +126,9 @@ export default function Receitas() {
     return diffInMinutes < 5;
   };
 
-  const filteredReceitas = receitas.filter((r) => {
-    const matchesSearch = r.titulo
-      .toLowerCase()
-      .includes(search.toLowerCase());
-    const matchesCategory = selectedCategory
-      ? r.categoria === selectedCategory
-      : true;
-    return matchesSearch && matchesCategory;
-  });
-
-  const filterCategories = [
-    { name: "Todos", icon: "" },
-    ...categorias.map((cat) => ({ name: cat, icon: "" })),
-  ];
+  const filteredReceitas = receitas.filter((r) =>
+    r.titulo.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-[#0f0f0f] text-white">
@@ -176,17 +163,6 @@ export default function Receitas() {
             />
           </div>
         </div>
-
-        {/* FILTRO DE CATEGORIAS */}
-        <div className="w-full max-w-4xl mt-6">
-          <CategoryFilter
-            categories={filterCategories}
-            selectedCategory={selectedCategory}
-            onCategorySelect={(cat) =>
-              setSelectedCategory(cat === "Todos" ? null : cat)
-            }
-          />
-        </div>
       </section>
 
       {/* RECEITAS */}
@@ -205,8 +181,7 @@ export default function Receitas() {
                   </Badge>
                 )}
 
-                {/* Container da imagem sem arredondamento */}
-                <div className="w-full aspect-[4/5] bg-gray-50 overflow-hidden relative border-b border-gray-300">
+                <div className="w-full aspect-[4/5] bg-gray-50 overflow-hidden relative">
                   {receita.imagem_url ? (
                     <img
                       src={receita.imagem_url}
@@ -243,3 +218,4 @@ export default function Receitas() {
     </div>
   );
 }
+ 
