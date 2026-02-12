@@ -36,7 +36,7 @@ export function MobileLayout({
             )}
           >
             <img
-              src="/icons/homeapp.png"
+              src="/homeapp.png"
               alt="Home"
               className="w-9 h-9"
             />
