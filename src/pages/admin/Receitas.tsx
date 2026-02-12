@@ -16,7 +16,8 @@ interface Receita {
   titulo: string;
   categoria: string;
   imagem_url: string;
-  pdf_url: string;
+  // Changed from pdf_url to video_url to match database schema
+  video_url: string;
   descricao: string;
 }
 
@@ -34,10 +35,12 @@ export default function Home() {
     categoria: '',
     descricao: '',
     imagem_url: '',
-    pdf_url: ''
+    // Changed from pdf_url to video_url to match database schema
+    video_url: ''
   })
   const [imagemFile, setImagemFile] = useState<File | null>(null)
-  const [pdfFile, setPdfFile] = useState<File | null>(null)
+  // Changed from pdfFile to videoFile to match database schema
+  const [videoFile, setVideoFile] = useState<File | null>(null)
 
   // Check if user is owner
   useEffect(() => {
@@ -49,9 +52,7 @@ export default function Home() {
             .select('role')
             .eq('id', user.id)
             .single()
-          
           if (error) throw error
-          
           if (data?.role === 'owner') {
             setIsOwner(true)
           }
@@ -60,7 +61,6 @@ export default function Home() {
         }
       }
     }
-    
     checkOwnerStatus()
   }, [user])
 
@@ -71,25 +71,22 @@ export default function Home() {
       const { data: categoriasData, error: categoriasError } = await supabase
         .from('receitas')
         .select('categoria')
-      
       if (!categoriasError && categoriasData) {
         const categoriasList = categoriasData
           .map(item => item.categoria)
           .filter(Boolean) as string[]
         setCategorias(Array.from(new Set(categoriasList)))
       }
-      
+
       // Load receitas
       const { data: receitasData, error: receitasError } = await supabase
         .from('receitas')
         .select('*')
         .order('created_at', { ascending: false })
-      
       if (!receitasError && receitasData) {
         setReceitas(receitasData)
       }
     }
-    
     loadData()
   }, [])
 
@@ -101,11 +98,12 @@ export default function Home() {
     }
   }
 
-  const handlePdfUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Changed from handlePdfUpload to handleVideoUpload to match database schema
+  const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0]
-      setPdfFile(file)
-      setFormData({ ...formData, pdf_url: URL.createObjectURL(file) })
+      setVideoFile(file)
+      setFormData({ ...formData, video_url: URL.createObjectURL(file) })
     }
   }
 
@@ -113,7 +111,6 @@ export default function Home() {
     // Minimize navigation menu before opening modal
     const minimizeEvent = new CustomEvent('minimizeNavigation');
     window.dispatchEvent(minimizeEvent);
-    
     // Open the modal after a short delay to allow animation
     setTimeout(() => {
       setShowUploadModal(true);
@@ -128,10 +125,11 @@ export default function Home() {
       categoria: '',
       descricao: '',
       imagem_url: '',
-      pdf_url: ''
+      video_url: ''
     });
     setImagemFile(null);
-    setPdfFile(null);
+    // Changed from setPdfFile to setVideoFile to match database schema
+    setVideoFile(null);
     setNewCategoria('');
     setShowNewCategoriaInput(false);
   };
@@ -141,50 +139,45 @@ export default function Home() {
       showError('Título é obrigatório')
       return
     }
-    
     if (!formData.categoria) {
       showError('Categoria é obrigatória')
       return
     }
-    
     if (!imagemFile) {
       showError('Imagem é obrigatória')
       return
     }
-    
-    if (!pdfFile) {
-      showError('PDF é obrigatório')
+    // Changed from pdfFile to videoFile to match database schema
+    if (!videoFile) {
+      showError('Vídeo é obrigatório')
       return
     }
-    
+
     setUploading(true)
-    
     try {
       // Upload imagem to the 'products' bucket (or another existing bucket)
       const imagemFileName = `receitas/${Date.now()}_${imagemFile.name}`
       const { error: imagemError } = await supabase.storage
         .from('products') // Using existing bucket
         .upload(imagemFileName, imagemFile)
-      
       if (imagemError) throw imagemError
-      
       const { data: imagemData } = supabase.storage
         .from('products') // Using existing bucket
         .getPublicUrl(imagemFileName)
-      
-      // Upload PDF to the 'products' bucket (or another existing bucket)
-      const pdfFileName = `receitas/${Date.now()}_${pdfFile.name}`
-      const { error: pdfError } = await supabase.storage
+
+      // Upload vídeo to the 'products' bucket (or another existing bucket)
+      // Changed from pdfFileName to videoFileName and pdfFile to videoFile
+      const videoFileName = `receitas/${Date.now()}_${videoFile.name}`
+      const { error: videoError } = await supabase.storage
         .from('products') // Using existing bucket
-        .upload(pdfFileName, pdfFile)
-      
-      if (pdfError) throw pdfError
-      
-      const { data: pdfData } = supabase.storage
+        .upload(videoFileName, videoFile)
+      if (videoError) throw videoError
+      const { data: videoData } = supabase.storage
         .from('products') // Using existing bucket
-        .getPublicUrl(pdfFileName)
-      
+        .getPublicUrl(videoFileName)
+
       // Save to database
+      // Changed pdf_url to video_url to match database schema
       const { error: dbError } = await supabase
         .from('receitas')
         .insert({
@@ -192,53 +185,51 @@ export default function Home() {
           categoria: formData.categoria,
           descricao: formData.descricao,
           imagem_url: imagemData.publicUrl,
-          pdf_url: pdfData.publicUrl,
+          video_url: videoData.publicUrl,
           user_id: user?.id,
           is_global: true
         })
-      
       if (dbError) throw dbError
-      
+
       // Reset form
       setFormData({
         titulo: '',
         categoria: '',
         descricao: '',
         imagem_url: '',
-        pdf_url: ''
+        video_url: ''
       })
       setImagemFile(null)
-      setPdfFile(null)
+      // Changed from setPdfFile to setVideoFile to match database schema
+      setVideoFile(null)
       setShowUploadModal(false)
       setShowNewCategoriaInput(false);
       setNewCategoria('');
-      
+
       // Reload receitas
       const { data: receitasData } = await supabase
         .from('receitas')
         .select('*')
         .order('created_at', { ascending: false })
-      
       if (receitasData) {
         setReceitas(receitasData)
       }
-      
+
       // Reload categories
       const { data: categoriasData } = await supabase
         .from('receitas')
         .select('categoria')
-      
       if (categoriasData) {
         const categoriasList = categoriasData
           .map(item => item.categoria)
           .filter(Boolean) as string[]
         setCategorias(Array.from(new Set(categoriasList)))
       }
-      
+
       showSuccess('Conteúdo cadastrado com sucesso!')
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving content:', error)
-      showError('Erro ao salvar conteúdo')
+      showError('Erro ao salvar conteúdo: ' + error.message)
     } finally {
       setUploading(false)
     }
@@ -260,10 +251,11 @@ export default function Home() {
     }
   }
 
-  const downloadPdf = (url: string, title: string) => {
+  // Changed from downloadPdf to downloadVideo to match database schema
+  const downloadVideo = (url: string, title: string) => {
     const link = document.createElement('a')
     link.href = url
-    link.download = `${title}.pdf`
+    link.download = `${title}.mp4`
     link.target = '_blank'
     document.body.appendChild(link)
     link.click()
@@ -282,12 +274,12 @@ export default function Home() {
           }
         `}
       </style>
-      
+
       {/* HERO */}
       <section className="relative w-full min-h-[55vh] flex flex-col items-center justify-start pt-12 text-center px-6">
         {/* LOGO */}
         <img src="/101012.png" alt="Logo Receitas" className="mx-auto mb-6 w-28 h-28 sm:w-40 sm:h-40 lg:w-52 lg:h-52 object-contain drop-shadow-2xl" />
-        
+
         {/* TÍTULO */}
         <h1 className="text-4xl md:text-6xl font-black mb-8 leading-[0.95]">
           <span className="block">Receitas</span>
@@ -295,20 +287,20 @@ export default function Home() {
             Profissionais
           </span>
         </h1>
-        
+
         {/* BARRA DE PESQUISA */}
         <div className="relative w-full max-w-md mx-auto mb-6">
-          <input 
-            type="text" 
-            placeholder="Buscar" 
-            className="w-full pl-6 pr-12 py-4 text-lg bg-white border border-gray-300 rounded-xl focus:outline-none shadow-none text-gray-900" 
+          <input
+            type="text"
+            placeholder="Buscar"
+            className="w-full pl-6 pr-12 py-4 text-lg bg-white border border-gray-300 rounded-xl focus:outline-none shadow-none text-gray-900"
           />
           <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
         </div>
-        
+
         {/* BOTÃO DE CADASTRO (somente para owners) */}
         {isOwner && (
-          <Button 
+          <Button
             onClick={handleOpenUploadModal}
             className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg mb-8"
           >
@@ -316,7 +308,7 @@ export default function Home() {
           </Button>
         )}
       </section>
-      
+
       {/* CONTEÚDO ABAIXO */}
       <section className="px-6 pb-20">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -324,11 +316,7 @@ export default function Home() {
             <div key={receita.id} className="bg-[#1a1a1a] p-6 rounded-2xl">
               <div className="h-32 bg-[#262626] rounded-xl mb-4 overflow-hidden">
                 {receita.imagem_url ? (
-                  <img 
-                    src={receita.imagem_url} 
-                    alt={receita.titulo} 
-                    className="w-full h-full object-cover"
-                  />
+                  <img src={receita.imagem_url} alt={receita.titulo} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <FileText className="w-8 h-8 text-gray-500" />
@@ -340,15 +328,17 @@ export default function Home() {
                 <span className="text-xs bg-pink-600 text-white px-2 py-1 rounded-full">
                   {receita.categoria}
                 </span>
-                {receita.pdf_url && (
-                  <Button 
-                    size="sm" 
-                    variant="outline" 
-                    onClick={() => downloadPdf(receita.pdf_url, receita.titulo)}
+                {/* Changed from pdf_url to video_url to match database schema */}
+                {receita.video_url && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    // Changed from downloadPdf to downloadVideo to match database schema
+                    onClick={() => downloadVideo(receita.video_url, receita.titulo)}
                     className="h-8 px-2 text-xs"
                   >
                     <Download className="w-3 h-3 mr-1" />
-                    PDF
+                    Vídeo
                   </Button>
                 )}
               </div>
@@ -356,7 +346,7 @@ export default function Home() {
           ))}
         </div>
       </section>
-      
+
       {/* MODAL DE UPLOAD */}
       <Dialog open={showUploadModal} onOpenChange={handleCloseUploadModal}>
         <DialogContent className="max-w-md w-[95vw] bg-[#1a1a1a] border-gray-800">
@@ -371,11 +361,7 @@ export default function Home() {
                 <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-600 rounded-lg cursor-pointer bg-gray-800 hover:bg-gray-700">
                   {formData.imagem_url ? (
                     <div className="relative w-full h-full">
-                      <img 
-                        src={formData.imagem_url} 
-                        alt="Preview" 
-                        className="w-full h-full object-cover rounded-lg"
-                      />
+                      <img src={formData.imagem_url} alt="Preview" className="w-full h-full object-cover rounded-lg" />
                       <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                         <span className="text-white">Alterar</span>
                       </div>
@@ -386,16 +372,11 @@ export default function Home() {
                       <p className="text-xs text-gray-400 mt-2">Clique para enviar</p>
                     </div>
                   )}
-                  <input 
-                    type="file" 
-                    className="hidden" 
-                    accept="image/*"
-                    onChange={handleImagemUpload}
-                  />
+                  <input type="file" className="hidden" accept="image/*" onChange={handleImagemUpload} />
                 </label>
               </div>
             </div>
-            
+
             {/* Título */}
             <div className="space-y-2">
               <label className="text-white text-sm">Título</label>
@@ -406,13 +387,13 @@ export default function Home() {
                 className="bg-gray-800 border-gray-700 text-white"
               />
             </div>
-            
+
             {/* Categoria */}
             <div className="space-y-2">
               <label className="text-white text-sm">Categoria</label>
               <div className="flex gap-2">
-                <Select 
-                  value={formData.categoria} 
+                <Select
+                  value={formData.categoria}
                   onValueChange={(value) => setFormData({ ...formData, categoria: value })}
                 >
                   <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
@@ -426,14 +407,10 @@ export default function Home() {
                     ))}
                   </SelectContent>
                 </Select>
-                <Button 
-                  onClick={addNewCategoria}
-                  className="bg-pink-600 hover:bg-pink-700"
-                >
+                <Button onClick={addNewCategoria} className="bg-pink-600 hover:bg-pink-700">
                   <Plus className="w-4 h-4" />
                 </Button>
               </div>
-              
               {showNewCategoriaInput && (
                 <div className="flex gap-2 mt-2">
                   <Input
@@ -443,16 +420,13 @@ export default function Home() {
                     className="bg-gray-800 border-gray-700 text-white flex-1"
                     onKeyDown={(e) => e.key === 'Enter' && saveNewCategoria()}
                   />
-                  <Button 
-                    onClick={saveNewCategoria}
-                    className="bg-green-600 hover:bg-green-700"
-                  >
+                  <Button onClick={saveNewCategoria} className="bg-green-600 hover:bg-green-700">
                     Salvar
                   </Button>
                 </div>
               )}
             </div>
-            
+
             {/* Descrição */}
             <div className="space-y-2">
               <label className="text-white text-sm">Descrição</label>
@@ -464,16 +438,16 @@ export default function Home() {
                 rows={3}
               />
             </div>
-            
-            {/* Upload do PDF */}
+
+            {/* Upload do Vídeo */}
             <div className="space-y-2">
-              <label className="text-white text-sm">Arquivo PDF</label>
+              <label className="text-white text-sm">Arquivo de Vídeo</label>
               <div className="flex items-center justify-center w-full">
                 <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-600 rounded-lg cursor-pointer bg-gray-800 hover:bg-gray-700">
-                  {formData.pdf_url ? (
+                  {formData.video_url ? (
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                       <FileText className="w-8 h-8 text-green-500" />
-                      <p className="text-xs text-green-500 mt-2">PDF selecionado</p>
+                      <p className="text-xs text-green-500 mt-2">Vídeo selecionado</p>
                     </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -481,26 +455,21 @@ export default function Home() {
                       <p className="text-xs text-gray-400 mt-2">Clique para enviar</p>
                     </div>
                   )}
-                  <input 
-                    type="file" 
-                    className="hidden" 
-                    accept=".pdf"
-                    onChange={handlePdfUpload}
-                  />
+                  <input type="file" className="hidden" accept="video/*" onChange={handleVideoUpload} />
                 </label>
               </div>
             </div>
-            
+
             {/* Botões */}
             <div className="flex gap-3 pt-4">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={handleCloseUploadModal}
                 className="flex-1 border-gray-600 text-white"
               >
                 Cancelar
               </Button>
-              <Button 
+              <Button
                 onClick={handleSave}
                 disabled={uploading}
                 className="flex-1 bg-green-600 hover:bg-green-700"
