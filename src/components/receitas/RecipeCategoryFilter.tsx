@@ -31,7 +31,7 @@ export function RecipeCategoryFilter({ categories, selectedCategory, onCategoryS
             ? selectedCategory === null 
             : selectedCategory === category.name;
 
-          // Usando um ícone padrão por enquanto
+          // Usando um ícone padrão 
           const iconToUse = category.name === 'Todos' ? '/icons/TODOS.png' : '/icons/1.png';
 
           return (
