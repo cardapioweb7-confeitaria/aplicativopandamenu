@@ -51,11 +51,11 @@ export function DesktopLayout({
             <Button
               key={tab}
               variant="default"
-              style={{ backgroundColor: "#0d1e21" }} // Cor azul fixa
+              style={{ backgroundColor: "#FFBD59" }} // Cor azul fixa
               className={cn(
                 "w-full justify-start h-16 rounded-3xl font-semibold text-white text-base transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.97]",
                 activeTab === tab
-                  ? "shadow-[0_0_15px_#4697A8]" // Glow azul quando ativo
+                  ? "shadow-[0_0_15px_#FFBD59]" // Glow azul quando ativo
                   : ""
               )}
               onClick={() => onTabChange(tab)}
