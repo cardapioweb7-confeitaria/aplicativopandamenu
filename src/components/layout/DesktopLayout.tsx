@@ -52,7 +52,7 @@ export function DesktopLayout({
               key={tab}
               variant="default"
               style={{
-                backgroundColor: activeTab === tab ? undefined : "#FF72A1", // Cor fixa quando inativo
+                backgroundColor: activeTab === tab ? undefined : "#E33688", // Cor fixa quando inativo
                 backgroundImage: activeTab === tab
                   ? "linear-gradient(90deg, #FFD700, #FFC700, #FFB700)" // ✅ Gradiente dourado do botão ativo
                   : undefined
