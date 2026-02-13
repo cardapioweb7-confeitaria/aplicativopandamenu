@@ -54,11 +54,11 @@ export function DesktopLayout({
               style={{
                 backgroundColor: activeTab === tab ? undefined : "#48001F", // Cor fixa quando inativo
                 backgroundImage: activeTab === tab
-                  ? "linear-gradient(90deg, #FFFFFF, #F986B8, #00c9b7)" // ✅ Gradiente dourado do botão ativo
+                  ? "linear-gradient(90deg, #FFFFFF, #F986B8, #39232C)" // ✅ Gradiente dourado do botão ativo
                   : undefined
               }}
               className={cn(
-                "w-full text-center rounded-2xl font-bold text-white text-lg transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.97] py-6",, // ✅ removi h-16, usei padding
+                "w-full text-center rounded-2xl font-bold text-white text-lg transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.97] py-6", // ✅ removi h-16, usei padding
                 activeTab === tab
                   ? "shadow-[0_0_15px_#FF72A1] bg-clip-padding" // Glow dourado
                   : ""
