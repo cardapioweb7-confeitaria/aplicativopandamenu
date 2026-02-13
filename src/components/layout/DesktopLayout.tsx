@@ -53,12 +53,11 @@ export function DesktopLayout({
           {tabs.map((tab) => (
             <Button
               key={tab}
-              // Removemos o variant para controlar a cor manualmente
               className={cn(
-                "w-full text-center h-16 rounded-2xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl active:scale-[0.98] py-4",
+                "w-full text-center h-16 rounded-2xl font-bold text-lg transition-all duration-300 shadow-lg py-4",
                 activeTab === tab
                   ? "bg-gradient-to-r from-white via-pink-300 to-teal-400 shadow-pink-500/50 text-white"
-                  : "bg-[#FE62A6] text-white hover:bg-[#FF72A1]"
+                  : "bg-[#FE62A6] text-white"
               )}
               onClick={() => onTabChange(tab)}
             >
