@@ -58,7 +58,7 @@ export function DesktopLayout({
                   : undefined
               }}
               className={cn(
-                "w-full justify-start rounded-3xl font-semibold text-white text-base transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.97] py-3 px-5", // ✅ removi h-16, usei padding
+                "w-full justify-start rounded-3xl font-semibold text-white text-base transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.97] py-4 px-4", // ✅ removi h-16, usei padding
                 activeTab === tab
                   ? "shadow-[0_0_15px_#FFD700] bg-clip-padding" // Glow dourado
                   : ""
