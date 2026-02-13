@@ -67,7 +67,7 @@ export function DesktopLayout({
         </div>
 
         {/* Rodapé */}
-        <div className="p-6 pb-8:'
+        <div className="p-6 pb-8">
           <Button
             className="w-full justify-start gap-3 h-14 !bg-[#1A1A1A] !border-[#1A1A1A] !text-white transition-none"
             onClick={handleLogout}
