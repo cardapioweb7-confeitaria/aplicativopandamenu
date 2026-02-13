@@ -32,25 +32,29 @@ export function DesktopLayout({
       <div 
         className="w-72 border-r border-pink-200 flex flex-col shadow-2xl fixed left-0 top-0 bottom-0 z-50"
         style={{
-          background: 'linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #f9a8d4 100%)',
+          background: 'linear-gradient(135deg, #f9c5d1 0%, #fcd5e5 50%, #ffe4f0 100%)',
           backgroundSize: '200% 200%',
-          animation: 'gradient-x 3s ease infinite'
+          animation: 'gradient-x 6s ease infinite'
         }}
       >
+        {/* Logo / Espaço superior */}
         <div className="p-8 flex items-center justify-center">
           <div className="text-center">
+            <h1 className="text-2xl font-extrabold text-white tracking-wider">🍰 Panda Menu</h1>
+            <p className="text-white/80 text-sm mt-1">Confeitaria & Receitas</p>
           </div>
         </div>
 
+        {/* Menu de Tabs */}
         <div className="flex-1 p-8 space-y-3">
           {tabs.map((tab) => (
             <Button
               key={tab}
               variant={activeTab === tab ? "default" : "ghost"}
               className={cn(
-                "w-full justify-start h-16 rounded-2xl font-bold text-base transition-all duration-300 shadow-lg hover:shadow-xl active:scale-[0.98]",
+                "w-full justify-start h-16 rounded-3xl font-semibold text-base transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.97]",
                 activeTab === tab
-                  ? "bg-white text-[#ec4899] shadow-pink-500/50"
+                  ? "bg-white text-pink-500 shadow-pink-300/50"
                   : "text-white/90 hover:bg-white/20 hover:text-white bg-transparent"
               )}
               onClick={() => onTabChange(tab)}
@@ -60,10 +64,11 @@ export function DesktopLayout({
           ))}
         </div>
 
+        {/* Rodapé */}
         <div className="p-6 pb-8 border-t border-pink-300">
           <Button
             variant="outline"
-            className="w-full justify-start gap-3 h-14 text-white bg-white/20 border-white/30 hover:bg-white/30 hover:text-white transition-all"
+            className="w-full justify-start gap-3 h-14 text-white bg-white/20 border-white/30 hover:bg-white/30 hover:text-white transition-all rounded-3xl"
             onClick={handleLogout}
           >
             <LogOut className="w-5 h-5" />
@@ -77,10 +82,8 @@ export function DesktopLayout({
       </div>
 
       {/* Conteúdo principal com padding left */}
-      <div className="flex-1 ml-72">
-        <div className="p-8">
-          {content}
-        </div>
+      <div className="flex-1 ml-72 bg-gradient-to-b from-pink-50 via-pink-25 to-white min-h-screen p-8">
+        {content}
       </div>
     </div>
   )
