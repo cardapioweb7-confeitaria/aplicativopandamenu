@@ -53,7 +53,7 @@ export default function Inicio() {
             className="p-2 rounded-full transition-all duration-200 hover:scale-105 active:scale-95"
           >
             <img
-              src="/sinonotifica.png"
+              src="/sinonotificar.png"
               alt="Notificações"
               className="w-7 h-7 object-contain"
             />
