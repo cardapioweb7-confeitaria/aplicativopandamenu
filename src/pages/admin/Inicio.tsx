@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom';
@@ -8,33 +8,6 @@ import { supabase } from '@/lib/supabase';
 
 export default function Inicio() {
   const navigate = useNavigate();
-  const [nivel, setNivel] = useState('cliente');
-  const [loadingNivel, setLoadingNivel] = useState(true);
-
-  useEffect(() => {
-    const fetchNivel = async () => {
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (user) {
-          const { data } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', user.id)
-            .single();
-          
-          const userRole = data?.role || 'user';
-          setNivel(userRole === 'admin' || userRole === 'owner' ? 'Administrador' : 'cliente');
-        }
-      } catch (error) {
-        console.error('Erro ao buscar nível:', error);
-        setNivel('cliente');
-      } finally {
-        setLoadingNivel(false);
-      }
-    };
-
-    fetchNivel();
-  }, []);
 
   const handleLogout = async () => {
     try {
@@ -48,47 +21,23 @@ export default function Inicio() {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col items-center justify-start md:justify-center pt-2 px-4 pb-8 md:p-6 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200">
-        <Card className="w-full max-w-xs border-0 rounded-2xl overflow-hidden bg-white mt-6 md:mt-8">
-          <CardContent className="relative pt-8 p-4 pb-6 text-center">
-            {/* BOTÃO SAIR VERMELHO - APENAS MOBILE - TOP-LEFT */}
-            <div className="md:hidden absolute top-2 left-2 z-30">
-              <Button
-                variant="destructive"
-                size="sm"
-                className="px-2 py-1 text-xs font-semibold h-auto"
-                onClick={handleLogout}
-              >
-                SAIR
-              </Button>
-            </div>
+      <div className="min-h-screen flex flex-col items-center justify-start pt-6 px-4 pb-8 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200">
 
-            {/* Status ultra-compact 60px */}
-            <div className="space-y-1 mx-auto w-44 p-3 rounded-xl border border-dashed border-pink-200 bg-white/70 shadow-md backdrop-blur-sm text-xs" style={{ fontFamily: "'Poppins', sans-serif" }}>
-              <div className="grid grid-cols-[1fr_auto] items-center gap-0.5">
-                <span className="font-semibold text-gray-700 text-[11px]">Seu acesso é</span>
-                <span className="bg-[#660033]/70 text-white px-1.5 py-px rounded text-[10px] font-bold">
-                  Vitalício
-                </span>
-              </div>
-              <div className="grid grid-cols-[1fr_auto] items-center gap-0.5">
-                <span className="font-semibold text-gray-700 text-[11px]">Você agora é</span>
-                <span className="bg-[#660033]/70 text-white px-1.5 py-px rounded text-[10px] font-bold">
-                  Premium
-                </span>
-              </div>
-              <div className="grid grid-cols-[1fr_auto] items-center gap-0.5">
-                <span className="font-semibold text-gray-700 text-[11px]">Nível Atual</span>
-                <span className="bg-[#660033]/70 text-white px-1.5 py-px rounded text-[10px] font-bold">
-                  {loadingNivel ? 'Carregando...' : nivel}
-                </span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        {/* BOTÃO SAIR */}
+        <div className="w-full max-w-md flex justify-start mb-4">
+          <Button
+            variant="destructive"
+            size="sm"
+            className="px-3 py-1 text-xs font-semibold"
+            onClick={handleLogout}
+          >
+            SAIR
+          </Button>
+        </div>
 
-        {/* CARD Instale o App - mantido */}
-        <Card className="w-full max-w-md border-0 rounded-3xl overflow-hidden bg-[#010135] mt-6 relative">
+        {/* CARD Instale o App - AGORA NO TOPO */}
+        <Card className="w-full max-w-md border-0 rounded-3xl overflow-hidden bg-[#010135] relative">
+          
           {/* Faixa "Recomendado" */}
           <div 
             className="absolute top-4 -right-12 bg-gradient-to-r from-pink-400 via-rose-400 to-pink-500 text-white font-bold px-6 py-2 transform rotate-45 shadow-lg z-10"
@@ -102,7 +51,8 @@ export default function Inicio() {
           </div>
           
           <CardContent className="p-8 text-center pt-16 md:pt-20">
-            <div className="flex flex-col items-center space-y-6 w-full max-w-xs">
+            <div className="flex flex-col items-center space-y-6 w-full max-w-xs mx-auto">
+              
               <div className="flex items-center gap-4 justify-center">
                 <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center p-3 shrink-0 shadow-2xl">
                   <img 
@@ -111,12 +61,13 @@ export default function Inicio() {
                     className="w-10 h-10 object-contain"
                   />
                 </div>
+
                 <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight text-left leading-tight">
                   INSTALE<br />NOSSO APP
                 </h2>
               </div>
               
-              <div className="text-white text-base max-w-sm mx-auto leading-5 text-center space-y-0.5">
+              <div className="text-white text-base leading-5 text-center space-y-0.5">
                 <span className="block">Todas as funcionalidades na</span>
                 <span className="block">palma da sua mão agora!</span>
               </div>
@@ -129,6 +80,7 @@ export default function Inicio() {
             </div>
           </CardContent>
         </Card>
+
       </div>
 
       <style>{`
