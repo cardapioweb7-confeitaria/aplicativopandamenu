@@ -34,7 +34,7 @@ export function DesktopLayout({
         style={{
           background: 'linear-gradient(135deg, #8C0042 30%, #FF6FAE 50%, #ff9acb 100%)',
           backgroundSize: '200% 200%',
-          animation: 'gradient-x 1s ease infinite'
+          animation: 'gradient-x 10s ease infinite'
         }}
       >
         {/* Logo / Espaço superior */}
