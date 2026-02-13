@@ -84,6 +84,7 @@ export function DesktopLayout({
 
       {/* Conteúdo principal com padding left */}
       <div className="flex-1 ml-72">
+        <div className="p-8">
           {content}
         </div>
       </div>
