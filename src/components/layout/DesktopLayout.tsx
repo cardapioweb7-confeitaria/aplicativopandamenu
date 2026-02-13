@@ -49,7 +49,7 @@ export function DesktopLayout({
         </div>
 
         {/* Menu de Tabs */}
-        <div className="flex-1 pt-4 px-8 space-y-3">
+        <div className="flex-1 pt-2.5 px-8 space-y-3">
           {tabs.map((tab) => (
             <Button
               key={tab}
