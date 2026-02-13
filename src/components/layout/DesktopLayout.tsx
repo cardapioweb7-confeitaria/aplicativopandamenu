@@ -30,7 +30,7 @@ export function DesktopLayout({
     <div className="min-h-screen bg-pink-50 flex">
       {/* Sidebar fixa esquerda */}
       <div
-        className="w-72 border-r border-pink-200 flex flex-col shadow-2xl fixed left-0 top-0 bottom-0 z-50"
+        className="w-72 flex flex-col shadow-2xl fixed left-0 top-0 bottom-0 z-50"
         style={{
           background:
             "linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #f9a8d4 100%)",
