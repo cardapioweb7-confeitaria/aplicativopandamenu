@@ -51,11 +51,16 @@ export function DesktopLayout({
             <Button
               key={tab}
               variant="default"
-              style={{ backgroundColor: "#B37C60" }} // Cor azul fixa
+              style={{
+                backgroundColor: activeTab === tab ? undefined : "#B37C60", // Cor fixa quando inativo
+                backgroundImage: activeTab === tab
+                  ? "linear-gradient(90deg, #FFD700, #FFC700, #FFB700)" // ✅ Gradiente dourado do botão ativo
+                  : undefined
+              }}
               className={cn(
-                "w-full justify-start h-16 rounded-3xl font-semibold text-white text-base transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.97]",
+                "w-full justify-start rounded-3xl font-semibold text-white text-base transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.97] py-3 px-5", // ✅ removi h-16, usei padding
                 activeTab === tab
-                  ? "shadow-[0_0_15px_#B37C60]" // Glow azul quando ativo
+                  ? "shadow-[0_0_15px_#FFD700] bg-clip-padding" // Glow dourado
                   : ""
               )}
               onClick={() => onTabChange(tab)}
