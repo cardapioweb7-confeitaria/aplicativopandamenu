@@ -38,7 +38,7 @@ export function DesktopLayout({
         }}
       >
         {/* Logo / Espaço superior */}
-        <div className="p-18 flex items-center justify-center">
+        <div className="p-10 flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-2xl font-extrabold text-white tracking-wider">🍰 Panda Menu</h1>
             <p className="text-white/80 text-sm mt-1">Confeitaria & Receitas</p>
