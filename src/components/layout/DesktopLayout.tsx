@@ -42,7 +42,7 @@ export function DesktopLayout({
             <img
               src="/comer.png"
               alt="Comer Icon"
-              className="w-24 h-24 mx-auto"
+              className="w-40 h-40 mx-auto"
             />
           </div>
         </div>
