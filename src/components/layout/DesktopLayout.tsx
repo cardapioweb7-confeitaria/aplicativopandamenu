@@ -32,7 +32,7 @@ export function DesktopLayout({
       <div 
         className="w-72 border-r border-pink-200 flex flex-col shadow-2xl fixed left-0 top-0 bottom-0 z-50"
         style={{
-          background: 'linear-gradient(135deg, #d11b70 0%, #1C1D21 50%, #ff9acb 100%)',
+          background: 'linear-gradient(135deg, #d11b70 0%, #ff9acb 50%, #ff9acb 100%)',
           backgroundSize: '200% 200%',
           animation: 'gradient-x 6s ease infinite'
         }}
