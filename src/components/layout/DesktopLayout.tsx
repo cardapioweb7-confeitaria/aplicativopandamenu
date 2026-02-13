@@ -51,7 +51,7 @@ export function DesktopLayout({
             <Button
               key={tab}
               variant="default"
-              style={{ backgroundColor: "#FFBD59" }} // Cor azul fixa
+              style={{ backgroundColor: "#FF72A1" }} // Cor azul fixa
               className={cn(
                 "w-full justify-start h-16 rounded-3xl font-semibold text-white text-base transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.97]",
                 activeTab === tab
