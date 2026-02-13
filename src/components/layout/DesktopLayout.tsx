@@ -74,7 +74,7 @@ export function DesktopLayout({
         <div className="p-6 pb-8 border-t border-pink-300">
           <Button
             variant="outline"
-            className="w-full justify-start gap-3 h-14 text-white bg-white/20 border-white/30 hover:bg-white/30 hover:text-white transition-all rounded-3xl"
+            className="w-fit justify-start gap-3 h-14 text-white bg-white/20 border-white/30 hover:bg-white/30 hover:text-white transition-all rounded-3xl"
             onClick={handleLogout}
           >
             <LogOut className="w-5 h-5" />
