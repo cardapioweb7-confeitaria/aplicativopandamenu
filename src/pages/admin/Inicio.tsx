@@ -43,7 +43,7 @@ export default function Inicio() {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col items-center justify-start pt-6 px-4 pb-8 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200">
+      <div className="min-h-screen flex flex-col items-center justify-start pt-6 px-4 pb-8 bg-white">
 
         {/* TOPO */}
         <div className="w-full max-w-md flex justify-between items-center mb-4">
