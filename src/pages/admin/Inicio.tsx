@@ -20,7 +20,6 @@ export default function Inicio() {
   };
 
   const handleWhatsAppGroup = () => {
-    // Link do grupo WhatsApp - você pode alterar este link
     window.open('https://chat.whatsapp.com/EXEMPLO_DO_SEU_GRUPO', '_blank');
   };
 
@@ -40,10 +39,9 @@ export default function Inicio() {
           </Button>
         </div>
 
-        {/* CARD Instale o App - AGORA NO TOPO */}
+        {/* CARD Instale o App */}
         <Card className="w-full max-w-md border-0 rounded-3xl overflow-hidden bg-[#010135] relative">
           
-          {/* Faixa "Recomendado" */}
           <div 
             className="absolute top-4 -right-12 bg-gradient-to-r from-pink-400 via-rose-400 to-pink-500 text-white font-bold px-6 py-2 transform rotate-45 shadow-lg z-10"
             style={{ 
@@ -90,7 +88,7 @@ export default function Inicio() {
         <div className="w-full max-w-md mt-6">
           <button
             onClick={handleWhatsAppGroup}
-            className="w-full rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]"
+            className="w-full rounded-3xl overflow-hidden transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]"
           >
             <img
               src="/grupowhatsapp.png"
