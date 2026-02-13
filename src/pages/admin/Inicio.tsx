@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { supabase } from '@/lib/supabase';
 
 export default function Inicio() {
   const navigate = useNavigate();
+  const [openNotifications, setOpenNotifications] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -23,12 +24,17 @@ export default function Inicio() {
     window.open('https://chat.whatsapp.com/EXEMPLO_DO_SEU_GRUPO', '_blank');
   };
 
+  const toggleNotifications = () => {
+    setOpenNotifications(!openNotifications);
+  };
+
   return (
     <>
-      <div className="min-h-screen flex flex-col items-center justify-start pt-6 px-4 pb-8 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200">
+      <div className="min-h-screen flex flex-col items-center justify-start pt-6 px-4 pb-8 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 relative">
 
-        {/* BOTÃO SAIR */}
-        <div className="w-full max-w-md flex justify-start mb-4">
+        {/* TOPO - SAIR ESQUERDA / SINO DIREITA */}
+        <div className="w-full max-w-md flex justify-between items-center mb-4">
+          
           <Button
             variant="destructive"
             size="sm"
@@ -37,6 +43,54 @@ export default function Inicio() {
           >
             SAIR
           </Button>
+
+          <button
+            onClick={toggleNotifications}
+            className="p-2 rounded-full transition-all duration-200 hover:scale-105 active:scale-95"
+          >
+            <img
+              src="/sinonotifica.png"
+              alt="Notificações"
+              className="w-7 h-7 object-contain"
+            />
+          </button>
+
+        </div>
+
+        {/* PAINEL DE NOTIFICAÇÕES */}
+        <div
+          className={`fixed top-0 left-0 w-full flex justify-center transition-all duration-300 z-50 ${
+            openNotifications ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
+          }`}
+        >
+          <div className="w-full max-w-md bg-white rounded-b-3xl shadow-xl p-6 mt-2">
+            
+            <h3 className="text-lg font-bold text-slate-800 mb-4">
+              Últimas notificações
+            </h3>
+
+            <div className="space-y-3">
+              <div className="p-3 bg-slate-100 rounded-xl text-sm text-slate-700">
+                Nova receita adicionada 🍰
+              </div>
+
+              <div className="p-3 bg-slate-100 rounded-xl text-sm text-slate-700">
+                Atualização do app disponível 🚀
+              </div>
+
+              <div className="p-3 bg-slate-100 rounded-xl text-sm text-slate-700">
+                Novo conteúdo liberado 🎉
+              </div>
+            </div>
+
+            <button
+              onClick={toggleNotifications}
+              className="mt-5 w-full text-sm text-slate-500 hover:text-slate-700 transition"
+            >
+              Fechar
+            </button>
+
+          </div>
         </div>
 
         {/* CARD Instale o App */}
