@@ -55,7 +55,7 @@ export function DesktopLayout({
               className={cn(
                 "w-full justify-start h-16 rounded-3xl font-semibold text-white text-base transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.97]",
                 activeTab === tab
-                  ? "shadow-[0_0_15px_#FFBD59]" // Glow azul quando ativo
+                  ? "shadow-[0_0_15px_#B37C60]" // Glow azul quando ativo
                   : ""
               )}
               onClick={() => onTabChange(tab)}
