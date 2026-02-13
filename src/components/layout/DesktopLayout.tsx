@@ -32,7 +32,7 @@ export function DesktopLayout({
       <div 
         className="w-72 border-r border-pink-200 flex flex-col shadow-2xl fixed left-0 top-0 bottom-0 z-50"
         style={{
-          background: 'linear-gradient(135deg, #4697A7 0%, #4697A7 50%, #4697A7 100%)',
+          background: 'linear-gradient(135deg, #4697A8 0%, #4697A8 50%, #4697A8 100%)',
           backgroundSize: '200% 200%',
           animation: 'gradient-x 6s ease infinite'
         }}
@@ -50,12 +50,13 @@ export function DesktopLayout({
           {tabs.map((tab) => (
             <Button
               key={tab}
-              variant={activeTab === tab ? "default" : "ghost"}
+              variant="default"
+              style={{ backgroundColor: "#4697A8" }} // Cor azul fixa
               className={cn(
-                "w-full justify-start h-16 rounded-3xl font-semibold text-base transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.97]",
+                "w-full justify-start h-16 rounded-3xl font-semibold text-white text-base transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.97]",
                 activeTab === tab
-                  ? "bg-white text-pink-500 shadow-pink-300/50"
-                  : "text-white/90 hover:bg-white/20 hover:text-white bg-transparent"
+                  ? "shadow-[0_0_15px_#4697A8]" // Glow azul quando ativo
+                  : ""
               )}
               onClick={() => onTabChange(tab)}
             >
