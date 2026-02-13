@@ -28,11 +28,15 @@ export default function Inicio() {
     setOpenNotifications(!openNotifications);
   };
 
+  const closeNotifications = () => {
+    setOpenNotifications(false);
+  };
+
   return (
     <>
-      <div className="min-h-screen flex flex-col items-center justify-start pt-6 px-4 pb-8 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 relative">
+      <div className={`min-h-screen flex flex-col items-center justify-start pt-6 px-4 pb-8 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 relative transition-all duration-300 ${openNotifications ? "blur-sm" : ""}`}>
 
-        {/* TOPO - SAIR ESQUERDA / SINO DIREITA */}
+        {/* TOPO */}
         <div className="w-full max-w-md flex justify-between items-center mb-4">
           
           <Button
@@ -55,42 +59,6 @@ export default function Inicio() {
             />
           </button>
 
-        </div>
-
-        {/* PAINEL DE NOTIFICAÇÕES */}
-        <div
-          className={`fixed top-0 left-0 w-full flex justify-center transition-all duration-300 z-50 ${
-            openNotifications ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
-          }`}
-        >
-          <div className="w-full max-w-md bg-white rounded-b-3xl shadow-xl p-6 mt-2">
-            
-            <h3 className="text-lg font-bold text-slate-800 mb-4">
-              Últimas notificações
-            </h3>
-
-            <div className="space-y-3">
-              <div className="p-3 bg-slate-100 rounded-xl text-sm text-slate-700">
-                Nova receita adicionada 🍰
-              </div>
-
-              <div className="p-3 bg-slate-100 rounded-xl text-sm text-slate-700">
-                Atualização do app disponível 🚀
-              </div>
-
-              <div className="p-3 bg-slate-100 rounded-xl text-sm text-slate-700">
-                Novo conteúdo liberado 🎉
-              </div>
-            </div>
-
-            <button
-              onClick={toggleNotifications}
-              className="mt-5 w-full text-sm text-slate-500 hover:text-slate-700 transition"
-            >
-              Fechar
-            </button>
-
-          </div>
         </div>
 
         {/* CARD Instale o App */}
@@ -138,7 +106,7 @@ export default function Inicio() {
           </CardContent>
         </Card>
 
-        {/* BANNER DO GRUPO WHATSAPP */}
+        {/* BANNER WHATSAPP */}
         <div className="w-full max-w-md mt-6">
           <button
             onClick={handleWhatsAppGroup}
@@ -154,6 +122,62 @@ export default function Inicio() {
 
       </div>
 
+      {/* OVERLAY + PAINEL */}
+      {openNotifications && (
+        <div 
+          className="fixed inset-0 z-50 flex justify-center items-start pt-16 bg-black/30 backdrop-blur-sm px-4"
+          onClick={closeNotifications}
+        >
+          <div 
+            className="w-full max-w-md bg-white rounded-3xl shadow-xl p-6 animate-slideDown"
+            onClick={(e) => e.stopPropagation()}
+          >
+            
+            <h3 className="text-lg font-bold text-slate-800 mb-4">
+              Últimas notificações
+            </h3>
+
+            <div className="space-y-4">
+
+              {/* NOTIFICAÇÃO */}
+              <div className="flex gap-3 p-4 bg-slate-100 rounded-xl">
+                <img 
+                  src="/favicon.png"
+                  alt="App"
+                  className="w-6 h-6 object-contain mt-1"
+                />
+                <div className="flex-1">
+                  <p className="text-sm text-slate-800">
+                    Nova receita adicionada
+                  </p>
+                  <p className="text-xs text-slate-400 mt-1">
+                    13/02/2026 • 14:32
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-3 p-4 bg-slate-100 rounded-xl">
+                <img 
+                  src="/favicon.png"
+                  alt="App"
+                  className="w-6 h-6 object-contain mt-1"
+                />
+                <div className="flex-1">
+                  <p className="text-sm text-slate-800">
+                    Atualização do app disponível
+                  </p>
+                  <p className="text-xs text-slate-400 mt-1">
+                    12/02/2026 • 09:10
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      )}
+
       <style>{`
         .glow-neon {
           box-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
@@ -162,6 +186,21 @@ export default function Inicio() {
           .glow-neon:hover {
             box-shadow: 0 0 30px rgba(251, 191, 36, 0.8);
           }
+        }
+
+        @keyframes slideDown {
+          from {
+            transform: translateY(-20px);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+
+        .animate-slideDown {
+          animation: slideDown 0.25s ease-out;
         }
       `}</style>
     </>
