@@ -1,16 +1,16 @@
 "use client";
 
-import { ReactNode } from 'react'
-import { LogOut } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { ReactNode } from "react";
+import { LogOut } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface DesktopLayoutProps {
-  tabs: string[]
-  labels: Record<string, string>
-  activeTab: string
-  onTabChange: (tab: string) => void
-  content: ReactNode
+  tabs: string[];
+  labels: Record<string, string>;
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+  content: ReactNode;
 }
 
 export function DesktopLayout({
@@ -18,33 +18,30 @@ export function DesktopLayout({
   labels,
   activeTab,
   onTabChange,
-  content
+  content,
 }: DesktopLayoutProps) {
   const handleLogout = () => {
-    localStorage.removeItem('supabase.auth.token')
-    localStorage.removeItem('user_session')
-    window.location.href = '/login'
-  }
+    localStorage.removeItem("supabase.auth.token");
+    localStorage.removeItem("user_session");
+    window.location.href = "/login";
+  };
 
   return (
     <div className="min-h-screen bg-pink-50 flex">
       {/* Sidebar fixa esquerda */}
-      <div 
+      <div
         className="w-72 border-r border-pink-200 flex flex-col shadow-2xl fixed left-0 top-0 bottom-0 z-50"
         style={{
-          background: 'linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #f9a8d4 100%)',
-          backgroundSize: '200% 200%',
-          animation: 'gradient-x 3s ease infinite'
+          background:
+            "linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #f9a8d4 100%)",
+          backgroundSize: "200% 200%",
+          animation: "gradient-x 3s ease infinite",
         }}
       >
         {/* Logo / Ícone */}
         <div className="p-8 flex items-center justify-center">
           <div className="text-center">
-            <img
-              src="/comer.png"
-              alt="Comer Icon"
-              className="w-40 h-40 mx-auto"
-            />
+            <img src="/comer.png" alt="Comer Icon" className="w-40 h-40 mx-auto" />
           </div>
         </div>
 
@@ -75,18 +72,20 @@ export function DesktopLayout({
             <LogOut className="w-5 h-5" />
             Sair
           </Button>
+
           <div className="text-center mt-4">
             <p className="text-white/70 text-xs">© 2025 Panda Menu</p>
-            <p className="text-white/60 text-xs">Todos os direitos reservados</p>
+            <p className="text-white/60 text-xs">
+              Todos os direitos reservados
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Conteúdo principal com padding left */}
+      {/* Conteúdo principal */}
       <div className="flex-1 ml-72">
-          {content}
-        </div>
+        {content}
       </div>
     </div>
-  )
+  );
 }
