@@ -58,9 +58,9 @@ export function DesktopLayout({
                   : undefined
               }}
               className={cn(
-                "w-full text-center rounded-2xl font-bold text-black text-lg transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.97] py-4", // ✅ removi h-16, usei padding
+                "w-full text-center rounded-2xl font-bold text-white text-lg transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.97] py-4", // ✅ removi h-16, usei padding
                 activeTab === tab
-                  ? "shadow-[0_0_15px_#FFD700] bg-clip-padding" // Glow dourado
+                  ? "shadow-[0_0_15px_#FF72A1] bg-clip-padding" // Glow dourado
                   : ""
               )}
               onClick={() => onTabChange(tab)}
