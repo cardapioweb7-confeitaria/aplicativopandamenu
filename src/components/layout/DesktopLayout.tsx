@@ -39,13 +39,6 @@ export function DesktopLayout({
       >
         <div className="p-8 flex items-center justify-center">
           <div className="text-center">
-            <img 
-              src="/logointernaadmin.png" 
-              alt="Panda Menu" 
-              className="w-32 h-32 mx-auto mb-4 rounded-2xl shadow-lg"
-            />
-            <h1 className="text-white text-2xl font-bold mb-1">Panda Menu</h1>
-            <p className="text-white/80 text-sm">Cardápio Digital</p>
           </div>
         </div>
 
