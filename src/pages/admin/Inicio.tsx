@@ -19,6 +19,11 @@ export default function Inicio() {
     }
   };
 
+  const handleWhatsAppGroup = () => {
+    // Link do grupo WhatsApp - você pode alterar este link
+    window.open('https://chat.whatsapp.com/EXEMPLO_DO_SEU_GRUPO', '_blank');
+  };
+
   return (
     <>
       <div className="min-h-screen flex flex-col items-center justify-start pt-6 px-4 pb-8 bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200">
@@ -80,6 +85,20 @@ export default function Inicio() {
             </div>
           </CardContent>
         </Card>
+
+        {/* BANNER DO GRUPO WHATSAPP */}
+        <div className="w-full max-w-md mt-6">
+          <button
+            onClick={handleWhatsAppGroup}
+            className="w-full rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]"
+          >
+            <img
+              src="/grupowhatsapp.png"
+              alt="Junte-se ao nosso grupo WhatsApp"
+              className="w-full h-auto object-contain"
+            />
+          </button>
+        </div>
 
       </div>
 
