@@ -48,15 +48,6 @@ export default function Inicio() {
         {/* TOPO */}
         <div className="w-full max-w-md flex justify-between items-center mb-4">
           
-          <Button
-            variant="destructive"
-            size="sm"
-            className="px-3 py-1 text-xs font-semibold"
-            onClick={handleLogout}
-          >
-            SAIR
-          </Button>
-
           <button
             onClick={toggleNotifications}
             className="p-2 rounded-full hover:scale-105 active:scale-95 transition"
