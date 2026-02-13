@@ -62,7 +62,7 @@ export default function Inicio() {
             className="p-2 rounded-full hover:scale-105 active:scale-95 transition"
           >
             <img
-              src="/icons/sino.png"
+              src="/icons/sino-v2"
               alt="Notificações"
               className="w-7 h-7"
             />
