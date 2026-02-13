@@ -32,36 +32,31 @@ export function DesktopLayout({
       <div 
         className="w-72 border-r border-pink-200 flex flex-col shadow-2xl fixed left-0 top-0 bottom-0 z-50"
         style={{
-          background: 'linear-gradient(135deg, #ff6fae 30%, #ff9acb 50%, #ff6fae 100%)',
+          background: 'linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #f9a8d4 100%)',
           backgroundSize: '200% 200%',
-          animation: 'gradient-x 10s ease infinite'
+          animation: 'gradient-x 3s ease infinite'
         }}
       >
-        {/* Logo / Espaço superior */}
-        <div className="p-10 flex items-center justify-center">
+        <div className="p-8 flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-extrabold text-white tracking-wider">🍰 Panda Menu</h1>
-            <p className="text-white/80 text-sm mt-1">Confeitaria & Receitas</p>
+            <img
+              src="/comer.png"
+              alt="Comer Icon"
+              className="w-16 h-16 mx-auto"
+            />
           </div>
         </div>
 
-        {/* Menu de Tabs */}
-        <div className="flex-1 px-6 py-10 space-y-4">
+        <div className="flex-1 p-8 space-y-3">
           {tabs.map((tab) => (
             <Button
               key={tab}
-              variant="default"
-              style={{
-                backgroundColor: activeTab === tab ? undefined : "#48001F", // Cor fixa quando inativo
-                backgroundImage: activeTab === tab
-                  ? "linear-gradient(90deg, #FFFFFF, #00816D, #00816D)" // ✅ Gradiente dourado do botão ativo
-                  : undefined
-              }}
+              variant={activeTab === tab ? "default" : "ghost"}
               className={cn(
-                "w-full text-center rounded-2xl font-semibold text-white text-lg transition-all duration-300 shadow-md hover:shadow-lg active:scale-[0.97] py-6",
+                "w-full justify-start h-16 rounded-2xl font-bold text-base transition-all duration-300 shadow-lg hover:shadow-xl active:scale-[0.98]",
                 activeTab === tab
-                  ? "shadow-[0_0_15px_#000000] bg-clip-padding" // Glow dourado
-                  : ""
+                  ? "bg-white text-[#ec4899] shadow-pink-500/50"
+                  : "text-white/90 hover:bg-white/20 hover:text-white bg-transparent"
               )}
               onClick={() => onTabChange(tab)}
             >
@@ -70,11 +65,10 @@ export function DesktopLayout({
           ))}
         </div>
 
-        {/* Rodapé */}
         <div className="p-6 pb-8 border-t border-pink-300">
           <Button
             variant="outline"
-            className="w-fit justify-start gap-3 h-14 text-white bg-white/20 border-white/30 hover:bg-white/30 hover:text-white transition-all rounded-3xl"
+            className="w-full justify-start gap-3 h-14 text-white bg-white/20 border-white/30 hover:bg-white/30 hover:text-white transition-all"
             onClick={handleLogout}
           >
             <LogOut className="w-5 h-5" />
@@ -88,8 +82,10 @@ export function DesktopLayout({
       </div>
 
       {/* Conteúdo principal com padding left */}
-      <div className="flex-1 ml-72 bg-gradient-to-b from-pink-50 via-pink-25 to-white min-h-screen p-8">
-        {content}
+      <div className="flex-1 ml-72">
+        <div className="p-8">
+          {content}
+        </div>
       </div>
     </div>
   )
