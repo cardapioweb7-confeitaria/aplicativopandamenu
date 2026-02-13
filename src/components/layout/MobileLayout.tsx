@@ -25,9 +25,10 @@ export function MobileLayout({
   content,
 }: MobileLayoutProps) {
   return (
-    <div className="min-h-screen bg-pink-50 flex flex-col">
-      <div className="flex-1 pb-28">
-        {/* Padding inferior para não sobrepor o conteúdo */}
+    <div className="min-h-screen bg-pink-50 flex flex-col relative">
+      
+      {/* Conteúdo */}
+      <div className="flex-1 pb-36">
         {showBack && (
           <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200 p-4 shadow-sm">
             <Button
@@ -43,38 +44,34 @@ export function MobileLayout({
         )}
 
         <div className="h-full overflow-y-auto">
-          {/* Scroll seguro no conteúdo */}
           {content}
         </div>
       </div>
 
-      {/* Barra de Navegação Fixa */}
-      <div
-        className="fixed bottom-0 left-0 right-0 border-t border-pink-200 rounded-t-3xl z-[9999] shadow-2xl"
-        style={{
-          background:
-            "linear-gradient(135deg, #ec4899 0%, #f472b6 50%, #f9a8d4 100%)",
-          backgroundSize: "200% 200%",
-          animation: "gradient-x 3s ease infinite",
-        }}
-      >
-        {/* Tabs com 4 colunas */}
-        <div className="grid grid-cols-4 gap-2 p-3 px-4 pb-4">
-          {tabs.map((tab) => (
-            <Button
-              key={tab}
-              variant={activeTab === tab ? "default" : "ghost"}
-              className={cn(
-                "h-14 rounded-2xl font-bold text-xs sm:text-sm transition-all duration-300 shadow-lg hover:shadow-xl active:scale-[0.98]",
-                activeTab === tab
-                  ? "bg-white text-[#ec4899] shadow-pink-500/50"
-                  : "text-white/90 hover:bg-white/20 hover:text-white bg-transparent"
-              )}
-              onClick={() => onTabChange(tab)}
-            >
-              {labels[tab]}
-            </Button>
-          ))}
+      {/* ============================= */}
+      {/* BARRA FLUTUANTE ESTILO APP */}
+      {/* ============================= */}
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[94%] max-w-md z-[9999]">
+        
+        <div className="bg-white rounded-full shadow-2xl border border-gray-200 px-3 py-3">
+          
+          <div className="flex justify-between items-center gap-2">
+            {tabs.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => onTabChange(tab)}
+                className={cn(
+                  "flex-1 text-center text-xs sm:text-sm font-semibold transition-all duration-300 rounded-full py-3",
+                  activeTab === tab
+                    ? "bg-pink-500 text-white shadow-lg scale-105"
+                    : "text-gray-600 hover:text-pink-500"
+                )}
+              >
+                {labels[tab]}
+              </button>
+            ))}
+          </div>
+
         </div>
       </div>
     </div>
