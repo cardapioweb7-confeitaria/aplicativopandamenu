@@ -37,6 +37,7 @@ export function DesktopLayout({
           animation: 'gradient-x 3s ease infinite'
         }}
       >
+        {/* Logo / Ícone */}
         <div className="p-8 flex items-center justify-center">
           <div className="text-center">
             <img
@@ -47,16 +48,17 @@ export function DesktopLayout({
           </div>
         </div>
 
+        {/* Menu de Tabs */}
         <div className="flex-1 p-8 space-y-3">
           {tabs.map((tab) => (
             <Button
               key={tab}
-              variant={activeTab === tab ? "default" : "ghost"}
+              // Removemos o variant para controlar a cor manualmente
               className={cn(
-                "w-full justify-start h-16 rounded-2xl font-bold text-base transition-all duration-300 shadow-lg hover:shadow-xl active:scale-[0.98]",
+                "w-full text-center h-16 rounded-2xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl active:scale-[0.98] py-4",
                 activeTab === tab
-                  ? "bg-white text-[#ec4899] shadow-pink-500/50"
-                  : "text-white/90 hover:bg-white/20 hover:text-white bg-transparent"
+                  ? "bg-gradient-to-r from-white via-pink-300 to-teal-400 shadow-pink-500/50 text-white"
+                  : "bg-[#FE62A6] text-white hover:bg-[#FF72A1]"
               )}
               onClick={() => onTabChange(tab)}
             >
@@ -65,6 +67,7 @@ export function DesktopLayout({
           ))}
         </div>
 
+        {/* Rodapé */}
         <div className="p-6 pb-8 border-t border-pink-300">
           <Button
             variant="outline"
