@@ -5,10 +5,12 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function Inicio() {
   const navigate = useNavigate();
   const [openNotifications, setOpenNotifications] = useState(false);
+  const isMobile = useIsMobile();
 
   /* 🔒 BLOQUEIA SCROLL */
   useEffect(() => {
@@ -48,6 +50,17 @@ export default function Inicio() {
         {/* TOPO */}
         <div className="w-full max-w-md flex justify-between items-center mb-4">
           
+          {isMobile && (
+            <Button
+              variant="destructive"
+              size="sm"
+              className="px-3 py-1 text-xs font-semibold"
+              onClick={handleLogout}
+            >
+              SAIR
+            </Button>
+          )}
+
           <button
             onClick={toggleNotifications}
             className="p-2 rounded-full hover:scale-105 active:scale-95 transition"
